@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ============ PRIMARY SEO TAGS ============ -->
+<title>Rustnuts SMC | Social Motorcycle Club | Greater Melbourne, Victoria</title>
+<meta name="description" content="Rustnuts SMC is a Greater Melbourne social motorcycle club built on brotherhood, ride days and charity — supporting breast cancer, autism awareness and men's mental health. All riders welcome." />
+<meta name="keywords" content="Rustnuts SMC, Rustnuts Social Motorcycle Club, social motorcycle club Melbourne, motorcycle club Victoria, charity rides Melbourne" />
+<link rel="canonical" href="https://www.rustnutssmc.com.au/" />
+<meta name="theme-color" content="#8C1C24" />
+
+<!-- ============ OPEN GRAPH (Facebook / link previews) ============ -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Rustnuts SMC" />
+<meta property="og:title" content="Rustnuts SMC | Social Motorcycle Club | Greater Melbourne" />
+<meta property="og:description" content="A Greater Melbourne social motorcycle club built on brotherhood, ride days and charity. All riders welcome." />
+<meta property="og:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
+<meta property="og:url" content="https://www.rustnutssmc.com.au/" />
+<meta property="og:locale" content="en_AU" />
+
+<!-- ============ TWITTER CARD ============ -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rustnuts SMC | Social Motorcycle Club | Greater Melbourne" />
+<meta name="twitter:description" content="A Greater Melbourne social motorcycle club built on brotherhood, ride days and charity." />
+<meta name="twitter:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
+
+<!-- ============ STRUCTURED DATA (tells Google the official identity) ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MotorcycleClub",
+  "name": "Rustnuts SMC",
+  "alternateName": "Rustnuts Social Motorcycle Club Incorporated",
+  "url": "https://www.rustnutssmc.com.au/",
+  "logo": "https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg",
+  "image": "https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg",
+  "description": "Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria, built on brotherhood, ride days and charity fundraising supporting breast cancer, autism awareness and men's mental health.",
+  "email": "rustnutssmc@outlook.com",
+  "areaServed": {
+    "@type": "AdministrativeArea",
+    "name": "Greater Melbourne, Victoria, Australia"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "VIC",
+    "addressCountry": "AU"
+  },
+  "sameAs": [
+    "https://www.facebook.com/share/1CxcbnNgdm/",
+    "https://www.instagram.com/rustnutssmc",
+    "https://linktr.ee/rustnutssmc"
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --red:#8C1C24;
+    --red-bright:#B92632;
+    --ink:#111010;
+    --bone:#F4F1EA;
+    --bone-dim:#d8d3c7;
+    --steel:#2a2a2c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    background:var(--ink);
+    color:var(--bone);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .display{
+    font-family:"Arial Black","Helvetica Neue",sans-serif;
+    font-weight:900;
+    letter-spacing:-0.02em;
+    text-transform:uppercase;
+    line-height:0.92;
+  }
+
+  /* texture overlay */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.04;
+    background-image:repeating-linear-gradient(45deg,#fff 0 1px,transparent 1px 6px);
+    mix-blend-mode:overlay;
+  }
+
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 28px;
+    background:rgba(17,16,16,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  header .brand{display:flex;align-items:center;gap:12px}
+  header .brand img{height:42px;width:auto;display:block}
+  header .brand span{font-weight:900;letter-spacing:0.04em;font-size:1.05rem}
+  nav a{
+    color:var(--bone-dim);text-decoration:none;margin-left:26px;
+    font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
+    transition:color .2s;
+  }
+  nav a:hover{color:var(--red-bright)}
+  .nav-links{display:none}
+  @media(min-width:780px){.nav-links{display:block}}
+
+  /* HERO */
+  .hero{
+    position:relative;min-height:100vh;display:flex;align-items:center;
+    padding:120px 28px 80px;
+    background:
+      radial-gradient(circle at 72% 38%, rgba(140,28,36,0.38), transparent 55%),
+      radial-gradient(circle at 20% 80%, rgba(140,28,36,0.18), transparent 50%),
+      var(--ink);
+  }
+  .hero-grid{
+    width:100%;max-width:1180px;margin:0 auto;
+    display:grid;grid-template-columns:1fr;gap:48px;align-items:center;
+  }
+  @media(min-width:900px){.hero-grid{grid-template-columns:1.1fr 0.9fr}}
+  .hero h1{
+    font-size:clamp(3rem,11vw,7rem);
+    margin-bottom:18px;
+  }
+  .hero h1 .stroke{
+    color:transparent;-webkit-text-stroke:2px var(--bone);
+    display:block;
+  }
+  .hero h1 .fill{color:var(--red-bright);display:block}
+  .hero .tag{
+    font-size:clamp(1rem,2.4vw,1.35rem);
+    color:var(--bone-dim);max-width:30ch;margin-bottom:34px;font-weight:500;
+  }
+  .hero-logo{
+    justify-self:center;
+    background:var(--bone);
+    padding:26px;
+    border-radius:6px;
+    box-shadow:0 30px 70px rgba(0,0,0,0.55);
+    transform:rotate(-2deg);
+    transition:transform .4s ease;
+    max-width:360px;
+  }
+  .hero-logo:hover{transform:rotate(0deg) scale(1.02)}
+  .hero-logo img{width:100%;height:auto;display:block}
+
+  .btns{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;padding:15px 30px;font-weight:800;
+    text-transform:uppercase;letter-spacing:0.08em;font-size:0.85rem;
+    text-decoration:none;border-radius:3px;transition:transform .15s, background .2s;
+  }
+  .btn-primary{background:var(--red);color:#fff}
+  .btn-primary:hover{background:var(--red-bright);transform:translateY(-2px)}
+  .btn-ghost{border:2px solid var(--bone-dim);color:var(--bone)}
+  .btn-ghost:hover{border-color:var(--red-bright);color:var(--red-bright);transform:translateY(-2px)}
+
+  /* SECTION SHELL */
+  section.block{padding:90px 28px;position:relative;z-index:2}
+  .wrap{max-width:1080px;margin:0 auto}
+  .eyebrow{
+    color:var(--red-bright);font-weight:800;letter-spacing:0.25em;
+    text-transform:uppercase;font-size:0.75rem;margin-bottom:14px;
+  }
+  .block h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:22px}
+  .lead{font-size:1.12rem;color:var(--bone-dim);max-width:62ch}
+
+  .about{background:linear-gradient(180deg,var(--ink),#171515)}
+
+  /* CAUSES */
+  .causes{background:var(--steel)}
+  .cause-grid{display:grid;grid-template-columns:1fr;gap:22px;margin-top:46px}
+  @media(min-width:720px){.cause-grid{grid-template-columns:repeat(3,1fr)}}
+  .cause{
+    background:var(--ink);border:1px solid rgba(255,255,255,0.07);
+    border-top:4px solid var(--red);
+    padding:30px 26px;border-radius:4px;transition:transform .25s, border-color .25s;
+  }
+  .cause:hover{transform:translateY(-6px);border-top-color:var(--red-bright)}
+  .cause h3{font-size:1.25rem;font-weight:900;text-transform:uppercase;margin-bottom:10px;letter-spacing:0.02em}
+  .cause p{color:var(--bone-dim);font-size:0.97rem}
+
+  /* RIDES */
+  .ride{
+    display:flex;gap:20px;align-items:flex-start;
+    padding:26px 0;border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .ride .marker{
+    flex:none;width:8px;align-self:stretch;background:var(--red);border-radius:4px;
+  }
+  .ride h3{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+  .ride p{color:var(--bone-dim);font-size:0.96rem}
+
+  /* CHAPTER TABS */
+  .chapters{background:linear-gradient(180deg,#171515,var(--ink))}
+  .tabs{
+    display:flex;gap:0;margin-top:42px;border-bottom:2px solid rgba(255,255,255,0.12);
+    flex-wrap:wrap;
+  }
+  .tab{
+    appearance:none;background:none;border:none;cursor:pointer;
+    font-family:"Arial Black","Helvetica Neue",sans-serif;font-weight:900;
+    text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--bone-dim);font-size:clamp(1.4rem,4vw,2.1rem);
+    padding:10px 30px 16px;position:relative;transition:color .2s;
+    line-height:1;
+  }
+  .tab:hover{color:var(--bone)}
+  .tab[aria-selected="true"]{color:var(--red-bright)}
+  .tab[aria-selected="true"]::after{
+    content:"";position:absolute;left:0;right:0;bottom:-2px;height:4px;background:var(--red-bright);
+  }
+  .panel{display:none;padding-top:36px}
+  .panel.active{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .panel-meta{
+    color:var(--bone-dim);font-size:0.95rem;margin-bottom:8px;
+    letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
+  }
+  .panel-meta b{color:var(--red-bright)}
+  .panel-contact{
+    margin-top:30px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);
+    display:flex;gap:18px;flex-wrap:wrap;align-items:center;
+  }
+  .panel-contact .label{font-weight:800;text-transform:uppercase;letter-spacing:0.1em;font-size:0.8rem;color:var(--bone)}
+  .panel-contact a{
+    color:var(--bone-dim);text-decoration:none;font-weight:700;letter-spacing:0.08em;
+    text-transform:uppercase;font-size:0.8rem;border-bottom:2px solid transparent;padding-bottom:2px;transition:.2s;
+  }
+  .panel-contact a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+  /* JOIN / CONTACT */
+  .join{
+    background:
+      radial-gradient(circle at 50% 0%, rgba(140,28,36,0.4), transparent 60%),
+      var(--ink);
+    text-align:center;
+  }
+  .join .lead{margin:0 auto 34px}
+  .social{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .social a{
+    color:var(--bone-dim);text-decoration:none;font-weight:700;letter-spacing:0.1em;
+    text-transform:uppercase;font-size:0.82rem;border-bottom:2px solid transparent;padding-bottom:2px;
+    transition:color .2s,border-color .2s;
+  }
+  .social a:hover{color:var(--red-bright);border-color:var(--red-bright)}
+
+  footer{
+    background:#0c0b0b;padding:40px 28px;text-align:center;
+    color:#7a766e;font-size:0.82rem;position:relative;z-index:2;
+  }
+  footer strong{color:var(--bone-dim)}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img src="rustnuts-smc-logo.jpg" alt="Rustnuts SMC logo" />
+    <span>RUSTNUTS&nbsp;SMC</span>
+  </div>
+  <nav class="nav-links">
+    <a href="#about">About</a>
+    <a href="#causes">Causes</a>
+    <a href="#rides">Chapters</a>
+    <a href="#join">Join</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <h1 class="display">
+        <span class="stroke">Brothers</span>
+        <span class="fill">On Two</span>
+        <span class="stroke">Wheels</span>
+      </h1>
+      <p class="tag">A Greater Melbourne social motorcycle club built on brotherhood, ride days and giving back.</p>
+      <div class="btns">
+        <a href="#join" class="btn btn-primary">Ride With Us</a>
+        <a href="#causes" class="btn btn-ghost">Our Causes</a>
+      </div>
+    </div>
+    <figure class="hero-logo">
+      <img src="rustnuts-smc-logo.jpg" alt="Rustnuts SMC club logo — skull with spanner antlers and red bandana" />
+    </figure>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="block about" id="about">
+  <div class="wrap reveal">
+    <p class="eyebrow">Who We Are</p>
+    <h2 class="display">More Than A Club</h2>
+    <p class="lead">Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria. We started the way the best clubs do — a few mates and their machines — and grew into a community where riders connect, look out for one another and break down the isolation too many people carry on their own. We're a place to drop the mask, twist the throttle and belong.</p>
+  </div>
+</section>
+
+<!-- CAUSES -->
+<section class="block causes" id="causes">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Riding For A Reason</p>
+      <h2 class="display">Causes We Back</h2>
+      <p class="lead">Every season we put the kilometres to work, raising money and awareness for causes close to the club.</p>
+    </div>
+    <div class="cause-grid">
+      <div class="cause reveal">
+        <h3>Men's Mental Health</h3>
+        <p>Connection over isolation. Supporting riders and their families, and the conversations that keep mates around.</p>
+      </div>
+      <div class="cause reveal">
+        <h3>Breast Cancer Awareness</h3>
+        <p>Our annual awareness ride — registration, poker run and a show 'n' shine to finish — raising funds and turning heads.</p>
+      </div>
+      <div class="cause reveal">
+        <h3>Autism Awareness</h3>
+        <p>Riding in support of autism awareness alongside friends and fellow clubs across Victoria.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTERS (tabbed) -->
+<section class="block chapters" id="rides">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Our Chapters</p>
+      <h2 class="display">West &amp; North</h2>
+      <p class="lead">Rustnuts SMC runs two Greater Melbourne chapters. Pick a chapter for its rides, events and contacts.</p>
+    </div>
+
+    <div class="tabs reveal" role="tablist" aria-label="Rustnuts SMC chapters">
+      <button class="tab" id="tab-west" role="tab" aria-controls="panel-west" aria-selected="true">West</button>
+      <button class="tab" id="tab-north" role="tab" aria-controls="panel-north" aria-selected="false">North</button>
+    </div>
+
+    <!-- WEST -->
+    <div class="panel active" id="panel-west" role="tabpanel" aria-labelledby="tab-west">
+      <p class="panel-meta">Chapter: <b>West</b> &nbsp;&middot;&nbsp; Western Melbourne</p>
+      <div class="ride">
+        <div class="marker"></div>
+        <div>
+          <h3>Breast Cancer Awareness Ride</h3>
+          <p>Registration &amp; check-in, group ride, poker run and a show 'n' shine finish with trophies for Best Cruiser, Best Sports and Best Pre-1990.</p>
+        </div>
+      </div>
+      <div class="ride">
+        <div class="marker"></div>
+        <div>
+          <h3>West Social Ride Days</h3>
+          <p>Regular get-togethers and rides out of the western suburbs. New faces always welcome.</p>
+        </div>
+      </div>
+      <div class="panel-contact">
+        <span class="label">West Chapter:</span>
+        <!-- TODO: swap to West chapter email when set up (e.g. rustnutssmc.west@gmail.com) -->
+        <a href="mailto:rustnutssmc@outlook.com">Email</a>
+        <a href="https://www.facebook.com/share/1CxcbnNgdm/" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+
+    <!-- NORTH -->
+    <div class="panel" id="panel-north" role="tabpanel" aria-labelledby="tab-north" hidden>
+      <p class="panel-meta">Chapter: <b>North</b> &nbsp;&middot;&nbsp; Northern Melbourne</p>
+      <div class="ride">
+        <div class="marker"></div>
+        <div>
+          <h3>Autism Awareness Ride</h3>
+          <p>A community awareness ride supported by fellow Victorian clubs — open to riders who want to get behind the cause.</p>
+        </div>
+      </div>
+      <div class="ride">
+        <div class="marker"></div>
+        <div>
+          <h3>North Social Ride Days</h3>
+          <p>Regular get-togethers and rides out of the northern suburbs. New faces always welcome.</p>
+        </div>
+      </div>
+      <div class="panel-contact">
+        <span class="label">North Chapter:</span>
+        <a href="mailto:rustnutssmc.north@gmail.com">Email</a>
+        <a href="https://www.facebook.com/share/1CxcbnNgdm/" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="block join" id="join">
+  <div class="wrap reveal">
+    <p class="eyebrow">Get Involved</p>
+    <h2 class="display">Ride With Us</h2>
+    <p class="lead">Rustnuts SMC welcomes riders of all backgrounds who share a passion for motorcycles, brotherhood and giving back. Reach out — we'll point you to the next ride.</p>
+    <div class="social">
+      <a href="https://www.facebook.com/share/1CxcbnNgdm/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.instagram.com/rustnutssmc" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://linktr.ee/rustnutssmc" target="_blank" rel="noopener">Linktree</a>
+      <a href="mailto:rustnutssmc@outlook.com">Email Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Rustnuts SMC</strong> — Rustnuts Social Motorcycle Club Incorporated</p>
+  <p>Greater Melbourne, Victoria, Australia &nbsp;|&nbsp; A not-for-profit incorporated association</p>
+  <p style="margin-top:10px">&copy; <span id="yr"></span> Rustnuts SMC. All rights reserved.</p>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // chapter tabs
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>{
+        const sel = t === tab;
+        t.setAttribute('aria-selected', sel);
+        const panel = document.getElementById(t.getAttribute('aria-controls'));
+        panel.classList.toggle('active', sel);
+        if(sel){ panel.removeAttribute('hidden'); } else { panel.setAttribute('hidden',''); }
+      });
+    });
+  });
+</script>
+</body>
+</html>
