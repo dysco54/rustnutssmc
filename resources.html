@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ============ PRIMARY SEO TAGS ============ -->
+<title>Support &amp; Resources | Rustnuts SMC | Mental Health, Legal &amp; Rider Help</title>
+<meta name="description" content="Support and resources for Rustnuts SMC members and the riding community — mental health and crisis lines, legal help including TAC claims, and rider road-safety resources across Victoria." />
+<link rel="canonical" href="https://www.rustnutssmc.com.au/resources.html" />
+<meta name="theme-color" content="#8C1C24" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Rustnuts SMC" />
+<meta property="og:title" content="Support &amp; Resources | Rustnuts SMC" />
+<meta property="og:description" content="Mental health, legal and rider support resources for the Rustnuts SMC community." />
+<meta property="og:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
+<meta property="og:url" content="https://www.rustnutssmc.com.au/resources.html" />
+<meta property="og:locale" content="en_AU" />
+
+<!-- ============ STENCIL BRAND FONT ============ -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --red:#8C1C24;
+    --red-bright:#B92632;
+    --ink:#111010;
+    --bone:#F4F1EA;
+    --bone-dim:#d8d3c7;
+    --steel:#2a2a2c;
+    --stencil:"Saira Stencil One","Arial Black","Helvetica Neue",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Helvetica Neue",Arial,sans-serif;
+    background:var(--ink);color:var(--bone);line-height:1.6;overflow-x:hidden;
+  }
+  .display{
+    font-family:var(--stencil);font-weight:400;letter-spacing:0.01em;
+    text-transform:uppercase;line-height:0.96;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.04;
+    background-image:repeating-linear-gradient(45deg,#fff 0 1px,transparent 1px 6px);
+    mix-blend-mode:overlay;
+  }
+
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 28px;background:rgba(17,16,16,0.82);
+    backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  header .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  header .brand img{height:42px;width:auto;display:block}
+  header .brand span{font-family:var(--stencil);font-weight:400;letter-spacing:0.06em;font-size:1.15rem;color:var(--bone)}
+  nav a{
+    color:var(--bone-dim);text-decoration:none;margin-left:26px;font-size:0.82rem;
+    letter-spacing:0.12em;text-transform:uppercase;font-weight:700;transition:color .2s;
+  }
+  nav a:hover{color:var(--red-bright)}
+  .nav-links{display:none}
+  @media(min-width:780px){.nav-links{display:block}}
+
+  /* HERO */
+  .res-hero{
+    padding:140px 28px 60px;
+    background:
+      radial-gradient(circle at 70% 30%, rgba(140,28,36,0.35), transparent 55%),
+      var(--ink);
+    text-align:center;
+  }
+  .res-hero h1{font-size:clamp(2.4rem,7vw,4.2rem);margin-bottom:16px}
+  .res-hero p{color:var(--bone-dim);max-width:60ch;margin:0 auto;font-size:1.1rem}
+
+  /* EMERGENCY BANNER */
+  .emergency{
+    max-width:900px;margin:30px auto 0;padding:22px 26px;
+    background:rgba(185,38,50,0.12);border:2px solid var(--red-bright);border-radius:6px;
+    display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center;text-align:center;
+  }
+  .emergency .big{font-family:var(--stencil);color:var(--red-bright);font-size:1.6rem;letter-spacing:0.04em}
+  .emergency p{color:var(--bone);font-size:1rem;margin:0}
+  .emergency a{color:var(--red-bright);font-weight:800;text-decoration:none}
+
+  /* SECTIONS */
+  section.block{padding:60px 28px;position:relative;z-index:2}
+  .wrap{max-width:1000px;margin:0 auto}
+  .cat-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px;flex-wrap:wrap}
+  .cat-head h2{font-size:clamp(1.7rem,4.5vw,2.6rem)}
+  .cat-head .count{color:var(--red-bright);font-weight:800;letter-spacing:0.1em;font-size:0.8rem;text-transform:uppercase}
+  .cat-intro{color:var(--bone-dim);margin-bottom:30px;max-width:65ch}
+
+  .res-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:680px){.res-grid{grid-template-columns:1fr 1fr}}
+
+  .res-card{
+    display:block;background:var(--steel);border:1px solid rgba(255,255,255,0.07);
+    border-left:4px solid var(--red);padding:22px 24px;border-radius:4px;
+    text-decoration:none;transition:transform .2s, border-color .2s;
+  }
+  .res-card:hover{transform:translateY(-4px);border-left-color:var(--red-bright)}
+  .res-card .name{font-family:var(--stencil);font-size:1.2rem;color:var(--bone);text-transform:uppercase;letter-spacing:0.02em;margin-bottom:6px}
+  .res-card .phone{color:var(--red-bright);font-weight:800;font-size:1.05rem;margin-bottom:8px;letter-spacing:0.02em}
+  .res-card .desc{color:var(--bone-dim);font-size:0.92rem}
+
+  /* FEATURED legal card */
+  .featured{
+    background:linear-gradient(135deg,rgba(140,28,36,0.25),var(--steel));
+    border:1px solid rgba(185,38,50,0.4);border-left:4px solid var(--red-bright);
+    grid-column:1/-1;padding:28px 30px;
+  }
+  .featured .tagm{color:var(--red-bright);font-weight:800;text-transform:uppercase;letter-spacing:0.14em;font-size:0.72rem;margin-bottom:8px}
+  .featured .name{font-size:1.5rem}
+  .featured .desc{font-size:1rem;max-width:70ch}
+
+  .alt-bg{background:linear-gradient(180deg,var(--ink),#171515)}
+
+  .disclaimer{
+    max-width:1000px;margin:0 auto;padding:24px 28px;
+    color:#9a958c;font-size:0.85rem;border-top:1px solid rgba(255,255,255,0.08);
+  }
+
+  footer{
+    background:#0c0b0b;padding:40px 28px;text-align:center;
+    color:#7a766e;font-size:0.82rem;position:relative;z-index:2;
+  }
+  footer .motto{font-family:var(--stencil);text-transform:uppercase;letter-spacing:0.12em;color:var(--red-bright);font-size:1.1rem;margin-bottom:14px}
+  footer strong{color:var(--bone-dim)}
+  footer a{color:var(--bone-dim);text-decoration:none;border-bottom:1px solid transparent}
+  footer a:hover{color:var(--red-bright)}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="brand">
+    <img src="rustnuts-smc-logo.jpg" alt="Rustnuts SMC logo" />
+    <span>RUSTNUTS&nbsp;SMC</span>
+  </a>
+  <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#join">Join</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="res-hero">
+  <h1 class="display">Support &amp; Resources</h1>
+  <p>No one rides alone. Whether it's your head, the law, or the road — here are the people who can help. Reaching out is strength, not weakness.</p>
+
+  <div class="emergency">
+    <span class="big">In an emergency</span>
+    <p>If you or someone else is in immediate danger, call <a href="tel:000">000</a> (Triple Zero) now.</p>
+  </div>
+</section>
+
+<!-- MENTAL HEALTH -->
+<section class="block">
+  <div class="wrap">
+    <div class="cat-head">
+      <h2 class="display">Mental Health &amp; Crisis</h2>
+      <span class="count">24/7 Support</span>
+    </div>
+    <p class="cat-intro">Free, confidential support — any time, day or night. You don't have to be in crisis to call. If things feel heavy, these people are there to listen.</p>
+    <div class="res-grid">
+      <a class="res-card" href="tel:131114">
+        <div class="name">Lifeline</div>
+        <div class="phone">13 11 14</div>
+        <div class="desc">24/7 crisis support and suicide prevention. Call or text 0477 13 11 14.</div>
+      </a>
+      <a class="res-card" href="tel:1300789978">
+        <div class="name">MensLine Australia</div>
+        <div class="phone">1300 78 99 78</div>
+        <div class="desc">24/7 telephone and online counselling for men — mental health, relationships, anger, stress and wellbeing.</div>
+      </a>
+      <a class="res-card" href="tel:1300224636">
+        <div class="name">Beyond Blue</div>
+        <div class="phone">1300 22 4636</div>
+        <div class="desc">24/7 support for depression, anxiety and related conditions, plus information and referrals.</div>
+      </a>
+      <a class="res-card" href="tel:1300659467">
+        <div class="name">Suicide Call Back Service</div>
+        <div class="phone">1300 659 467</div>
+        <div class="desc">Free 24/7 phone and online counselling for anyone at risk, bereaved, or worried about someone.</div>
+      </a>
+      <a class="res-card" href="tel:1300651251">
+        <div class="name">SuicideLine Victoria</div>
+        <div class="phone">1300 651 251</div>
+        <div class="desc">Victorian 24/7 telephone and online counselling for anyone affected by suicide or emotional distress.</div>
+      </a>
+      <a class="res-card" href="https://www.blackdoginstitute.org.au" target="_blank" rel="noopener">
+        <div class="name">Black Dog Institute</div>
+        <div class="phone">Online resources</div>
+        <div class="desc">Evidence-based mental health tools, self-tests and resources. A cause close to the club.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LEGAL -->
+<section class="block alt-bg">
+  <div class="wrap">
+    <div class="cat-head">
+      <h2 class="display">Legal Help</h2>
+      <span class="count">Know Your Rights</span>
+    </div>
+    <p class="cat-intro">Whether it's a road accident, a TAC claim, or family matters — get proper advice early. The right lawyer makes all the difference.</p>
+    <div class="res-grid">
+      <a class="res-card featured" href="https://www.graingerlegal.com.au" target="_blank" rel="noopener">
+        <div class="tagm">A firm that's helped our members</div>
+        <div class="name">Grainger Legal</div>
+        <div class="phone">graingerlegal.com.au</div>
+        <div class="desc">Regional Victorian personal injury firm (Castlemaine, Bacchus Marsh, Sunbury) specialising in TAC claims, WorkCover, public liability and TPD — on a No Win, No Fee basis. They've looked after our own when it mattered.</div>
+      </a>
+      <a class="res-card" href="https://www.tac.vic.gov.au" target="_blank" rel="noopener">
+        <div class="name">TAC Victoria</div>
+        <div class="phone">1300 654 329</div>
+        <div class="desc">The Transport Accident Commission — lodge and manage a claim after a road accident in Victoria.</div>
+      </a>
+      <a class="res-card" href="https://www.legalaid.vic.gov.au" target="_blank" rel="noopener">
+        <div class="name">Victoria Legal Aid</div>
+        <div class="phone">1300 792 387</div>
+        <div class="desc">Free legal information and advice, including family law. A good first port of call.</div>
+      </a>
+      <a class="res-card" href="https://www.liv.asn.au/Referral" target="_blank" rel="noopener">
+        <div class="name">Find a Lawyer (LIV)</div>
+        <div class="phone">Law Institute of Victoria</div>
+        <div class="desc">Official referral service to find an accredited Victorian lawyer for family law and other matters.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- RIDER & ROAD -->
+<section class="block">
+  <div class="wrap">
+    <div class="cat-head">
+      <h2 class="display">Rider &amp; Road</h2>
+      <span class="count">Stay Upright</span>
+    </div>
+    <p class="cat-intro">The stuff that keeps us riding — and keeps us safe. Worth sorting before you need it.</p>
+    <div class="res-grid">
+      <a class="res-card" href="https://www.vicroads.vic.gov.au" target="_blank" rel="noopener">
+        <div class="name">VicRoads</div>
+        <div class="phone">13 11 71</div>
+        <div class="desc">Licensing, registration and road rules for Victorian riders.</div>
+      </a>
+      <a class="res-card" href="https://www.ambulance.vic.gov.au/membership" target="_blank" rel="noopener">
+        <div class="name">Ambulance Victoria Membership</div>
+        <div class="phone">1800 064 484</div>
+        <div class="desc">Affordable cover for ambulance transport — genuinely worth having as a rider.</div>
+      </a>
+      <a class="res-card" href="https://www.stayupright.com.au" target="_blank" rel="noopener">
+        <div class="name">Stay Upright</div>
+        <div class="phone">Rider training</div>
+        <div class="desc">Nationally recognised motorcycle rider training and licensing courses.</div>
+      </a>
+      <a class="res-card" href="https://www.hartrider.com.au" target="_blank" rel="noopener">
+        <div class="name">HART Rider Training</div>
+        <div class="phone">Rider training</div>
+        <div class="desc">Honda Australia Rider Training — skills courses for new and experienced riders.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY & WELLBEING -->
+<section class="block alt-bg">
+  <div class="wrap">
+    <div class="cat-head">
+      <h2 class="display">Family &amp; Wellbeing</h2>
+      <span class="count">Support At Home</span>
+    </div>
+    <p class="cat-intro">Support that reaches beyond the rider — for families, finances and the tough stuff.</p>
+    <div class="res-grid">
+      <a class="res-card" href="tel:1800737732">
+        <div class="name">1800RESPECT</div>
+        <div class="phone">1800 737 732</div>
+        <div class="desc">24/7 confidential support for anyone affected by domestic, family or sexual violence. Text 0458 737 732.</div>
+      </a>
+      <a class="res-card" href="tel:1300766491">
+        <div class="name">Men's Referral Service</div>
+        <div class="phone">1300 766 491</div>
+        <div class="desc">24/7 support for men wanting to change controlling or violent behaviour. A positive first step.</div>
+      </a>
+      <a class="res-card" href="tel:1800007007">
+        <div class="name">National Debt Helpline</div>
+        <div class="phone">1800 007 007</div>
+        <div class="desc">Free, confidential financial counselling. Weekdays 9:30am–4:30pm.</div>
+      </a>
+      <a class="res-card" href="https://www.gamblinghelponline.org.au" target="_blank" rel="noopener">
+        <div class="name">Gambling Help Online</div>
+        <div class="phone">1800 858 858</div>
+        <div class="desc">Free 24/7 support, chat and counselling for anyone affected by gambling.</div>
+      </a>
+    </div>
+  </div>
+
+  <p class="disclaimer">These resources are shared in good faith to help our community find support. Rustnuts SMC is not affiliated with most of these organisations and provides these links for information only — they are not a substitute for professional advice. Phone numbers and details were correct at the time of listing; please confirm directly with each service. In an emergency, always call 000.</p>
+</section>
+
+<footer>
+  <p class="motto">Rust Till Dust</p>
+  <p><strong>Rustnuts SMC</strong> — Rustnuts Social Motorcycle Club Incorporated</p>
+  <p>Greater Melbourne, Victoria, Australia &nbsp;|&nbsp; <a href="index.html">Back to home</a></p>
+  <p style="margin-top:10px">&copy; <span id="yr"></span> Rustnuts SMC. All rights reserved.</p>
+</footer>
+
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>

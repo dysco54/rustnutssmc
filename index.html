@@ -6,7 +6,7 @@
 
 <!-- ============ PRIMARY SEO TAGS ============ -->
 <title>Rustnuts SMC | Social Motorcycle Club | Greater Melbourne, Victoria</title>
-<meta name="description" content="Rustnuts SMC is a Greater Melbourne social motorcycle club built on brotherhood, ride days and charity — supporting breast cancer, autism awareness and men's mental health. All riders welcome." />
+<meta name="description" content="Rustnuts SMC is a Greater Melbourne social motorcycle club built on family, ride days and charity — supporting breast cancer, autism awareness and men's mental health. All riders welcome." />
 <meta name="keywords" content="Rustnuts SMC, Rustnuts Social Motorcycle Club, social motorcycle club Melbourne, motorcycle club Victoria, charity rides Melbourne" />
 <link rel="canonical" href="https://www.rustnutssmc.com.au/" />
 <meta name="theme-color" content="#8C1C24" />
@@ -15,7 +15,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Rustnuts SMC" />
 <meta property="og:title" content="Rustnuts SMC | Social Motorcycle Club | Greater Melbourne" />
-<meta property="og:description" content="A Greater Melbourne social motorcycle club built on brotherhood, ride days and charity. All riders welcome." />
+<meta property="og:description" content="A Greater Melbourne social motorcycle club built on family, ride days and charity. All riders welcome." />
 <meta property="og:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
 <meta property="og:url" content="https://www.rustnutssmc.com.au/" />
 <meta property="og:locale" content="en_AU" />
@@ -23,8 +23,13 @@
 <!-- ============ TWITTER CARD ============ -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Rustnuts SMC | Social Motorcycle Club | Greater Melbourne" />
-<meta name="twitter:description" content="A Greater Melbourne social motorcycle club built on brotherhood, ride days and charity." />
+<meta name="twitter:description" content="A Greater Melbourne social motorcycle club built on family, ride days and charity." />
 <meta name="twitter:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
+
+<!-- ============ STENCIL BRAND FONT ============ -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet" />
 
 <!-- ============ STRUCTURED DATA (tells Google the official identity) ============ -->
 <script type="application/ld+json">
@@ -36,8 +41,8 @@
   "url": "https://www.rustnutssmc.com.au/",
   "logo": "https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg",
   "image": "https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg",
-  "description": "Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria, built on brotherhood, ride days and charity fundraising supporting breast cancer, autism awareness and men's mental health.",
-  "email": "rustnutssmc@outlook.com",
+  "description": "Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria, built on family, ride days and charity fundraising supporting breast cancer, autism awareness and men's mental health.",
+  "email": "REPLACE_WITH_CLUB_EMAIL",
   "areaServed": {
     "@type": "AdministrativeArea",
     "name": "Greater Melbourne, Victoria, Australia"
@@ -48,7 +53,7 @@
     "addressCountry": "AU"
   },
   "sameAs": [
-    "https://www.facebook.com/share/1CxcbnNgdm/",
+    "https://www.facebook.com/REPLACE_WITH_FACEBOOK_PAGE",
     "https://www.instagram.com/rustnutssmc",
     "https://linktr.ee/rustnutssmc"
   ]
@@ -63,6 +68,7 @@
     --bone:#F4F1EA;
     --bone-dim:#d8d3c7;
     --steel:#2a2a2c;
+    --stencil:"Saira Stencil One","Arial Black","Helvetica Neue",sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -74,11 +80,11 @@
     overflow-x:hidden;
   }
   .display{
-    font-family:"Arial Black","Helvetica Neue",sans-serif;
-    font-weight:900;
-    letter-spacing:-0.02em;
+    font-family:var(--stencil);
+    font-weight:400;
+    letter-spacing:0.01em;
     text-transform:uppercase;
-    line-height:0.92;
+    line-height:0.96;
   }
 
   /* texture overlay */
@@ -98,7 +104,10 @@
   }
   header .brand{display:flex;align-items:center;gap:12px}
   header .brand img{height:42px;width:auto;display:block}
-  header .brand span{font-weight:900;letter-spacing:0.04em;font-size:1.05rem}
+  header .brand span{
+    font-family:var(--stencil);
+    font-weight:400;letter-spacing:0.06em;font-size:1.15rem;
+  }
   nav a{
     color:var(--bone-dim);text-decoration:none;margin-left:26px;
     font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
@@ -116,14 +125,22 @@
       radial-gradient(circle at 72% 38%, rgba(140,28,36,0.38), transparent 55%),
       radial-gradient(circle at 20% 80%, rgba(140,28,36,0.18), transparent 50%),
       var(--ink);
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-8%;bottom:-12%;z-index:0;
+    width:min(680px,80vw);height:min(680px,80vw);
+    background:url("rustnuts-smc-logo.jpg") center/contain no-repeat;
+    opacity:0.05;pointer-events:none;
+    filter:grayscale(1) contrast(1.1);
   }
   .hero-grid{
-    width:100%;max-width:1180px;margin:0 auto;
+    width:100%;max-width:1180px;margin:0 auto;position:relative;z-index:2;
     display:grid;grid-template-columns:1fr;gap:48px;align-items:center;
   }
   @media(min-width:900px){.hero-grid{grid-template-columns:1.1fr 0.9fr}}
   .hero h1{
-    font-size:clamp(3rem,11vw,7rem);
+    font-size:clamp(2.7rem,9.5vw,6.2rem);
     margin-bottom:18px;
   }
   .hero h1 .stroke{
@@ -158,6 +175,13 @@
   .btn-primary:hover{background:var(--red-bright);transform:translateY(-2px)}
   .btn-ghost{border:2px solid var(--bone-dim);color:var(--bone)}
   .btn-ghost:hover{border-color:var(--red-bright);color:var(--red-bright);transform:translateY(-2px)}
+  .btn-shop{background:var(--bone);color:var(--ink)}
+  .btn-shop:hover{background:#fff;transform:translateY(-2px)}
+  .nav-shop{
+    color:var(--red-bright)!important;border:2px solid var(--red-bright);
+    padding:6px 16px;border-radius:3px;
+  }
+  .nav-shop:hover{background:var(--red-bright);color:#fff!important}
 
   /* SECTION SHELL */
   section.block{padding:90px 28px;position:relative;z-index:2}
@@ -170,6 +194,10 @@
   .lead{font-size:1.12rem;color:var(--bone-dim);max-width:62ch}
 
   .about{background:linear-gradient(180deg,var(--ink),#171515)}
+  .about-motto{
+    font-size:clamp(1.8rem,5vw,3rem);color:var(--red-bright);
+    margin-top:30px;letter-spacing:0.04em;
+  }
 
   /* CAUSES */
   .causes{background:var(--steel)}
@@ -181,7 +209,10 @@
     padding:30px 26px;border-radius:4px;transition:transform .25s, border-color .25s;
   }
   .cause:hover{transform:translateY(-6px);border-top-color:var(--red-bright)}
-  .cause h3{font-size:1.25rem;font-weight:900;text-transform:uppercase;margin-bottom:10px;letter-spacing:0.02em}
+  .cause h3{
+    font-family:var(--stencil);
+    font-size:1.35rem;font-weight:400;text-transform:uppercase;margin-bottom:10px;letter-spacing:0.02em;
+  }
   .cause p{color:var(--bone-dim);font-size:0.97rem}
 
   /* RIDES */
@@ -192,7 +223,10 @@
   .ride .marker{
     flex:none;width:8px;align-self:stretch;background:var(--red);border-radius:4px;
   }
-  .ride h3{font-size:1.3rem;font-weight:800;margin-bottom:4px}
+  .ride h3{
+    font-family:var(--stencil);
+    font-size:1.4rem;font-weight:400;margin-bottom:4px;letter-spacing:0.01em;text-transform:uppercase;
+  }
   .ride p{color:var(--bone-dim);font-size:0.96rem}
 
   /* CHAPTER TABS */
@@ -203,9 +237,9 @@
   }
   .tab{
     appearance:none;background:none;border:none;cursor:pointer;
-    font-family:"Arial Black","Helvetica Neue",sans-serif;font-weight:900;
-    text-transform:uppercase;letter-spacing:0.04em;
-    color:var(--bone-dim);font-size:clamp(1.4rem,4vw,2.1rem);
+    font-family:var(--stencil);font-weight:400;
+    text-transform:uppercase;letter-spacing:0.03em;
+    color:var(--bone-dim);font-size:clamp(1.5rem,4vw,2.2rem);
     padding:10px 30px 16px;position:relative;transition:color .2s;
     line-height:1;
   }
@@ -249,9 +283,107 @@
   }
   .social a:hover{color:var(--red-bright);border-color:var(--red-bright)}
 
+  /* PHOTOS */
+  .photos{background:linear-gradient(180deg,var(--ink),#171515)}
+  .photo-strip{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:42px;
+  }
+  @media(min-width:720px){.photo-strip{grid-template-columns:repeat(4,1fr)}}
+  .photo-strip figure{
+    position:relative;overflow:hidden;border-radius:4px;aspect-ratio:1;
+    border:1px solid rgba(255,255,255,0.08);background:var(--steel);
+  }
+  .photo-strip img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(0.3);transition:filter .35s, transform .45s;
+  }
+  .photo-strip figure:hover img{filter:grayscale(0);transform:scale(1.06)}
+  .photo-cta{margin-top:30px}
+
+  /* PODCAST — Twist the Throttle branding */
+  .podcast{
+    --ember:#FF3312;
+    --flame:#FF7B06;
+    --flame-lite:#FF9F01;
+    background:
+      radial-gradient(circle at 26% 32%, rgba(255,123,6,0.22), transparent 52%),
+      radial-gradient(circle at 80% 70%, rgba(255,51,18,0.16), transparent 55%),
+      #0a0908;
+  }
+  .podcast .pod-eyebrow{color:var(--flame-lite)}
+  .podcast .display{
+    background:linear-gradient(90deg,var(--flame-lite),var(--ember));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .pod-grid{
+    display:grid;grid-template-columns:1fr;gap:40px;align-items:center;margin-top:14px;
+  }
+  @media(min-width:820px){.pod-grid{grid-template-columns:0.85fr 1.15fr}}
+  .pod-logo{
+    justify-self:center;max-width:340px;width:100%;
+    border-radius:50%;overflow:hidden;
+    box-shadow:0 0 60px rgba(255,90,12,0.35);
+    border:2px solid rgba(255,123,6,0.4);
+    transition:transform .4s ease, box-shadow .4s ease;
+  }
+  .pod-logo:hover{transform:scale(1.03);box-shadow:0 0 90px rgba(255,90,12,0.55)}
+  .pod-logo img{width:100%;height:auto;display:block}
+  .pod-card{
+    background:rgba(20,16,14,0.75);border:1px solid rgba(255,123,6,0.25);
+    border-top:4px solid var(--flame);border-radius:4px;padding:38px 34px;
+  }
+  .pod-card .pod-name{
+    font-family:var(--stencil);font-size:clamp(1.6rem,4vw,2.3rem);
+    color:var(--bone);text-transform:uppercase;line-height:1;margin-bottom:8px;letter-spacing:0.01em;
+  }
+  .pod-card .pod-hosts{
+    color:var(--flame-lite);font-weight:800;letter-spacing:0.14em;
+    text-transform:uppercase;font-size:0.8rem;margin-bottom:18px;
+  }
+  .pod-card .pod-blurb{color:var(--bone-dim);font-size:1rem;margin-bottom:28px}
+  .pod-links{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;max-width:430px}
+  .pod-link{
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    padding:11px 20px;border-radius:3px;font-weight:800;letter-spacing:0.06em;
+    text-transform:uppercase;font-size:0.78rem;
+    border:2px solid rgba(255,159,1,0.55);color:var(--bone);transition:.2s;
+  }
+  .pod-link:hover{border-color:var(--flame-lite);color:var(--flame-lite);transform:translateY(-2px);box-shadow:0 0 18px rgba(255,123,6,0.3)}
+
+
+  .docs{background:var(--steel)}
+  .doc-grid{display:grid;grid-template-columns:1fr;gap:22px;margin-top:42px}
+  @media(min-width:620px){.doc-grid{grid-template-columns:repeat(2,1fr)}}
+  .doc{
+    display:flex;align-items:center;gap:20px;
+    background:var(--ink);border:1px solid rgba(255,255,255,0.07);
+    border-left:4px solid var(--red);
+    padding:26px 28px;border-radius:0;text-decoration:none;
+    transition:transform .25s, border-color .25s;
+  }
+  .doc:hover{transform:translateY(-4px);border-left-color:var(--red-bright)}
+  .doc .doc-icon{
+    flex:none;font-family:var(--stencil);font-size:1.6rem;color:var(--red-bright);
+    width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+    border:2px solid var(--red);border-radius:4px;
+  }
+  .doc .doc-title{font-family:var(--stencil);font-size:1.2rem;color:var(--bone);text-transform:uppercase;letter-spacing:0.02em}
+  .doc .doc-sub{color:var(--bone-dim);font-size:0.85rem;margin-top:2px}
+
   footer{
-    background:#0c0b0b;padding:40px 28px;text-align:center;
-    color:#7a766e;font-size:0.82rem;position:relative;z-index:2;
+    background:#0c0b0b;padding:48px 28px;text-align:center;
+    color:#7a766e;font-size:0.82rem;position:relative;z-index:2;overflow:hidden;
+  }
+  footer::before{
+    content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:300px;height:300px;
+    background:url("rustnuts-smc-logo.jpg") center/contain no-repeat;
+    opacity:0.045;filter:grayscale(1);pointer-events:none;z-index:0;
+  }
+  footer p{position:relative;z-index:1}
+  footer .motto{
+    font-family:var(--stencil);text-transform:uppercase;letter-spacing:0.12em;
+    color:var(--red-bright);font-size:1.1rem;margin-bottom:18px;
   }
   footer strong{color:var(--bone-dim)}
 
@@ -269,8 +401,13 @@
   </div>
   <nav class="nav-links">
     <a href="#about">About</a>
-    <a href="#causes">Causes</a>
     <a href="#rides">Chapters</a>
+    <a href="#causes">Causes</a>
+    <a href="#photos">Photos</a>
+    <a href="#podcast">Podcast</a>
+    <a href="#docs">Club Docs</a>
+    <a href="resources.html">Support</a>
+    <a href="SHOPIFY_STORE_URL" class="nav-shop">Shop</a>
     <a href="#join">Join</a>
   </nav>
 </header>
@@ -280,13 +417,14 @@
   <div class="hero-grid">
     <div>
       <h1 class="display">
-        <span class="stroke">Brothers</span>
-        <span class="fill">On Two</span>
-        <span class="stroke">Wheels</span>
+        <span class="stroke">Rust</span>
+        <span class="fill">Till</span>
+        <span class="stroke">Dust</span>
       </h1>
-      <p class="tag">A Greater Melbourne social motorcycle club built on brotherhood, ride days and giving back.</p>
+      <p class="tag">A Greater Melbourne social motorcycle club built on family, ride days and giving back.</p>
       <div class="btns">
         <a href="#join" class="btn btn-primary">Ride With Us</a>
+        <a href="SHOPIFY_STORE_URL" class="btn btn-shop">Shop Merch</a>
         <a href="#causes" class="btn btn-ghost">Our Causes</a>
       </div>
     </div>
@@ -301,32 +439,8 @@
   <div class="wrap reveal">
     <p class="eyebrow">Who We Are</p>
     <h2 class="display">More Than A Club</h2>
-    <p class="lead">Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria. We started the way the best clubs do — a few mates and their machines — and grew into a community where riders connect, look out for one another and break down the isolation too many people carry on their own. We're a place to drop the mask, twist the throttle and belong.</p>
-  </div>
-</section>
-
-<!-- CAUSES -->
-<section class="block causes" id="causes">
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">Riding For A Reason</p>
-      <h2 class="display">Causes We Back</h2>
-      <p class="lead">Every season we put the kilometres to work, raising money and awareness for causes close to the club.</p>
-    </div>
-    <div class="cause-grid">
-      <div class="cause reveal">
-        <h3>Men's Mental Health</h3>
-        <p>Connection over isolation. Supporting riders and their families, and the conversations that keep mates around.</p>
-      </div>
-      <div class="cause reveal">
-        <h3>Breast Cancer Awareness</h3>
-        <p>Our annual awareness ride — registration, poker run and a show 'n' shine to finish — raising funds and turning heads.</p>
-      </div>
-      <div class="cause reveal">
-        <h3>Autism Awareness</h3>
-        <p>Riding in support of autism awareness alongside friends and fellow clubs across Victoria.</p>
-      </div>
-    </div>
+    <p class="lead">Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria. We started the way the best clubs do — a few mates and their machines — and grew into a family where riders connect, look out for one another and break down the isolation too many people carry on their own. We're a place to drop the mask, twist the throttle and belong.</p>
+    <p class="about-motto display">Rust Till Dust.</p>
   </div>
 </section>
 
@@ -363,9 +477,9 @@
       </div>
       <div class="panel-contact">
         <span class="label">West Chapter:</span>
-        <!-- TODO: swap to West chapter email when set up (e.g. rustnutssmc.west@gmail.com) -->
-        <a href="mailto:rustnutssmc@outlook.com">Email</a>
-        <a href="https://www.facebook.com/share/1CxcbnNgdm/" target="_blank" rel="noopener">Facebook</a>
+        <a href="mailto:west@rustnutsmc.com.au">Email</a>
+        <a href="https://www.facebook.com/REPLACE_WITH_WEST_FACEBOOK" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/REPLACE_WITH_WEST_INSTAGRAM" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
 
@@ -388,9 +502,110 @@
       </div>
       <div class="panel-contact">
         <span class="label">North Chapter:</span>
-        <a href="mailto:rustnutssmc.north@gmail.com">Email</a>
-        <a href="https://www.facebook.com/share/1CxcbnNgdm/" target="_blank" rel="noopener">Facebook</a>
+        <a href="mailto:north@rustnutsmc.com.au">Email</a>
+        <a href="https://www.facebook.com/REPLACE_WITH_NORTH_FACEBOOK" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/REPLACE_WITH_NORTH_INSTAGRAM" target="_blank" rel="noopener">Instagram</a>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAUSES -->
+<section class="block causes" id="causes">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">Riding For A Reason</p>
+      <h2 class="display">Causes We Back</h2>
+      <p class="lead">Every season we put the kilometres to work, raising money and awareness for causes close to the club.</p>
+    </div>
+    <div class="cause-grid">
+      <div class="cause reveal">
+        <h3>Men's Mental Health</h3>
+        <p>Connection over isolation. Supporting riders and their families, and the conversations that keep mates around.</p>
+      </div>
+      <div class="cause reveal">
+        <h3>Breast Cancer Awareness</h3>
+        <p>Our annual awareness ride — registration, poker run and a show 'n' shine to finish — raising funds and turning heads.</p>
+      </div>
+      <div class="cause reveal">
+        <h3>Autism Awareness</h3>
+        <p>Riding in support of autism awareness alongside friends and fellow clubs across Victoria.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<section class="block photos" id="photos">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">On The Road</p>
+      <h2 class="display">From The Rides</h2>
+      <p class="lead">A taste of life with the club. For the full set, head to our Facebook albums.</p>
+    </div>
+    <div class="photo-strip reveal">
+      <figure><img src="photos/ride-1.jpg" alt="Rustnuts SMC riders on a group ride" /></figure>
+      <figure><img src="photos/ride-2.jpg" alt="Rustnuts SMC motorcycles lined up at a meet" /></figure>
+      <figure><img src="photos/ride-3.jpg" alt="Rustnuts SMC charity ride day" /></figure>
+      <figure><img src="photos/ride-4.jpg" alt="Rustnuts SMC members at a show and shine" /></figure>
+    </div>
+    <div class="photo-cta reveal">
+      <a href="https://www.facebook.com/REPLACE_WITH_FACEBOOK_PAGE/photos_albums" target="_blank" rel="noopener" class="btn btn-ghost">See All Albums On Facebook</a>
+    </div>
+  </div>
+</section>
+
+<!-- PODCAST -->
+<section class="block podcast" id="podcast">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow pod-eyebrow">In Your Ears</p>
+      <h2 class="display">Twist The Throttle</h2>
+      <p class="lead">Shifting gears on mental health — real talk, no filter, from two of our own. The conversations that keep mates around.</p>
+    </div>
+    <div class="pod-grid">
+      <figure class="pod-logo reveal">
+        <img src="twist-the-throttle-logo.jpg" alt="Twist the Throttle Podcast logo — flaming motorcycle, shifting gears on mental health" />
+      </figure>
+      <div class="pod-card reveal">
+        <p class="pod-name">Twist The Throttle</p>
+        <p class="pod-hosts">Hosted by Ambo &amp; The Prez</p>
+        <p class="pod-blurb">Open, honest chat about mental health, life on two wheels and looking out for one another. Listen and follow on your platform of choice.</p>
+        <div class="pod-links">
+          <a href="https://www.facebook.com/p/Twist-the-Throttle-Podcast-61569935990708/" target="_blank" rel="noopener" class="pod-link">Facebook</a>
+          <a href="https://www.youtube.com/channel/UCR7EHAmE8weadPFOuQJCguQ" target="_blank" rel="noopener" class="pod-link">YouTube</a>
+          <a href="https://www.instagram.com/twist.the.throttle.podcast/" target="_blank" rel="noopener" class="pod-link">Instagram</a>
+          <a href="https://open.spotify.com/show/3XAjIDT7vnwbMTdHlIB1PE" target="_blank" rel="noopener" class="pod-link">Spotify</a>
+          <a href="https://www.iheart.com/podcast/269-twist-the-throttle-podcast-243518235/" target="_blank" rel="noopener" class="pod-link">iHeart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLUB DOCS -->
+<section class="block docs" id="docs">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow">The Rulebook</p>
+      <h2 class="display">Club Documents</h2>
+      <p class="lead">The bits that keep us running right. Open or download below.</p>
+    </div>
+    <div class="doc-grid reveal">
+      <a href="docs/rustnuts-smc-constitution.pdf" target="_blank" rel="noopener" class="doc">
+        <span class="doc-icon" aria-hidden="true">§</span>
+        <span>
+          <span class="doc-title">Constitution</span>
+          <span class="doc-sub">PDF · The rules of our incorporated association</span>
+        </span>
+      </a>
+      <a href="docs/rustnuts-smc-road-rules.pdf" target="_blank" rel="noopener" class="doc">
+        <span class="doc-icon" aria-hidden="true">!</span>
+        <span>
+          <span class="doc-title">Road Rules</span>
+          <span class="doc-sub">PDF · How we ride together and stay safe</span>
+        </span>
+      </a>
     </div>
   </div>
 </section>
@@ -400,17 +615,18 @@
   <div class="wrap reveal">
     <p class="eyebrow">Get Involved</p>
     <h2 class="display">Ride With Us</h2>
-    <p class="lead">Rustnuts SMC welcomes riders of all backgrounds who share a passion for motorcycles, brotherhood and giving back. Reach out — we'll point you to the next ride.</p>
+    <p class="lead">Rustnuts SMC welcomes riders of all backgrounds who share a passion for motorcycles, family and giving back. Reach out — we'll point you to the next ride.</p>
     <div class="social">
-      <a href="https://www.facebook.com/share/1CxcbnNgdm/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.facebook.com/REPLACE_WITH_FACEBOOK_PAGE" target="_blank" rel="noopener">Facebook</a>
       <a href="https://www.instagram.com/rustnutssmc" target="_blank" rel="noopener">Instagram</a>
       <a href="https://linktr.ee/rustnutssmc" target="_blank" rel="noopener">Linktree</a>
-      <a href="mailto:rustnutssmc@outlook.com">Email Us</a>
+      <a href="mailto:info@rustnutsmc.com.au">Email Us</a>
     </div>
   </div>
 </section>
 
 <footer>
+  <p class="motto">Rust Till Dust</p>
   <p><strong>Rustnuts SMC</strong> — Rustnuts Social Motorcycle Club Incorporated</p>
   <p>Greater Melbourne, Victoria, Australia &nbsp;|&nbsp; A not-for-profit incorporated association</p>
   <p style="margin-top:10px">&copy; <span id="yr"></span> Rustnuts SMC. All rights reserved.</p>
