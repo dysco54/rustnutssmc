@@ -47,7 +47,7 @@
   "logo": "https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg",
   "image": "https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg",
   "description": "Rustnuts SMC is a social motorcycle club based in Greater Melbourne, Victoria, built on family, ride days and charity fundraising supporting breast cancer, autism awareness and men's mental health.",
-  "email": "REPLACE_WITH_CLUB_EMAIL",
+  "email": "rustnutssmc@outlook.com",
   "areaServed": {
     "@type": "AdministrativeArea",
     "name": "Greater Melbourne, Victoria, Australia"
@@ -187,6 +187,22 @@
     padding:6px 16px;border-radius:3px;
   }
   .nav-shop:hover{background:var(--red-bright);color:#fff!important}
+
+  /* COMING SOON — disabled links / badges */
+  .soon-tag{
+    display:inline-block;font-family:var(--stencil);font-weight:400;font-style:normal;
+    text-transform:uppercase;letter-spacing:0.06em;font-size:0.62em;line-height:1.4;
+    color:#fff;background:var(--red);padding:2px 8px;border-radius:999px;
+    margin-left:8px;vertical-align:middle;white-space:nowrap;
+  }
+  .nav-shop--soon{
+    color:var(--bone-dim)!important;border-color:rgba(255,255,255,0.25);cursor:default;
+  }
+  .nav-shop--soon:hover{background:none;color:var(--bone-dim)!important}
+  .btn-soon{cursor:default;opacity:0.85}
+  .btn-soon:hover{transform:none;background:var(--bone)}
+  .doc--soon{cursor:default}
+  .doc--soon:hover{transform:none;border-left-color:var(--red)}
 
   /* SECTION SHELL */
   section.block{padding:90px 28px;position:relative;z-index:2}
@@ -427,7 +443,7 @@
     <a href="#podcast">Podcast</a>
     <a href="#docs">Club Docs</a>
     <a href="resources.html">Support</a>
-    <a href="SHOPIFY_STORE_URL" class="nav-shop">Shop</a>
+    <span class="nav-shop nav-shop--soon" title="Merch store coming soon">Shop · Soon</span>
     <a href="#join">Join</a>
   </nav>
 </header>
@@ -444,7 +460,7 @@
       <p class="tag">A Greater Melbourne social motorcycle club built on family, ride days and giving back.</p>
       <div class="btns">
         <a href="#join" class="btn btn-primary">Ride With Us</a>
-        <a href="SHOPIFY_STORE_URL" class="btn btn-shop">Shop Merch</a>
+        <span class="btn btn-shop btn-soon" role="button" aria-disabled="true">Shop Merch<span class="soon-tag">Coming Soon</span></span>
         <a href="#causes" class="btn btn-ghost">Our Causes</a>
       </div>
     </div>
@@ -613,13 +629,13 @@
           <span class="doc-sub">PDF · The rules of our incorporated association</span>
         </span>
       </a>
-      <a href="docs/rustnuts-smc-road-rules.pdf" target="_blank" rel="noopener" class="doc">
+      <div class="doc doc--soon" aria-disabled="true">
         <span class="doc-icon" aria-hidden="true">!</span>
         <span>
-          <span class="doc-title">Road Rules</span>
-          <span class="doc-sub">PDF · How we ride together and stay safe</span>
+          <span class="doc-title">Road Rules<span class="soon-tag">Coming Soon</span></span>
+          <span class="doc-sub">How we ride together and stay safe — publishing shortly</span>
         </span>
-      </a>
+      </div>
     </div>
   </div>
 </section>
