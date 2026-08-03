@@ -256,6 +256,14 @@
   .panel{display:none;padding-top:36px}
   .panel.active{display:block;animation:fade .4s ease}
   @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  #panel-north{position:relative;overflow:hidden}
+  #panel-north::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background:url("photos/north-crew.jpg") center 30%/cover no-repeat;
+    opacity:0.07;pointer-events:none;
+    filter:grayscale(1) contrast(1.1);
+  }
+  #panel-north>*{position:relative;z-index:1}
   .panel-meta{
     color:var(--bone-dim);font-size:0.95rem;margin-bottom:8px;
     letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
@@ -304,6 +312,16 @@
   }
   .photo-strip figure:hover img{filter:grayscale(0);transform:scale(1.06)}
   .photo-cta{margin-top:30px}
+  .photo-single{margin-top:42px}
+  .photo-single figure{
+    position:relative;overflow:hidden;border-radius:4px;aspect-ratio:1600/747;
+    border:1px solid rgba(255,255,255,0.08);background:var(--steel);
+  }
+  .photo-single img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(0.3);transition:filter .35s, transform .45s;
+  }
+  .photo-single figure:hover img{filter:grayscale(0);transform:scale(1.06)}
 
   /* PODCAST — Twist the Throttle branding */
   .podcast{
@@ -422,7 +440,6 @@
     <a href="#about">About</a>
     <a href="#rides">Chapters</a>
     <a href="#causes">Causes</a>
-    <a href="#photos">Photos</a>
     <a href="#podcast">Podcast</a>
     <a href="#docs">Club Docs</a>
     <a href="resources.html">Support</a>
@@ -488,6 +505,15 @@
         </div>
       </div>
       <div class="ride-list" id="west-ride-list"></div>
+      <div class="photo-strip reveal">
+        <figure><img src="photos/ride-1.jpg" alt="Rustnuts SMC riders on a group ride" /></figure>
+        <figure><img src="photos/ride-2.jpg" alt="Rustnuts SMC motorcycles lined up at a meet" /></figure>
+        <figure><img src="photos/ride-3.jpg" alt="Rustnuts SMC charity ride day" /></figure>
+        <figure><img src="photos/ride-4.jpg" alt="Rustnuts SMC members at a show and shine" /></figure>
+      </div>
+      <div class="photo-cta reveal">
+        <a href="https://www.facebook.com/RustnutsSMC/photos_albums" target="_blank" rel="noopener" class="btn btn-ghost">See All West Chapter Albums On Facebook</a>
+      </div>
       <div class="panel-contact">
         <span class="label">West Chapter:</span>
         <a href="mailto:rustnutssmc@outlook.com">Email</a>
@@ -507,10 +533,16 @@
         </div>
       </div>
       <div class="ride-list" id="north-ride-list"></div>
+      <div class="photo-single reveal">
+        <figure><img src="photos/north-crew.jpg" alt="Rustnuts SMC North chapter members in club leathers" /></figure>
+      </div>
+      <div class="photo-cta reveal">
+        <a href="https://www.facebook.com/RustnutsSMCNorthernChapter/photos_albums" target="_blank" rel="noopener" class="btn btn-ghost">See All North Chapter Albums On Facebook</a>
+      </div>
       <div class="panel-contact">
         <span class="label">North Chapter:</span>
         <a href="mailto:rustnutssmc.north@gmail.com">Email</a>
-        <a href="https://www.facebook.com/RustnutsSMC/" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.facebook.com/RustnutsSMCNorthernChapter/" target="_blank" rel="noopener">Facebook</a>
         <a href="https://www.instagram.com/rustnuts_social2019/" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
@@ -731,26 +763,6 @@ console.error('Rustnuts ride list error:', err);
         <h3>Autism Awareness</h3>
         <p>Riding in support of autism awareness alongside friends and fellow clubs across Victoria.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- PHOTOS -->
-<section class="block photos" id="photos">
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">On The Road</p>
-      <h2 class="display">From The Rides</h2>
-      <p class="lead">A taste of life with the club. For the full set, head to our Facebook albums.</p>
-    </div>
-    <div class="photo-strip reveal">
-      <figure><img src="photos/ride-1.jpg" alt="Rustnuts SMC riders on a group ride" /></figure>
-      <figure><img src="photos/ride-2.jpg" alt="Rustnuts SMC motorcycles lined up at a meet" /></figure>
-      <figure><img src="photos/ride-3.jpg" alt="Rustnuts SMC charity ride day" /></figure>
-      <figure><img src="photos/ride-4.jpg" alt="Rustnuts SMC members at a show and shine" /></figure>
-    </div>
-    <div class="photo-cta reveal">
-      <a href="https://www.facebook.com/RustnutsSMC/photos" target="_blank" rel="noopener" class="btn btn-ghost">See All Albums On Facebook</a>
     </div>
   </div>
 </section>
