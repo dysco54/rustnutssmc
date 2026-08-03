@@ -542,146 +542,171 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 <script>
 (function () {
-  var LABEL_COLORS = {
-    'North': '#000000',
-    'West': '#D2D2D2',
-    'Supported Club Rides': '#0B8043',
-    'Non-Nuts Events': '#8E24AA'
-  };
-  var DEFAULT_COLOR = '#A71111';
-  var CALENDAR_ID = 'rsmc.ridecommitee@gmail.com';
-  var API_KEY = 'AIzaSyCiFsZiaYAvzwFT2vCPmPGqGOWd3R4Ozrg';
+var LABEL_COLORS = {
+'North': '#000000',
+'West': '#D2D2D2',
+'Supported Club Rides': '#0B8043',
+'Non-Nuts Events': '#8E24AA'
+};
+var DEFAULT_COLOR = '#A71111';
+var WORKER_URL = 'https://rustnuts-calendar-proxy.cdyson.workers.dev/';
 
-  // Google Calendar's API does not expose per-event label colours (colorId)
-  // to API-key-only (unauthenticated) requests, even on a public calendar.
-  // So each ride's label is mirrored here manually, keyed by "startDate|Title".
-  // Update this table whenever a ride's label changes or a new ride is added
-  // with a non-default label (North, West, Supported Club Rides, Non-Nuts Events).
-  var EVENT_LABELS = {
-    '2026-09-13|Heathcote Loop': 'North',
-    '2026-09-20|Guards of Valhalla': 'Supported Club Rides',
-    '2026-10-23|MotoGp Weekend': 'Non-Nuts Events',
-    '2026-08-27|Dubbo Motorfest': 'Non-Nuts Events',
-    '2026-11-21|Silverbacks Coward Punch Ride': 'Supported Club Rides',
-    '2027-02-12|Redback Rally': 'Non-Nuts Events',
-    '2027-03-05|Brighter Days Festival': 'Non-Nuts Events',
-    '2027-03-21|Black Dog Ride': 'Non-Nuts Events',
-    '2027-05-01|International Female Ride Day': 'Non-Nuts Events',
-    '2027-06-11|Fink Desert Race': 'Non-Nuts Events'
-  };
+// Google Calendar's custom coloured 'Event labels' picker is not exposed via
+// the Calendar API, even to an authenticated service account. So each ride's
+// label is read from a tag typed into the event's description, e.g.
+// "Label: West" or "Label: North". Add Label: West / North / Supported Club
+// Rides / Non-Nuts Events anywhere in an event's description to colour it and
+// (for West/North) list it under that chapter automatically.
+var LABEL_ALIASES = {
+'north': 'North',
+'west': 'West',
+'supported club rides': 'Supported Club Rides',
+'supported club ride': 'Supported Club Rides',
+'non-nuts events': 'Non-Nuts Events',
+'non nuts events': 'Non-Nuts Events',
+'non-nuts event': 'Non-Nuts Events',
+'non nuts event': 'Non-Nuts Events'
+};
+var LABEL_TAG_RE = /label\s*:\s*([^\n\r<]+)/i;
 
-  function escapeHtml(str) {
-    return String(str || '').replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
+// Fallback for older events created before the description-tag convention.
+// Keyed by "startDate|Title" — only used if an event has no Label tag.
+var EVENT_LABELS = {
+'2026-09-13|Heathcote Loop': 'North',
+'2026-09-20|Guards of Valhalla': 'Supported Club Rides',
+'2026-10-23|MotoGp Weekend': 'Non-Nuts Events',
+'2026-08-27|Dubbo Motorfest': 'Non-Nuts Events',
+'2026-11-21|Silverbacks Coward Punch Ride': 'Supported Club Rides',
+'2027-02-12|Redback Rally': 'Non-Nuts Events',
+'2027-03-05|Brighter Days Festival': 'Non-Nuts Events',
+'2027-03-21|Black Dog Ride': 'Non-Nuts Events',
+'2027-05-01|International Female Ride Day': 'Non-Nuts Events',
+'2027-06-11|Fink Desert Race': 'Non-Nuts Events'
+};
 
-  function eventKey(item) {
-    var startDate = (item.start.date || item.start.dateTime || '').substring(0, 10);
-    return startDate + '|' + (item.summary || '').trim();
-  }
+function escapeHtml(str) {
+return String(str || '').replace(/[&<>"']/g, function (c) {
+return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+});
+}
 
-  function eventLabel(item) {
-    return EVENT_LABELS[eventKey(item)];
-  }
+function eventKey(item) {
+var startDate = (item.start.date || item.start.dateTime || '').substring(0, 10);
+return startDate + '|' + (item.summary || '').trim();
+}
 
-  function eventColor(item) {
-    var label = eventLabel(item);
-    return (label && LABEL_COLORS[label]) || DEFAULT_COLOR;
-  }
+function labelFromDescription(item) {
+var desc = item.description || '';
+var m = desc.match(LABEL_TAG_RE);
+if (!m) return null;
+var raw = m[1].trim().toLowerCase().replace(/\s+/g, ' ');
+return LABEL_ALIASES[raw] || null;
+}
 
-  var eventsPromise = null;
-  function fetchEvents() {
-    if (eventsPromise) return eventsPromise;
-    var timeMin = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365).toISOString();
-    var timeMax = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 2).toISOString();
-    var url = 'https://www.googleapis.com/calendar/v3/calendars/'
-      + encodeURIComponent(CALENDAR_ID) + '/events'
-      + '?key=' + API_KEY
-      + '&singleEvents=true&orderBy=startTime&maxResults=100'
-      + '&timeMin=' + encodeURIComponent(timeMin)
-      + '&timeMax=' + encodeURIComponent(timeMax);
-    eventsPromise = fetch(url).then(function (r) { return r.json(); }).then(function (data) {
-      return data.items || [];
-    });
-    return eventsPromise;
-  }
+function eventLabel(item) {
+return labelFromDescription(item) || EVENT_LABELS[eventKey(item)];
+}
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('rustnuts-calendar');
-    if (calendarEl) {
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        height: 600,
-        firstDay: 1,
-        headerToolbar: { left: 'title', center: '', right: 'prev,next today' },
-        events: function (fetchInfo, successCallback, failureCallback) {
-          fetchEvents().then(function (items) {
-            var events = items.map(function (item) {
-              var color = eventColor(item);
-              return {
-                title: item.summary || '(No title)',
-                start: item.start.dateTime || item.start.date,
-                end: item.end.dateTime || item.end.date,
-                allDay: !item.start.dateTime,
-                url: item.htmlLink,
-                backgroundColor: color,
-                borderColor: color
-              };
-            });
-            successCallback(events);
-          }).catch(function (err) {
-            console.error('Rustnuts calendar error:', err);
-            failureCallback(err);
-          });
-        },
-        eventClick: function (info) {
-          if (info.event.url) {
-            info.jsEvent.preventDefault();
-            window.open(info.event.url, '_blank');
-          }
-        }
-      });
+function eventColor(item) {
+var label = eventLabel(item);
+return (label && LABEL_COLORS[label]) || DEFAULT_COLOR;
+}
 
-      calendar.render();
-    }
+function cleanDescription(item) {
+var desc = item.description || '';
+return desc.replace(LABEL_TAG_RE, '').trim();
+}
 
-    // Populate West / North chapter ride lists from labelled calendar events
-    var listEls = {
-      'West': document.getElementById('west-ride-list'),
-      'North': document.getElementById('north-ride-list')
-    };
-    if (listEls.West || listEls.North) {
-      fetchEvents().then(function (items) {
-        var today = new Date();
-        today.setHours(0, 0, 0, 0);
-        var byChapter = { West: [], North: [] };
-        items.forEach(function (item) {
-          var label = eventLabel(item);
-          if (label !== 'West' && label !== 'North') return;
-          var startStr = item.start.dateTime || item.start.date;
-          var startDate = new Date(startStr);
-          if (startDate < today) return;
-          byChapter[label].push({ item: item, startDate: startDate });
-        });
-        ['West', 'North'].forEach(function (chapter) {
-          var el = listEls[chapter];
-          if (!el) return;
-          var rides = byChapter[chapter].sort(function (a, b) { return a.startDate - b.startDate; });
-          el.innerHTML = rides.map(function (r) {
-            var dateLabel = r.startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
-            var color = LABEL_COLORS[chapter];
-            var desc = r.item.description ? (' &middot; ' + escapeHtml(r.item.description)) : '';
-            return '<div class="ride"><div class="marker" style="background:' + color + '"></div>'
-              + '<div><h3>' + escapeHtml(r.item.summary || '(No title)') + '</h3>'
-              + '<p>' + dateLabel + desc + '</p></div></div>';
-          }).join('');
-        });
-      }).catch(function (err) {
-        console.error('Rustnuts ride list error:', err);
-      });
-    }
-  });
+var eventsPromise = null;
+function fetchEvents() {
+if (eventsPromise) return eventsPromise;
+var timeMin = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365).toISOString();
+var timeMax = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 2).toISOString();
+var url = WORKER_URL
++ '?timeMin=' + encodeURIComponent(timeMin)
++ '&timeMax=' + encodeURIComponent(timeMax);
+eventsPromise = fetch(url).then(function (r) { return r.json(); }).then(function (data) {
+return data.items || [];
+});
+return eventsPromise;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+var calendarEl = document.getElementById('rustnuts-calendar');
+if (calendarEl) {
+var calendar = new FullCalendar.Calendar(calendarEl, {
+initialView: 'dayGridMonth',
+height: 600,
+firstDay: 1,
+headerToolbar: { left: 'title', center: '', right: 'prev,next today' },
+events: function (fetchInfo, successCallback, failureCallback) {
+fetchEvents().then(function (items) {
+var events = items.map(function (item) {
+var color = eventColor(item);
+return {
+title: item.summary || '(No title)',
+start: item.start.dateTime || item.start.date,
+end: item.end.dateTime || item.end.date,
+allDay: !item.start.dateTime,
+url: item.htmlLink,
+backgroundColor: color,
+borderColor: color
+};
+});
+successCallback(events);
+}).catch(function (err) {
+console.error('Rustnuts calendar error:', err);
+failureCallback(err);
+});
+},
+eventClick: function (info) {
+if (info.event.url) {
+info.jsEvent.preventDefault();
+window.open(info.event.url, '_blank');
+}
+}
+});
+
+calendar.render();
+}
+
+// Populate West / North chapter ride lists from labelled calendar events
+var listEls = {
+'West': document.getElementById('west-ride-list'),
+'North': document.getElementById('north-ride-list')
+};
+if (listEls.West || listEls.North) {
+fetchEvents().then(function (items) {
+var today = new Date();
+today.setHours(0, 0, 0, 0);
+var byChapter = { West: [], North: [] };
+items.forEach(function (item) {
+var label = eventLabel(item);
+if (label !== 'West' && label !== 'North') return;
+var startStr = item.start.dateTime || item.start.date;
+var startDate = new Date(startStr);
+if (startDate < today) return;
+byChapter[label].push({ item: item, startDate: startDate });
+});
+['West', 'North'].forEach(function (chapter) {
+var el = listEls[chapter];
+if (!el) return;
+var rides = byChapter[chapter].sort(function (a, b) { return a.startDate - b.startDate; });
+el.innerHTML = rides.map(function (r) {
+var dateLabel = r.startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+var color = LABEL_COLORS[chapter];
+var descText = cleanDescription(r.item);
+var desc = descText ? (' &middot; ' + escapeHtml(descText)) : '';
+return '<div class="ride"><div class="marker" style="background:' + color + '"></div>'
++ '<div><h3>' + escapeHtml(r.item.summary || '(No title)') + '</h3>'
++ '<p>' + dateLabel + desc + '</p></div></div>';
+}).join('');
+});
+}).catch(function (err) {
+console.error('Rustnuts ride list error:', err);
+});
+}
+});
 })();
 </script>
 
