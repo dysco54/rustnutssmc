@@ -404,6 +404,11 @@
 .calendar-embed .fc-daygrid-day-number{color:var(--bone-dim)}
 .calendar-embed .fc-event{border:none;font-weight:700;font-size:0.78rem;padding:2px 4px}
 .calendar-embed .fc-scrollgrid,.calendar-embed .fc-daygrid-day-frame{border-color:rgba(255,255,255,0.08)}
+
+.calendar-legend{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:16px;padding:14px 16px;background:var(--ink);border:1px solid rgba(255,255,255,0.08);border-radius:4px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--bone-dim);text-transform:uppercase;letter-spacing:0.04em}
+.legend-item i{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none}
+.ride-list .ride{padding:20px 0}
 </style>
 </head>
 <body>
@@ -482,6 +487,7 @@
           <p>Regular get-togethers and rides out of the western suburbs. New faces always welcome.</p>
         </div>
       </div>
+      <div class="ride-list" id="west-ride-list"></div>
       <div class="panel-contact">
         <span class="label">West Chapter:</span>
         <a href="mailto:rustnutssmc@outlook.com">Email</a>
@@ -500,13 +506,7 @@
           <p>Regular get-togethers and rides out of the northern suburbs. New faces always welcome.</p>
         </div>
       </div>
-      <div class="ride">
-        <div class="marker"></div>
-        <div>
-          <h3>Meet &amp; Greet</h3>
-          <p>13 September 2026 · Come say g'day to the North Chapter — riders and prospects all welcome.</p>
-        </div>
-      </div>
+      <div class="ride-list" id="north-ride-list"></div>
       <div class="panel-contact">
         <span class="label">North Chapter:</span>
         <a href="mailto:rustnutssmc.north@gmail.com">Email</a>
@@ -514,8 +514,6 @@
         <a href="https://www.instagram.com/rustnuts_social2019/" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
-  </div>
-</section>
 
 <!-- CALENDAR -->
 <section class="block calendar" id="calendar">
@@ -531,6 +529,12 @@
 </div>
 <div class="calendar-embed reveal">
 <div id="rustnuts-calendar"></div>
+<div class="calendar-legend" id="calendar-legend">
+<span class="legend-item"><i style="background:#000000"></i>North</span>
+<span class="legend-item"><i style="background:#D2D2D2"></i>West</span>
+<span class="legend-item"><i style="background:#0B8043"></i>Supported Club Rides</span>
+<span class="legend-item"><i style="background:#8E24AA"></i>Non-Nuts Events</span>
+</div>
 </div>
 </div>
 </section>
@@ -538,40 +542,78 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 <script>
 (function () {
-  var GCAL_EVENT_COLORS = {
-    '1': '#7986cb', '2': '#33b679', '3': '#8e24aa', '4': '#e67c73',
-    '5': '#f6bf26', '6': '#f4511e', '7': '#039be5', '8': '#616161',
-    '9': '#3f51b5', '10': '#0b8043', '11': '#d50000'
+  var LABEL_COLORS = {
+    'North': '#000000',
+    'West': '#D2D2D2',
+    'Supported Club Rides': '#0B8043',
+    'Non-Nuts Events': '#8E24AA'
   };
+  var DEFAULT_COLOR = '#A71111';
   var CALENDAR_ID = 'rsmc.ridecommitee@gmail.com';
   var API_KEY = 'AIzaSyCiFsZiaYAvzwFT2vCPmPGqGOWd3R4Ozrg';
-  var DEFAULT_COLOR = '#8C1C24';
+
+  // Google Calendar's API does not expose per-event label colours (colorId)
+  // to API-key-only (unauthenticated) requests, even on a public calendar.
+  // So each ride's label is mirrored here manually, keyed by "startDate|Title".
+  // Update this table whenever a ride's label changes or a new ride is added
+  // with a non-default label (North, West, Supported Club Rides, Non-Nuts Events).
+  var EVENT_LABELS = {
+    '2026-09-13|Heathcote Loop': 'North',
+    '2026-09-20|Guards of Valhalla': 'Supported Club Rides',
+    '2026-10-23|MotoGp Weekend': 'Non-Nuts Events',
+    '2026-08-27|Alpine Run': 'Non-Nuts Events',
+    '2026-11-21|Silverbacks Coward Punch Ride': 'Supported Club Rides'
+  };
+
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function eventKey(item) {
+    var startDate = (item.start.date || item.start.dateTime || '').substring(0, 10);
+    return startDate + '|' + (item.summary || '').trim();
+  }
+
+  function eventLabel(item) {
+    return EVENT_LABELS[eventKey(item)];
+  }
+
+  function eventColor(item) {
+    var label = eventLabel(item);
+    return (label && LABEL_COLORS[label]) || DEFAULT_COLOR;
+  }
+
+  var eventsPromise = null;
+  function fetchEvents() {
+    if (eventsPromise) return eventsPromise;
+    var timeMin = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365).toISOString();
+    var timeMax = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 2).toISOString();
+    var url = 'https://www.googleapis.com/calendar/v3/calendars/'
+      + encodeURIComponent(CALENDAR_ID) + '/events'
+      + '?key=' + API_KEY
+      + '&singleEvents=true&orderBy=startTime&maxResults=100'
+      + '&timeMin=' + encodeURIComponent(timeMin)
+      + '&timeMax=' + encodeURIComponent(timeMax);
+    eventsPromise = fetch(url).then(function (r) { return r.json(); }).then(function (data) {
+      return data.items || [];
+    });
+    return eventsPromise;
+  }
 
   document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('rustnuts-calendar');
-    if (!calendarEl) return;
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
-      height: 600,
-      firstDay: 1,
-      headerToolbar: { left: 'title', center: '', right: 'prev,next today' },
-      events: function (fetchInfo, successCallback, failureCallback) {
-        var url = 'https://www.googleapis.com/calendar/v3/calendars/'
-          + encodeURIComponent(CALENDAR_ID) + '/events'
-          + '?key=' + API_KEY
-          + '&singleEvents=true&orderBy=startTime'
-          + '&timeMin=' + encodeURIComponent(fetchInfo.start.toISOString())
-          + '&timeMax=' + encodeURIComponent(fetchInfo.end.toISOString());
-
-        fetch(url)
-          .then(function (res) {
-            if (!res.ok) throw new Error('Calendar request failed: ' + res.status);
-            return res.json();
-          })
-          .then(function (data) {
-            var events = (data.items || []).map(function (item) {
-              var color = (item.colorId && GCAL_EVENT_COLORS[item.colorId]) || DEFAULT_COLOR;
+    if (calendarEl) {
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        height: 600,
+        firstDay: 1,
+        headerToolbar: { left: 'title', center: '', right: 'prev,next today' },
+        events: function (fetchInfo, successCallback, failureCallback) {
+          fetchEvents().then(function (items) {
+            var events = items.map(function (item) {
+              var color = eventColor(item);
               return {
                 title: item.summary || '(No title)',
                 start: item.start.dateTime || item.start.date,
@@ -583,21 +625,57 @@
               };
             });
             successCallback(events);
-          })
-          .catch(function (err) {
+          }).catch(function (err) {
             console.error('Rustnuts calendar error:', err);
             failureCallback(err);
           });
-      },
-      eventClick: function (info) {
-        if (info.event.url) {
-          info.jsEvent.preventDefault();
-          window.open(info.event.url, '_blank');
+        },
+        eventClick: function (info) {
+          if (info.event.url) {
+            info.jsEvent.preventDefault();
+            window.open(info.event.url, '_blank');
+          }
         }
-      }
-    });
+      });
 
-    calendar.render();
+      calendar.render();
+    }
+
+    // Populate West / North chapter ride lists from labelled calendar events
+    var listEls = {
+      'West': document.getElementById('west-ride-list'),
+      'North': document.getElementById('north-ride-list')
+    };
+    if (listEls.West || listEls.North) {
+      fetchEvents().then(function (items) {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var byChapter = { West: [], North: [] };
+        items.forEach(function (item) {
+          var label = eventLabel(item);
+          if (label !== 'West' && label !== 'North') return;
+          var startStr = item.start.dateTime || item.start.date;
+          var startDate = new Date(startStr);
+          if (startDate < today) return;
+          byChapter[label].push({ item: item, startDate: startDate });
+        });
+        ['West', 'North'].forEach(function (chapter) {
+          var el = listEls[chapter];
+          if (!el) return;
+          var rides = byChapter[chapter].sort(function (a, b) { return a.startDate - b.startDate; });
+          el.innerHTML = rides.map(function (r) {
+            var dateLabel = r.startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+            var color = LABEL_COLORS[chapter];
+            var desc = r.item.description ? (' &middot; ' + escapeHtml(r.item.description)) : '';
+            return '<div class="ride"><div class="marker" style="background:' + color + '"></div>'
+              + '<div><h3>' + escapeHtml(r.item.summary || '(No title)') + '</h3>'
+              + '<p>' + dateLabel + desc + '</p></div></div>';
+          }).join('');
+        });
+      }).catch(function (err) {
+        console.error('Rustnuts ride list error:', err);
+      });
+    }
   });
 })();
 </script>
