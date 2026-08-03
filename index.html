@@ -256,14 +256,22 @@
   .panel{display:none;padding-top:36px}
   .panel.active{display:block;animation:fade .4s ease}
   @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-  #panel-north{position:relative;overflow:hidden}
-  #panel-north::before{
-    content:"";position:absolute;inset:0;z-index:0;
-    background:url("photos/north-crew.jpg") center 30%/cover no-repeat;
-    opacity:0.07;pointer-events:none;
-    filter:grayscale(1) contrast(1.1);
+  #panel-west,#panel-north{position:relative;overflow:hidden}
+  #panel-west::before,#panel-north::before{
+    content:"";position:absolute;top:0;left:0;right:0;z-index:0;
+    background-position:center;background-size:contain;background-repeat:no-repeat;
+    opacity:0.1;pointer-events:none;
+    filter:saturate(1.4) contrast(1.05);
   }
-  #panel-north>*{position:relative;z-index:1}
+  #panel-west::before{
+    aspect-ratio:1285/516;
+    background-image:url("photos/west-crew.jpg");
+  }
+  #panel-north::before{
+    aspect-ratio:1600/747;
+    background-image:url("photos/north-crew.jpg");
+  }
+  #panel-west>*,#panel-north>*{position:relative;z-index:1}
   .panel-meta{
     color:var(--bone-dim);font-size:0.95rem;margin-bottom:8px;
     letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
@@ -297,31 +305,7 @@
   .social a:hover{color:var(--red-bright);border-color:var(--red-bright)}
 
   /* PHOTOS */
-  .photos{background:linear-gradient(180deg,var(--ink),#171515)}
-  .photo-strip{
-    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:42px;
-  }
-  @media(min-width:720px){.photo-strip{grid-template-columns:repeat(4,1fr)}}
-  .photo-strip figure{
-    position:relative;overflow:hidden;border-radius:4px;aspect-ratio:1;
-    border:1px solid rgba(255,255,255,0.08);background:var(--steel);
-  }
-  .photo-strip img{
-    width:100%;height:100%;object-fit:cover;display:block;
-    filter:grayscale(0.3);transition:filter .35s, transform .45s;
-  }
-  .photo-strip figure:hover img{filter:grayscale(0);transform:scale(1.06)}
   .photo-cta{margin-top:30px}
-  .photo-single{margin-top:42px}
-  .photo-single figure{
-    position:relative;overflow:hidden;border-radius:4px;aspect-ratio:1600/747;
-    border:1px solid rgba(255,255,255,0.08);background:var(--steel);
-  }
-  .photo-single img{
-    width:100%;height:100%;object-fit:cover;display:block;
-    filter:grayscale(0.3);transition:filter .35s, transform .45s;
-  }
-  .photo-single figure:hover img{filter:grayscale(0);transform:scale(1.06)}
 
   /* PODCAST — Twist the Throttle branding */
   .podcast{
@@ -505,12 +489,6 @@
         </div>
       </div>
       <div class="ride-list" id="west-ride-list"></div>
-      <div class="photo-strip reveal">
-        <figure><img src="photos/ride-1.jpg" alt="Rustnuts SMC riders on a group ride" /></figure>
-        <figure><img src="photos/ride-2.jpg" alt="Rustnuts SMC motorcycles lined up at a meet" /></figure>
-        <figure><img src="photos/ride-3.jpg" alt="Rustnuts SMC charity ride day" /></figure>
-        <figure><img src="photos/ride-4.jpg" alt="Rustnuts SMC members at a show and shine" /></figure>
-      </div>
       <div class="photo-cta reveal">
         <a href="https://www.facebook.com/RustnutsSMC/photos_albums" target="_blank" rel="noopener" class="btn btn-ghost">See All West Chapter Albums On Facebook</a>
       </div>
@@ -533,9 +511,6 @@
         </div>
       </div>
       <div class="ride-list" id="north-ride-list"></div>
-      <div class="photo-single reveal">
-        <figure><img src="photos/north-crew.jpg" alt="Rustnuts SMC North chapter members in club leathers" /></figure>
-      </div>
       <div class="photo-cta reveal">
         <a href="https://www.facebook.com/RustnutsSMCNorthernChapter/photos_albums" target="_blank" rel="noopener" class="btn btn-ghost">See All North Chapter Albums On Facebook</a>
       </div>
@@ -553,7 +528,7 @@
 <div class="reveal">
 <p class="eyebrow">Save The Date</p>
 <h2 class="display">Ride Calendar</h2>
-<p class="lead">All our upcoming rides in one place, colour-coded to match North, West, Supported Club Rides and Non-Nuts events.</p>
+<p class="lead">All our upcoming rides in one place, colour-coded to match North, West, Rustnuts (whole-club), Supported Club Rides and Non-Nuts events.</p>
 </div>
 <div class="calendar-links reveal">
 <a href="#rides" class="btn btn-ghost" onclick="document.getElementById('tab-west').click();">West Chapter Rides</a>
@@ -564,6 +539,7 @@
 <div class="calendar-legend" id="calendar-legend">
 <span class="legend-item"><i style="background:#000000"></i>North</span>
 <span class="legend-item"><i style="background:#D2D2D2"></i>West</span>
+<span class="legend-item"><i style="background:#B92632"></i>Rustnuts</span>
 <span class="legend-item"><i style="background:#0B8043"></i>Supported Club Rides</span>
 <span class="legend-item"><i style="background:#8E24AA"></i>Non-Nuts Events</span>
 </div>
@@ -577,6 +553,7 @@
 var LABEL_COLORS = {
 'North': '#000000',
 'West': '#D2D2D2',
+'Rustnuts': '#B92632',
 'Supported Club Rides': '#0B8043',
 'Non-Nuts Events': '#8E24AA'
 };
@@ -586,12 +563,14 @@ var WORKER_URL = 'https://rustnuts-calendar-proxy.cdyson.workers.dev/';
 // Google Calendar's custom coloured 'Event labels' picker is not exposed via
 // the Calendar API, even to an authenticated service account. So each ride's
 // label is read from a tag typed into the event's description, e.g.
-// "Label: West" or "Label: North". Add Label: West / North / Supported Club
-// Rides / Non-Nuts Events anywhere in an event's description to colour it and
-// (for West/North) list it under that chapter automatically.
+// "Label: West" or "Label: North". Add Label: West / North / Rustnuts /
+// Supported Club Rides / Non-Nuts Events anywhere in an event's description
+// to colour it. West/North list under that chapter only; Rustnuts (a
+// whole-club ride) lists under BOTH chapters' upcoming rides.
 var LABEL_ALIASES = {
 'north': 'North',
 'west': 'West',
+'rustnuts': 'Rustnuts',
 'supported club rides': 'Supported Club Rides',
 'supported club ride': 'Supported Club Rides',
 'non-nuts events': 'Non-Nuts Events',
@@ -714,11 +693,16 @@ today.setHours(0, 0, 0, 0);
 var byChapter = { West: [], North: [] };
 items.forEach(function (item) {
 var label = eventLabel(item);
-if (label !== 'West' && label !== 'North') return;
+if (label !== 'West' && label !== 'North' && label !== 'Rustnuts') return;
 var startStr = item.start.dateTime || item.start.date;
 var startDate = new Date(startStr);
 if (startDate < today) return;
+if (label === 'Rustnuts') {
+byChapter.West.push({ item: item, startDate: startDate });
+byChapter.North.push({ item: item, startDate: startDate });
+} else {
 byChapter[label].push({ item: item, startDate: startDate });
+}
 });
 ['West', 'North'].forEach(function (chapter) {
 var el = listEls[chapter];
@@ -726,7 +710,7 @@ if (!el) return;
 var rides = byChapter[chapter].sort(function (a, b) { return a.startDate - b.startDate; });
 el.innerHTML = rides.map(function (r) {
 var dateLabel = r.startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
-var color = LABEL_COLORS[chapter];
+var color = eventColor(r.item);
 var descText = cleanDescription(r.item);
 var desc = descText ? (' &middot; ' + escapeHtml(descText)) : '';
 return '<div class="ride"><div class="marker" style="background:' + color + '"></div>'
