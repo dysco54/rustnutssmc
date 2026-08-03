@@ -395,6 +395,15 @@
   /* reveal animation */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease}
   .reveal.in{opacity:1;transform:none}
+.calendar-embed .fc{background:var(--ink);color:var(--bone);border-radius:4px;padding:10px;border:1px solid rgba(255,255,255,0.08)}
+.calendar-embed .fc-toolbar-title{font-family:var(--stencil);color:var(--bone);text-transform:uppercase;letter-spacing:0.02em}
+.calendar-embed .fc-button{background:var(--red)!important;border:none!important;text-transform:uppercase;font-weight:700;letter-spacing:0.05em}
+.calendar-embed .fc-button:hover{background:var(--red-bright)!important}
+.calendar-embed .fc-daygrid-day{background:#171515}
+.calendar-embed .fc-col-header-cell{background:var(--steel);color:var(--bone-dim);text-transform:uppercase;font-size:0.75rem;letter-spacing:0.08em}
+.calendar-embed .fc-daygrid-day-number{color:var(--bone-dim)}
+.calendar-embed .fc-event{border:none;font-weight:700;font-size:0.78rem;padding:2px 4px}
+.calendar-embed .fc-scrollgrid,.calendar-embed .fc-daygrid-day-frame{border-color:rgba(255,255,255,0.08)}
 </style>
 </head>
 <body>
@@ -510,21 +519,88 @@
 
 <!-- CALENDAR -->
 <section class="block calendar" id="calendar">
-  <div class="wrap">
-    <div class="reveal">
-      <p class="eyebrow">Save The Date</p>
-      <h2 class="display">Ride Calendar</h2>
-      <p class="lead">All our upcoming rides in one place, combining Rustnuts Rides, West Chapter and North Chapter events.</p>
-    </div>
-    <div class="calendar-links reveal">
-      <a href="#rides" class="btn btn-ghost" onclick="document.getElementById('tab-west').click();">West Chapter Rides</a>
-      <a href="#rides" class="btn btn-ghost" onclick="document.getElementById('tab-north').click();">North Chapter Rides</a>
-    </div>
-    <div class="calendar-embed reveal">
-      <iframe src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Australia%2FMelbourne&showPrint=0&showTitle=0&src=rsmc.ridecommitee%40gmail.com&src=d9537958c481498771f5328fcf1b15fe39c4becf926fe25dfa4d0d415afba3ff%40group.calendar.google.com&src=29424ef27729804abb3c24cc3fafe85a81ccee35b187c03ec4371ebf183d42f9%40group.calendar.google.com" style="border:solid 1px #777" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
-    </div>
-  </div>
+<div class="wrap">
+<div class="reveal">
+<p class="eyebrow">Save The Date</p>
+<h2 class="display">Ride Calendar</h2>
+<p class="lead">All our upcoming rides in one place, colour-coded to match North, West, Supported Club Rides and Non-Nuts events.</p>
+</div>
+<div class="calendar-links reveal">
+<a href="#rides" class="btn btn-ghost" onclick="document.getElementById('tab-west').click();">West Chapter Rides</a>
+<a href="#rides" class="btn btn-ghost" onclick="document.getElementById('tab-north').click();">North Chapter Rides</a>
+</div>
+<div class="calendar-embed reveal">
+<div id="rustnuts-calendar"></div>
+</div>
+</div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<script>
+(function () {
+  var GCAL_EVENT_COLORS = {
+    '1': '#7986cb', '2': '#33b679', '3': '#8e24aa', '4': '#e67c73',
+    '5': '#f6bf26', '6': '#f4511e', '7': '#039be5', '8': '#616161',
+    '9': '#3f51b5', '10': '#0b8043', '11': '#d50000'
+  };
+  var CALENDAR_ID = 'rsmc.ridecommitee@gmail.com';
+  var API_KEY = 'AIzaSyCiFsZiaYAvzwFT2vCPmPGqGOWd3R4Ozrg';
+  var DEFAULT_COLOR = '#8C1C24';
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('rustnuts-calendar');
+    if (!calendarEl) return;
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: 600,
+      firstDay: 1,
+      headerToolbar: { left: 'title', center: '', right: 'prev,next today' },
+      events: function (fetchInfo, successCallback, failureCallback) {
+        var url = 'https://www.googleapis.com/calendar/v3/calendars/'
+          + encodeURIComponent(CALENDAR_ID) + '/events'
+          + '?key=' + API_KEY
+          + '&singleEvents=true&orderBy=startTime'
+          + '&timeMin=' + encodeURIComponent(fetchInfo.start.toISOString())
+          + '&timeMax=' + encodeURIComponent(fetchInfo.end.toISOString());
+
+        fetch(url)
+          .then(function (res) {
+            if (!res.ok) throw new Error('Calendar request failed: ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            var events = (data.items || []).map(function (item) {
+              var color = (item.colorId && GCAL_EVENT_COLORS[item.colorId]) || DEFAULT_COLOR;
+              return {
+                title: item.summary || '(No title)',
+                start: item.start.dateTime || item.start.date,
+                end: item.end.dateTime || item.end.date,
+                allDay: !item.start.dateTime,
+                url: item.htmlLink,
+                backgroundColor: color,
+                borderColor: color
+              };
+            });
+            successCallback(events);
+          })
+          .catch(function (err) {
+            console.error('Rustnuts calendar error:', err);
+            failureCallback(err);
+          });
+      },
+      eventClick: function (info) {
+        if (info.event.url) {
+          info.jsEvent.preventDefault();
+          window.open(info.event.url, '_blank');
+        }
+      }
+    });
+
+    calendar.render();
+  });
+})();
+</script>
 
 <!-- CAUSES -->
 <section class="block causes" id="causes">
