@@ -198,7 +198,13 @@
   .block h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:22px}
   .lead{font-size:1.12rem;color:var(--bone-dim);max-width:62ch}
 
-  .about{background:linear-gradient(180deg,var(--ink),#171515)}
+  .about{background:linear-gradient(180deg,var(--ink),#171515);position:relative;overflow:hidden}
+  .about::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background:url("photos/office-bearers.jpg") center/contain no-repeat;
+    opacity:0.5;pointer-events:none;
+  }
+  .about .wrap{position:relative;z-index:1}
   .about-motto{
     font-size:clamp(1.8rem,5vw,3rem);color:var(--red-bright);
     margin-top:30px;letter-spacing:0.04em;
