@@ -198,12 +198,13 @@
   .block h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:22px}
   .lead{font-size:1.12rem;color:var(--bone-dim);max-width:62ch}
 
-  .about{background:linear-gradient(180deg,var(--ink),#171515);position:relative;overflow:hidden}
+  .about{background:linear-gradient(180deg,var(--ink),#171515);position:relative;overflow:hidden;min-height:900px}
   .about::before{
-    content:"";position:absolute;inset:0;z-index:0;
+    content:"";position:absolute;left:50%;top:56%;z-index:0;
+    transform:translate(-50%,-50%);
+    width:min(580px,64vw);aspect-ratio:1122/1402;
     background:url("photos/office-bearers.jpg") center/contain no-repeat;
     opacity:0.5;pointer-events:none;
-    transform:scale(1.2);
   }
   .about .wrap{position:relative;z-index:1}
   .about-motto{
