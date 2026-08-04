@@ -133,17 +133,16 @@
     overflow:hidden;
   }
   .hero::after{
-    content:"";position:absolute;right:-8%;bottom:-12%;z-index:0;
-    width:min(680px,80vw);height:min(680px,80vw);
-    background:url("rustnuts-smc-logo.jpg") center/contain no-repeat;
-    opacity:0.05;pointer-events:none;
-    filter:grayscale(1) contrast(1.1);
+    content:"";position:absolute;left:50%;top:50%;z-index:0;
+    transform:translate(-50%,-50%);
+    width:min(820px,85vw);aspect-ratio:1/1;
+    background:url("rustnuts-smc-badge.png") center/contain no-repeat;
+    opacity:0.5;pointer-events:none;
   }
   .hero-grid{
     width:100%;max-width:1180px;margin:0 auto;position:relative;z-index:2;
     display:grid;grid-template-columns:1fr;gap:48px;align-items:center;
   }
-  @media(min-width:900px){.hero-grid{grid-template-columns:1.1fr 0.9fr}}
   .hero h1{
     font-size:clamp(2.7rem,9.5vw,6.2rem);
     margin-bottom:18px;
@@ -157,19 +156,6 @@
     font-size:clamp(1rem,2.4vw,1.35rem);
     color:var(--bone-dim);max-width:30ch;margin-bottom:34px;font-weight:500;
   }
-  .hero-logo{
-    justify-self:center;
-    background:var(--bone);
-    padding:26px;
-    border-radius:6px;
-    box-shadow:0 30px 70px rgba(0,0,0,0.55);
-    transform:rotate(-2deg);
-    transition:transform .4s ease;
-    max-width:360px;
-  }
-  .hero-logo:hover{transform:rotate(0deg) scale(1.02)}
-  .hero-logo img{width:100%;height:auto;display:block}
-
   .btns{display:flex;gap:14px;flex-wrap:wrap}
   .btn{
     display:inline-block;padding:15px 30px;font-weight:800;
@@ -463,9 +449,6 @@
         <a href="#causes" class="btn btn-ghost">Our Causes</a>
       </div>
     </div>
-    <figure class="hero-logo">
-      <img src="rustnuts-smc-logo.jpg" alt="Rustnuts SMC club logo — skull with spanner antlers and red bandana" />
-    </figure>
   </div>
 </section>
 
