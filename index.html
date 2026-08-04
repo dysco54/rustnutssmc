@@ -198,12 +198,19 @@
   .block h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:22px}
   .lead{font-size:1.12rem;color:var(--bone-dim);max-width:62ch}
 
-  .about{background:linear-gradient(180deg,var(--ink),#171515);position:relative;overflow:hidden;min-height:900px}
+  .about{background:linear-gradient(180deg,var(--ink),#171515);position:relative;overflow:hidden;min-height:700px}
   .about::before{
-    content:"";position:absolute;left:50%;top:56%;z-index:0;
-    transform:translate(-50%,-50%);
-    width:min(580px,64vw);aspect-ratio:1122/1402;
+    content:"";position:absolute;left:calc(50% - 14px);top:56%;z-index:0;
+    transform:translate(-100%,-50%);
+    width:min(403px,34vw);aspect-ratio:1122/1402;
     background:url("photos/office-bearers.jpg") center/contain no-repeat;
+    opacity:0.5;pointer-events:none;
+  }
+  .about::after{
+    content:"";position:absolute;left:calc(50% + 14px);top:56%;z-index:0;
+    transform:translate(0,-50%);
+    width:min(504px,40vw);aspect-ratio:1/1;
+    background:url("photos/non-board-members.jpg") center/contain no-repeat;
     opacity:0.5;pointer-events:none;
   }
   .about .wrap{position:relative;z-index:1}
