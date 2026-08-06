@@ -599,6 +599,12 @@ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c
 });
 }
 
+function linkify(escapedStr) {
+return escapedStr.replace(/(https?:\/\/[^\s<]+)/g, function (url) {
+return '<a href="' + url + '" target="_blank" rel="noopener">' + url + '</a>';
+});
+}
+
 function eventKey(item) {
 var startDate = (item.start.date || item.start.dateTime || '').substring(0, 10);
 return startDate + '|' + (item.summary || '').trim();
@@ -710,7 +716,7 @@ el.innerHTML = rides.map(function (r) {
 var dateLabel = r.startDate.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
 var color = eventColor(r.item);
 var descText = cleanDescription(r.item);
-var desc = descText ? (' &middot; ' + escapeHtml(descText)) : '';
+var desc = descText ? (' &middot; ' + linkify(escapeHtml(descText))) : '';
 return '<div class="ride"><div class="marker" style="background:' + color + '"></div>'
 + '<div><h3>' + escapeHtml(r.item.summary || '(No title)') + '</h3>'
 + '<p>' + dateLabel + desc + '</p></div></div>';
