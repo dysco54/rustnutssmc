@@ -433,7 +433,7 @@
 </head>
 <body>
 
-<audio id="theme-song" src="rust-til-dust.mp3" loop autoplay preload="auto"></audio>
+<audio id="theme-song" src="rust-til-dust.mp3" loop autoplay muted preload="auto"></audio>
 
 <header>
   <div class="brand">
@@ -880,20 +880,26 @@ console.error('Rustnuts ride list error:', err);
   const progressFill = document.getElementById('music-progress-fill');
 
   function syncMusicIcon(){
-    const playing = !themeSong.paused;
+    const playing = !themeSong.paused && !themeSong.muted;
     iconPlay.hidden = playing;
     iconPause.hidden = !playing;
     musicToggle.setAttribute('aria-pressed', playing);
     musicToggle.setAttribute('aria-label', playing ? 'Pause theme song' : 'Play theme song');
   }
-  const tryPlayTheme = () => themeSong.play().then(syncMusicIcon).catch(() => {});
-  tryPlayTheme();
+  // autoplay-with-sound is blocked by browsers until a user gesture, so we
+  // start muted (always allowed) and unmute on the first interaction
+  themeSong.play().catch(() => {});
+  const unmuteAndPlay = () => {
+    themeSong.muted = false;
+    themeSong.play().then(syncMusicIcon).catch(() => {});
+  };
   ['click','touchstart','keydown','scroll'].forEach(evt=>{
-    document.addEventListener(evt, tryPlayTheme, { once:true, passive:true });
+    document.addEventListener(evt, unmuteAndPlay, { once:true, passive:true });
   });
 
-  musicToggle.addEventListener('click', ()=>{
-    if(themeSong.paused){ tryPlayTheme(); } else { themeSong.pause(); syncMusicIcon(); }
+  musicToggle.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(themeSong.paused || themeSong.muted){ unmuteAndPlay(); } else { themeSong.pause(); syncMusicIcon(); }
   });
   themeSong.addEventListener('play', syncMusicIcon);
   themeSong.addEventListener('pause', syncMusicIcon);
