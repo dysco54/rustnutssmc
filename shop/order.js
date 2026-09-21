@@ -1,6 +1,5 @@
 // shop/order.js
 import { checkCodeWord } from './gate.js';
-import { formatCents } from './format.js';
 
 const WORKER_BASE_URL = 'https://rustnuts-shop-worker.cdyson.workers.dev';
 
@@ -39,7 +38,7 @@ function renderDesigns() {
     const orderHtml = !design.memberGated || unlockedGated.has(design.id)
       ? `<div class="order-controls">
            <select class="garment-select">
-             ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label} — ${formatCents(g.price)}</option>`).join('')}
+             ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label}</option>`).join('')}
            </select>
            <select class="size-select"></select>
            <input type="number" class="qty-input" min="1" value="1">
@@ -50,7 +49,7 @@ function renderDesigns() {
     card.innerHTML = `
       <div class="product-info">
         <div class="name">${design.name}</div>
-        <div class="price">From ${formatCents(design.basePrice)}</div>
+        <div class="price">Price TBA</div>
       </div>
       ${gateHtml}
       ${orderHtml}
@@ -106,16 +105,13 @@ function renderCart() {
   panel.hidden = false;
   form.hidden = false;
 
-  let total = 0;
   list.innerHTML = cart.map((item, i) => {
     const design = catalog.find((d) => d.id === item.designId);
     const garment = design.garments[item.garmentKey];
-    const lineTotal = garment.price * item.qty;
-    total += lineTotal;
-    return `<li>${design.name} / ${garment.label} / ${item.size} × ${item.qty} = ${formatCents(lineTotal)}
+    return `<li>${design.name} / ${garment.label} / ${item.size} × ${item.qty}
       <button type="button" data-remove="${i}">Remove</button></li>`;
   }).join('');
-  totalEl.textContent = `Total: ${formatCents(total)}`;
+  totalEl.textContent = 'Pricing to be confirmed — you\'ll be sent a total by email.';
 
   list.querySelectorAll('[data-remove]').forEach((btn) => {
     btn.addEventListener('click', () => {
