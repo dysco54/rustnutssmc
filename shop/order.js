@@ -9,9 +9,16 @@ let catalog = [];
 const unlockedGated = new Set();
 
 async function loadCatalog() {
-  const res = await fetch(`${WORKER_BASE_URL}/catalog`);
-  catalog = await res.json();
-  renderDesigns();
+  try {
+    const res = await fetch(`${WORKER_BASE_URL}/catalog`);
+    if (!res.ok) throw new Error(`Catalog request failed: ${res.status}`);
+    catalog = await res.json();
+    renderDesigns();
+  } catch (err) {
+    document.getElementById('design-grid').innerHTML =
+      '<p>Could not load products right now. Please refresh the page or try again shortly.</p>';
+    console.error('loadCatalog failed:', err);
+  }
 }
 
 function renderDesigns() {
@@ -162,6 +169,8 @@ function wireSubmit() {
       cart.length = 0;
       renderCart();
       form.reset();
+      document.getElementById('address-field').hidden = true;
+      form.address.value = '';
     } catch (err) {
       errorEl.hidden = false;
       errorEl.textContent = err.message;
