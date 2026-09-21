@@ -121,14 +121,22 @@ function renderCart() {
   });
 }
 
+function clearShippingFields(form) {
+  form.street.value = '';
+  form.suburb.value = '';
+  form.state.value = '';
+  form.postcode.value = '';
+  form.shippingMethod.value = 'standard';
+}
+
 function wireDeliveryToggle() {
   const form = document.getElementById('order-form');
-  const addressField = document.getElementById('address-field');
+  const shippingFields = document.getElementById('shipping-fields');
   form.querySelectorAll('input[name="delivery"]').forEach((radio) => {
     radio.addEventListener('change', () => {
       const isShip = form.delivery.value === 'ship';
-      addressField.hidden = !isShip;
-      if (!isShip) form.address.value = '';
+      shippingFields.hidden = !isShip;
+      if (!isShip) clearShippingFields(form);
     });
   });
 }
@@ -148,7 +156,13 @@ function wireSubmit() {
       email: form.email.value,
       phone: form.phone.value,
       delivery: form.delivery.value,
-      ...(form.delivery.value === 'ship' ? { address: form.address.value } : {}),
+      ...(form.delivery.value === 'ship' ? {
+        street: form.street.value,
+        suburb: form.suburb.value,
+        state: form.state.value,
+        postcode: form.postcode.value,
+        shippingMethod: form.shippingMethod.value,
+      } : {}),
     };
 
     try {
@@ -165,8 +179,8 @@ function wireSubmit() {
       cart.length = 0;
       renderCart();
       form.reset();
-      document.getElementById('address-field').hidden = true;
-      form.address.value = '';
+      document.getElementById('shipping-fields').hidden = true;
+      clearShippingFields(form);
     } catch (err) {
       errorEl.hidden = false;
       errorEl.textContent = err.message;

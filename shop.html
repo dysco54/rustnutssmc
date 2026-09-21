@@ -192,7 +192,30 @@
         <label><input type="radio" name="delivery" value="collect" checked> Collect at next meeting</label>
         <label><input type="radio" name="delivery" value="ship"> Ship to me</label>
       </fieldset>
-      <label id="address-field" hidden>Shipping address <textarea name="address"></textarea></label>
+      <div id="shipping-fields" hidden>
+        <label>Street address <input type="text" name="street"></label>
+        <label>Suburb <input type="text" name="suburb"></label>
+        <label>State
+          <select name="state">
+            <option value="">Select a state</option>
+            <option value="VIC">VIC</option>
+            <option value="NSW">NSW</option>
+            <option value="QLD">QLD</option>
+            <option value="WA">WA</option>
+            <option value="SA">SA</option>
+            <option value="TAS">TAS</option>
+            <option value="ACT">ACT</option>
+            <option value="NT">NT</option>
+          </select>
+        </label>
+        <label>Postcode <input type="text" name="postcode" inputmode="numeric" pattern="\d{4}" maxlength="4"></label>
+        <label>Shipping method
+          <select name="shippingMethod">
+            <option value="standard">Standard</option>
+            <option value="express">Express</option>
+          </select>
+        </label>
+      </div>
       <button type="submit">Submit order</button>
     </form>
 
