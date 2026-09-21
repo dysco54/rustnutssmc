@@ -28,14 +28,14 @@ function renderDesigns() {
     const card = document.createElement('div');
     card.className = 'product-card';
 
-    const gateHtml = design.memberGated && !unlockedGated.has(design.id)
+    const gateHtml = design.gated && !unlockedGated.has(design.id)
       ? `<div class="gate">
            <input type="text" placeholder="Enter club code word" class="gate-input">
            <button type="button" class="gate-submit">Unlock</button>
          </div>`
       : '';
 
-    const orderHtml = !design.memberGated || unlockedGated.has(design.id)
+    const orderHtml = !design.gated || unlockedGated.has(design.id)
       ? `<div class="order-controls">
            <select class="garment-select">
              ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label}</option>`).join('')}
@@ -55,7 +55,7 @@ function renderDesigns() {
       ${orderHtml}
     `;
 
-    if (design.memberGated && !unlockedGated.has(design.id)) {
+    if (design.gated && !unlockedGated.has(design.id)) {
       card.querySelector('.gate-submit').addEventListener('click', () => {
         const val = card.querySelector('.gate-input').value;
         if (checkCodeWord(val)) {
