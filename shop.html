@@ -6,7 +6,7 @@
 
 <!-- ============ PRIMARY SEO TAGS ============ -->
 <title>Shop | Rustnuts SMC Merch</title>
-<meta name="description" content="Official Rustnuts SMC merch — order online now." />
+<meta name="description" content="Official Rustnuts SMC merch — Crew Sweatshirt and Zip Hoodie. Store coming soon." />
 <link rel="canonical" href="https://www.rustnutssmc.com.au/shop.html" />
 <meta name="theme-color" content="#8C1C24" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Rustnuts SMC" />
 <meta property="og:title" content="Shop | Rustnuts SMC Merch" />
-<meta property="og:description" content="Official Rustnuts SMC merch — order online now." />
+<meta property="og:description" content="Official Rustnuts SMC merch — Crew Sweatshirt and Zip Hoodie. Store coming soon." />
 <meta property="og:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
 <meta property="og:url" content="https://www.rustnutssmc.com.au/shop.html" />
 <meta property="og:locale" content="en_AU" />
@@ -167,61 +167,55 @@
 <section class="shop-hero">
   <h1 class="display">The Shop</h1>
   <p>Official Rustnuts SMC merch — built for the road, worn by the family.</p>
+  <div class="soon-badge"><span class="dot"></span> Store coming soon</div>
 </section>
 
 <!-- PRODUCTS -->
 <section class="block">
   <div class="wrap">
-    <div id="design-grid" class="product-grid">
-      <p>Loading products…</p>
-    </div>
+    <div class="product-grid">
 
-    <div id="cart-panel" hidden>
-      <h2 class="display" style="font-size:1.6rem;margin:30px 0 14px">Your order</h2>
-      <ul id="cart-items"></ul>
-      <p id="cart-total"></p>
-    </div>
-
-    <form id="order-form" hidden>
-      <h2 class="display" style="font-size:1.6rem;margin:30px 0 14px">Your details</h2>
-      <label>Name <input type="text" name="name" required></label>
-      <label>Email <input type="email" name="email" required></label>
-      <label>Phone <input type="tel" name="phone" required></label>
-      <label>Road name <input type="text" name="roadName"></label>
-      <fieldset>
-        <legend>Delivery</legend>
-        <label><input type="radio" name="delivery" value="collect" checked> Collect at next meeting</label>
-        <label><input type="radio" name="delivery" value="ship"> Ship to me</label>
-      </fieldset>
-      <div id="shipping-fields" hidden>
-        <label>Street address <input type="text" name="street"></label>
-        <label>Suburb <input type="text" name="suburb"></label>
-        <label>State
-          <select name="state">
-            <option value="">Select a state</option>
-            <option value="VIC">VIC</option>
-            <option value="NSW">NSW</option>
-            <option value="QLD">QLD</option>
-            <option value="WA">WA</option>
-            <option value="SA">SA</option>
-            <option value="TAS">TAS</option>
-            <option value="ACT">ACT</option>
-            <option value="NT">NT</option>
-          </select>
-        </label>
-        <label>Postcode <input type="text" name="postcode" inputmode="numeric" pattern="\d{4}" maxlength="4"></label>
-        <label>Shipping method
-          <select name="shippingMethod">
-            <option value="standard">Standard</option>
-            <option value="express">Express</option>
-          </select>
-        </label>
+      <!-- CREW SWEATSHIRT -->
+      <div class="product-card">
+        <div class="product-media">
+          <img src="shop/crew-front.png" alt="Rustnuts SMC crew sweatshirt, front view" class="active" data-view="front" />
+          <img src="shop/crew-back.png" alt="Rustnuts SMC crew sweatshirt, back view" data-view="back" />
+        </div>
+        <div class="view-toggle">
+          <button type="button" class="active" data-target="front">Front</button>
+          <button type="button" data-target="back">Back</button>
+        </div>
+        <div class="product-info">
+          <div class="name">Crew Sweatshirt</div>
+          <div class="price">Price TBA</div>
+          <div class="desc">Heavyweight cotton crew, embroidered chest skull and sleeve wordmark, full club back print.</div>
+          <div class="sizes"><span>S</span><span>M</span><span>L</span><span>XL</span><span>2XL</span></div>
+          <span class="avail">Sizes &amp; pricing to be confirmed</span>
+        </div>
       </div>
-      <button type="submit">Submit order</button>
-    </form>
 
-    <p id="order-confirmation" hidden></p>
-    <p id="order-error" hidden></p>
+      <!-- ZIP HOODIE -->
+      <div class="product-card">
+        <div class="product-media">
+          <img src="shop/zip-hoodie-front.png" alt="Rustnuts SMC zip hoodie, front view" class="active" data-view="front" />
+          <img src="shop/zip-hoodie-back.png" alt="Rustnuts SMC zip hoodie, back view" data-view="back" />
+        </div>
+        <div class="view-toggle">
+          <button type="button" class="active" data-target="front">Front</button>
+          <button type="button" data-target="back">Back</button>
+        </div>
+        <div class="product-info">
+          <div class="name">Zip Hoodie</div>
+          <div class="price">Price TBA</div>
+          <div class="desc">Full-zip fleece hoodie, chest skull print, sleeve wordmark, full club back print.</div>
+          <div class="sizes"><span>S</span><span>M</span><span>L</span><span>XL</span><span>2XL</span></div>
+          <span class="avail">Sizes &amp; pricing to be confirmed</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="shop-note">Online ordering isn't live yet — this is a first look at the gear. Check back soon, or <a href="index.html#join">reach out to the club</a> in the meantime.</p>
   </div>
 </section>
 
@@ -232,6 +226,20 @@
   <p style="margin-top:10px">&copy; <span id="yr"></span> Rustnuts SMC. All rights reserved.</p>
 </footer>
 
-<script type="module" src="shop/order.js"></script>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  document.querySelectorAll('.product-card').forEach(function(card){
+    var buttons = card.querySelectorAll('.view-toggle button');
+    var images = card.querySelectorAll('.product-media img');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var target = btn.getAttribute('data-target');
+        buttons.forEach(function(b){ b.classList.toggle('active', b === btn); });
+        images.forEach(function(img){ img.classList.toggle('active', img.getAttribute('data-view') === target); });
+      });
+    });
+  });
+</script>
 </body>
 </html>
