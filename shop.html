@@ -6,7 +6,7 @@
 
 <!-- ============ PRIMARY SEO TAGS ============ -->
 <title>Shop | Rustnuts SMC Merch</title>
-<meta name="description" content="Official Rustnuts SMC merch — Crew Sweatshirt and Zip Hoodie. Store coming soon." />
+<meta name="description" content="Official Rustnuts SMC merch — Member, Family and Supporter designs. Order online." />
 <link rel="canonical" href="https://www.rustnutssmc.com.au/shop.html" />
 <meta name="theme-color" content="#8C1C24" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Rustnuts SMC" />
 <meta property="og:title" content="Shop | Rustnuts SMC Merch" />
-<meta property="og:description" content="Official Rustnuts SMC merch — Crew Sweatshirt and Zip Hoodie. Store coming soon." />
+<meta property="og:description" content="Official Rustnuts SMC merch — Member, Family and Supporter designs. Order online." />
 <meta property="og:image" content="https://www.rustnutssmc.com.au/rustnuts-smc-logo.jpg" />
 <meta property="og:url" content="https://www.rustnutssmc.com.au/shop.html" />
 <meta property="og:locale" content="en_AU" />
@@ -133,6 +133,44 @@
     color:#9a958c;
   }
 
+  .order-controls{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+  .order-controls select{
+    background:var(--ink);border:1px solid rgba(255,255,255,0.15);color:var(--bone);
+    padding:9px 10px;border-radius:4px;font-size:0.88rem;
+  }
+
+  .gate{display:flex;gap:8px;margin-top:6px}
+  .gate input{
+    flex:1;background:var(--ink);border:1px solid rgba(255,255,255,0.15);color:var(--bone);
+    padding:9px 10px;border-radius:4px;font-size:0.88rem;
+  }
+  .gate input.error{border-color:var(--red-bright)}
+  .gate button{
+    padding:9px 16px;background:var(--red);border:1px solid var(--red);color:#fff;
+    font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.76rem;
+    border-radius:4px;cursor:pointer;
+  }
+  .gate button:hover{background:var(--red-bright);border-color:var(--red-bright)}
+
+  .shipping-estimator{
+    max-width:520px;margin:0 auto 44px;padding:22px 26px;background:var(--steel);
+    border:1px solid rgba(255,255,255,0.07);border-radius:8px;text-align:center;
+  }
+  .shipping-estimator h2{font-family:var(--stencil);font-size:1.2rem;text-transform:uppercase;margin-bottom:14px}
+  .shipping-estimator .row{display:flex;gap:10px;justify-content:center;margin-bottom:12px}
+  .shipping-estimator select{
+    background:var(--ink);border:1px solid rgba(255,255,255,0.15);color:var(--bone);
+    padding:9px 10px;border-radius:4px;font-size:0.88rem;
+  }
+  .shipping-estimator .result{color:var(--red-bright);font-weight:800;font-size:1.05rem}
+
+  #tally-embed{max-width:700px;margin:0 auto}
+  #tally-embed iframe{width:100%;border:none}
+  #tally-embed:empty::before{
+    content:"Order form coming soon — check back shortly.";
+    display:block;text-align:center;color:var(--bone-dim);padding:20px;
+  }
+
   .shop-note{
     max-width:700px;margin:44px auto 0;padding:22px 26px;text-align:center;
     color:var(--bone-dim);font-size:0.92rem;border-top:1px solid rgba(255,255,255,0.08);
@@ -167,55 +205,28 @@
 <section class="shop-hero">
   <h1 class="display">The Shop</h1>
   <p>Official Rustnuts SMC merch — built for the road, worn by the family.</p>
-  <div class="soon-badge"><span class="dot"></span> Store coming soon</div>
 </section>
 
 <!-- PRODUCTS -->
 <section class="block">
   <div class="wrap">
-    <div class="product-grid">
+    <div class="product-grid" id="design-grid"></div>
 
-      <!-- CREW SWEATSHIRT -->
-      <div class="product-card">
-        <div class="product-media">
-          <img src="shop/crew-front.png" alt="Rustnuts SMC crew sweatshirt, front view" class="active" data-view="front" />
-          <img src="shop/crew-back.png" alt="Rustnuts SMC crew sweatshirt, back view" data-view="back" />
-        </div>
-        <div class="view-toggle">
-          <button type="button" class="active" data-target="front">Front</button>
-          <button type="button" data-target="back">Back</button>
-        </div>
-        <div class="product-info">
-          <div class="name">Crew Sweatshirt</div>
-          <div class="price">Price TBA</div>
-          <div class="desc">Heavyweight cotton crew, embroidered chest skull and sleeve wordmark, full club back print.</div>
-          <div class="sizes"><span>S</span><span>M</span><span>L</span><span>XL</span><span>2XL</span></div>
-          <span class="avail">Sizes &amp; pricing to be confirmed</span>
-        </div>
+    <div class="shipping-estimator">
+      <h2 class="display">Estimate shipping</h2>
+      <div class="row">
+        <select id="ship-state"></select>
+        <select id="ship-method">
+          <option value="standard">Standard</option>
+          <option value="express">Express</option>
+        </select>
       </div>
-
-      <!-- ZIP HOODIE -->
-      <div class="product-card">
-        <div class="product-media">
-          <img src="shop/zip-hoodie-front.png" alt="Rustnuts SMC zip hoodie, front view" class="active" data-view="front" />
-          <img src="shop/zip-hoodie-back.png" alt="Rustnuts SMC zip hoodie, back view" data-view="back" />
-        </div>
-        <div class="view-toggle">
-          <button type="button" class="active" data-target="front">Front</button>
-          <button type="button" data-target="back">Back</button>
-        </div>
-        <div class="product-info">
-          <div class="name">Zip Hoodie</div>
-          <div class="price">Price TBA</div>
-          <div class="desc">Full-zip fleece hoodie, chest skull print, sleeve wordmark, full club back print.</div>
-          <div class="sizes"><span>S</span><span>M</span><span>L</span><span>XL</span><span>2XL</span></div>
-          <span class="avail">Sizes &amp; pricing to be confirmed</span>
-        </div>
-      </div>
-
+      <div class="result" id="ship-result"></div>
     </div>
 
-    <p class="shop-note">Online ordering isn't live yet — this is a first look at the gear. Check back soon, or <a href="index.html#join">reach out to the club</a> in the meantime.</p>
+    <div id="tally-embed"></div>
+
+    <p class="shop-note">Ready to order? Fill in the form above — pay by bank transfer using the order reference it gives you, or <a href="index.html#join">reach out to the club</a> if you have questions.</p>
   </div>
 </section>
 
@@ -226,20 +237,96 @@
   <p style="margin-top:10px">&copy; <span id="yr"></span> Rustnuts SMC. All rights reserved.</p>
 </footer>
 
-<script>
+<script type="module">
+  import { CATALOG } from './shop/catalog.js';
+  import { checkCodeWord } from './shop/gate.js';
+  import { AU_STATES, getShippingCost } from './shop/shipping.js';
+  import { formatCents } from './shop/format.js';
+
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  document.querySelectorAll('.product-card').forEach(function(card){
-    var buttons = card.querySelectorAll('.view-toggle button');
-    var images = card.querySelectorAll('.product-media img');
-    buttons.forEach(function(btn){
-      btn.addEventListener('click', function(){
-        var target = btn.getAttribute('data-target');
-        buttons.forEach(function(b){ b.classList.toggle('active', b === btn); });
-        images.forEach(function(img){ img.classList.toggle('active', img.getAttribute('data-view') === target); });
-      });
-    });
-  });
+  const unlockedGated = new Set();
+
+  function renderDesigns() {
+    const grid = document.getElementById('design-grid');
+    grid.innerHTML = '';
+
+    for (const design of CATALOG) {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+
+      const locked = design.gated && !unlockedGated.has(design.id);
+
+      const gateHtml = locked
+        ? `<div class="gate">
+             <input type="text" placeholder="Enter club code word" class="gate-input">
+             <button type="button" class="gate-submit">Unlock</button>
+           </div>`
+        : '';
+
+      const orderHtml = !locked
+        ? `<div class="order-controls">
+             <select class="garment-select">
+               ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label}</option>`).join('')}
+             </select>
+             <select class="size-select"></select>
+           </div>`
+        : '';
+
+      card.innerHTML = `
+        <div class="product-info">
+          <div class="name">${design.name}</div>
+          <div class="price">Price TBA</div>
+          <span class="avail">Sizes &amp; pricing to be confirmed</span>
+          ${gateHtml}
+          ${orderHtml}
+        </div>
+      `;
+
+      if (locked) {
+        const input = card.querySelector('.gate-input');
+        const submit = card.querySelector('.gate-submit');
+        submit.addEventListener('click', () => {
+          if (checkCodeWord(input.value)) {
+            unlockedGated.add(design.id);
+            renderDesigns();
+          } else {
+            input.classList.add('error');
+          }
+        });
+      } else {
+        const garmentSelect = card.querySelector('.garment-select');
+        const sizeSelect = card.querySelector('.size-select');
+        function refreshSizes() {
+          const garment = design.garments[garmentSelect.value];
+          sizeSelect.innerHTML = garment.sizes.map((s) => `<option value="${s}">${s}</option>`).join('');
+        }
+        garmentSelect.addEventListener('change', refreshSizes);
+        refreshSizes();
+      }
+
+      grid.appendChild(card);
+    }
+  }
+
+  function renderShippingEstimator() {
+    const stateSelect = document.getElementById('ship-state');
+    const methodSelect = document.getElementById('ship-method');
+    const result = document.getElementById('ship-result');
+
+    stateSelect.innerHTML = AU_STATES.map((s) => `<option value="${s}">${s}</option>`).join('');
+
+    function update() {
+      const cost = getShippingCost(stateSelect.value, methodSelect.value);
+      result.textContent = `${stateSelect.value} / ${methodSelect.value}: ${formatCents(cost)}`;
+    }
+    stateSelect.addEventListener('change', update);
+    methodSelect.addEventListener('change', update);
+    update();
+  }
+
+  renderDesigns();
+  renderShippingEstimator();
 </script>
 </body>
 </html>
