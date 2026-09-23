@@ -258,9 +258,11 @@
 
   const TALLY_BASE_SRC = 'https://tally.so/embed/PdoLpe?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
 
-  function openTallyFor(design) {
+  function openTallyFor(design, garment, size) {
     const url = new URL(TALLY_BASE_SRC);
     if (design.tallyDesign) url.searchParams.set('design', design.tallyDesign);
+    if (garment && garment.tallyLabel) url.searchParams.set('garment', garment.tallyLabel);
+    if (size) url.searchParams.set('size', size);
 
     // Tally's embed.js keeps managing any iframe with the id "tally-order-iframe"
     // (periodically rewriting its src and dropping custom query params like ours),
@@ -365,7 +367,10 @@
         refreshSizes();
 
         const orderBtn = card.querySelector('.order-btn');
-        orderBtn.addEventListener('click', () => openTallyFor(design));
+        orderBtn.addEventListener('click', () => {
+          const garment = design.garments[garmentSelect.value];
+          openTallyFor(design, garment, sizeSelect.value);
+        });
       }
 
       grid.appendChild(card);
