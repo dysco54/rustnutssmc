@@ -9,8 +9,8 @@ const GARMENTS = {
 };
 
 export const CATALOG = [
-  { id: 'member', name: 'Member', gated: true, garments: GARMENTS },
-  { id: 'family', name: 'Family', gated: true, garments: GARMENTS },
-  { id: 'supporter', name: 'Supporter', gated: false, garments: GARMENTS },
-  { id: 'fourth-design', name: 'PLACEHOLDER — 4th design (in progress)', gated: false, garments: GARMENTS },
+  { id: 'member', name: 'Member', gated: true, garments: GARMENTS, image: 'shop/member-front.jpg', imageBack: 'shop/member-back.jpg' },
+  { id: 'family', name: 'Family', gated: true, garments: GARMENTS, image: 'shop/family-front.jpg', imageBack: 'shop/family-back.jpg' },
+  { id: 'supporter', name: 'Supporter', gated: false, garments: GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg' },
+  { id: 'fourth-design', name: 'RU OK', gated: false, garments: GARMENTS, image: 'shop/fourth-design-front.jpg' },
 ];

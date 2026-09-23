@@ -276,7 +276,19 @@
            </div>`
         : '';
 
+      const mediaHtml = design.image
+        ? `<div class="product-media">
+             <img src="${design.image}" alt="${design.name} design — front" class="active" data-view="front">
+             ${design.imageBack ? `<img src="${design.imageBack}" alt="${design.name} design — back" data-view="back">` : ''}
+           </div>
+           ${design.imageBack ? `<div class="view-toggle">
+             <button type="button" class="active" data-view="front">Front</button>
+             <button type="button" data-view="back">Back</button>
+           </div>` : ''}`
+        : '';
+
       card.innerHTML = `
+        ${mediaHtml}
         <div class="product-info">
           <div class="name">${design.name}</div>
           <div class="price">Price TBA</div>
@@ -285,6 +297,17 @@
           ${orderHtml}
         </div>
       `;
+
+      if (design.imageBack) {
+        const toggleButtons = card.querySelectorAll('.view-toggle button');
+        const mediaImgs = card.querySelectorAll('.product-media img');
+        toggleButtons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            toggleButtons.forEach((b) => b.classList.toggle('active', b === btn));
+            mediaImgs.forEach((img) => img.classList.toggle('active', img.dataset.view === btn.dataset.view));
+          });
+        });
+      }
 
       if (locked) {
         const input = card.querySelector('.gate-input');
