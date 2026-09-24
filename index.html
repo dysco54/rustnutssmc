@@ -35,6 +35,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
 
 <!-- ============ STRUCTURED DATA (tells Google the official identity) ============ -->
 <script type="application/ld+json">
@@ -66,53 +67,9 @@
 </script>
 
 <style>
-  :root{
-    --red:#8C1C24;
-    --red-bright:#B92632;
-    --ink:#111010;
-    --bone:#F4F1EA;
-    --bone-dim:#d8d3c7;
-    --steel:#2a2a2c;
-    --stencil:"Saira Stencil One","Arial Black","Helvetica Neue",sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    background:var(--ink);
-    color:var(--bone);
-    line-height:1.6;
-    overflow-x:hidden;
-  }
-  .display{
-    font-family:var(--stencil);
-    font-weight:400;
-    letter-spacing:0.01em;
-    text-transform:uppercase;
-    line-height:0.96;
-  }
+  /* page-specific overrides / additions on top of styles.css */
+  body{background:var(--ink);overflow-x:hidden}
 
-  /* texture overlay */
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.04;
-    background-image:repeating-linear-gradient(45deg,#fff 0 1px,transparent 1px 6px);
-    mix-blend-mode:overlay;
-  }
-
-  header{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:14px 28px;
-    background:rgba(17,16,16,0.82);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
-  }
-  header .brand{display:flex;align-items:center;gap:12px}
-  header .brand img{height:42px;width:auto;display:block}
-  header .brand span{
-    font-family:var(--stencil);
-    font-weight:400;letter-spacing:0.06em;font-size:1.15rem;
-  }
   .music-ctrl{display:flex;align-items:center;gap:8px;margin-left:6px}
   .music-btn{
     appearance:none;border:1px solid rgba(255,255,255,0.25);background:transparent;
@@ -130,42 +87,7 @@
     position:absolute;left:0;top:0;bottom:0;width:0%;
     background:var(--red-bright);border-radius:2px;
   }
-  nav a{
-    color:var(--bone-dim);text-decoration:none;margin-left:26px;
-    font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
-    transition:color .2s;
-  }
-  nav a:hover{color:var(--red-bright)}
-  .nav-links{display:none}
-  @media(min-width:780px){.nav-links{display:block}}
-
-  .nav-toggle{
-    display:flex;flex-direction:column;justify-content:center;align-items:center;
-    gap:5px;width:38px;height:38px;background:transparent;
-    border:1px solid rgba(255,255,255,0.25);border-radius:4px;cursor:pointer;flex:none;
-  }
-  .nav-toggle span{display:block;width:20px;height:2px;background:var(--bone);border-radius:2px;transition:transform .2s,opacity .2s}
-  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
-  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  @media(min-width:780px){.nav-toggle{display:none}}
-
-  .nav-mobile{
-    display:none;position:fixed;top:70px;left:0;right:0;z-index:49;
-    background:rgba(17,16,16,0.97);backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    flex-direction:column;padding:10px 28px 20px;
-  }
-  .nav-mobile.open{display:flex}
-  .nav-mobile a{
-    color:var(--bone-dim);text-decoration:none;padding:14px 0;
-    font-size:0.95rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
-    border-bottom:1px solid rgba(255,255,255,0.06);
-  }
-  .nav-mobile a:last-child{border-bottom:none}
-  .nav-mobile a:hover,.nav-mobile a:focus{color:var(--red-bright)}
   .nav-mobile .nav-shop{border:2px solid var(--red-bright);border-radius:3px;padding:10px 16px;margin-top:6px;text-align:center}
-  @media(min-width:780px){.nav-mobile{display:none!important}}
 
   /* HERO */
   .hero{
@@ -202,11 +124,6 @@
     color:var(--bone-dim);max-width:30ch;margin-bottom:34px;font-weight:500;
   }
   .btns{display:flex;gap:14px;flex-wrap:wrap}
-  .btn{
-    display:inline-block;padding:15px 30px;font-weight:800;
-    text-transform:uppercase;letter-spacing:0.08em;font-size:0.85rem;
-    text-decoration:none;border-radius:3px;transition:transform .15s, background .2s;
-  }
   .btn-primary{background:var(--red);color:#fff}
   .btn-primary:hover{background:var(--red-bright);transform:translateY(-2px)}
   .btn-ghost{border:2px solid var(--bone-dim);color:var(--bone)}
@@ -423,10 +340,8 @@
   .doc .doc-title{font-family:var(--stencil);font-size:1.2rem;color:var(--bone);text-transform:uppercase;letter-spacing:0.02em}
   .doc .doc-sub{color:var(--bone-dim);font-size:0.85rem;margin-top:2px}
 
-  footer{
-    background:#0c0b0b;padding:48px 28px;text-align:center;
-    color:#7a766e;font-size:0.82rem;position:relative;z-index:2;overflow:hidden;
-  }
+  /* footer overrides: this page uses a taller footer with a watermark logo */
+  footer{padding:48px 28px;overflow:hidden}
   footer::before{
     content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
     width:300px;height:300px;
@@ -434,11 +349,7 @@
     opacity:0.045;filter:grayscale(1);pointer-events:none;z-index:0;
   }
   footer p{position:relative;z-index:1}
-  footer .motto{
-    font-family:var(--stencil);text-transform:uppercase;letter-spacing:0.12em;
-    color:var(--red-bright);font-size:1.1rem;margin-bottom:18px;
-  }
-  footer strong{color:var(--bone-dim)}
+  footer .motto{margin-bottom:18px}
 
   /* reveal animation */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease}

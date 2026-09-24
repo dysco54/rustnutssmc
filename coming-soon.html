@@ -13,22 +13,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
 
 <style>
-  :root{
-    --red:#8C1C24;
-    --red-bright:#B92632;
-    --ink:#111010;
-    --bone:#F4F1EA;
-    --bone-dim:#d8d3c7;
-    --stencil:"Saira Stencil One","Arial Black","Helvetica Neue",sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
+  /* page-specific overrides / additions on top of styles.css */
+  /* this standalone page has no header, so it doesn't want the site-wide texture overlay */
+  body::before{content:none}
   body{
-    font-family:"Helvetica Neue",Arial,sans-serif;
-    background:var(--ink);
-    color:var(--bone);
-    line-height:1.6;
     min-height:100vh;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     text-align:center;
@@ -52,12 +43,7 @@
   }
   h1 .fill{color:var(--red-bright);-webkit-text-stroke:0}
   p{color:var(--bone-dim);max-width:40ch;margin:0 auto 34px;font-size:1.05rem}
-  .btn{
-    display:inline-block;padding:15px 30px;font-weight:800;
-    text-transform:uppercase;letter-spacing:0.08em;font-size:0.85rem;
-    text-decoration:none;border-radius:3px;transition:transform .15s, background .2s;
-    border:2px solid var(--bone-dim);color:var(--bone);
-  }
+  .btn{border:2px solid var(--bone-dim);color:var(--bone)}
   .btn:hover{border-color:var(--red-bright);color:var(--red-bright);transform:translateY(-2px)}
 </style>
 </head>
