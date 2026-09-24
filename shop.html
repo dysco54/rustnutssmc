@@ -432,9 +432,7 @@
         ? `<div class="order-controls">
              ${colourControlHtml}
              <label for="garment-select-${design.id}" class="sr-only">Garment</label>
-             <select class="garment-select" id="garment-select-${design.id}">
-               ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label}</option>`).join('')}
-             </select>
+             <select class="garment-select" id="garment-select-${design.id}"></select>
              <label for="size-select-${design.id}" class="sr-only">Size</label>
              <select class="size-select" id="size-select-${design.id}"></select>
              <button type="button" class="order-btn">Order this design</button>
@@ -527,12 +525,39 @@
         const colourSelect = card.querySelector('.colour-select');
         const garmentSelect = card.querySelector('.garment-select');
         const sizeSelect = card.querySelector('.size-select');
+
+        // `colourGarments` (if present on the design) restricts which garment keys are
+        // valid for the currently selected colour — e.g. Supporter's Hi-Vis colour only
+        // offers the two JB's garments, not the standard AS Colour range. A colour
+        // missing from that map, or a design with no `colourGarments` at all, gets the
+        // full `garments` list, unchanged from before this was introduced.
+        function garmentKeysForColour() {
+          const colour = colourSelect ? colourSelect.value : null;
+          const scoped = design.colourGarments && colour ? design.colourGarments[colour] : null;
+          return scoped || Object.keys(design.garments);
+        }
+
         function refreshSizes() {
           const garment = design.garments[garmentSelect.value];
           sizeSelect.innerHTML = garment.sizes.map((s) => `<option value="${s}">${s}</option>`).join('');
         }
+
+        function refreshGarments() {
+          const previous = garmentSelect.value;
+          const keys = garmentKeysForColour();
+          garmentSelect.innerHTML = keys.map((key) => `<option value="${key}">${design.garments[key].label}</option>`).join('');
+          // Keep the previous selection if it's still valid for the newly selected
+          // colour; otherwise fall back to the first option so a stale garment (e.g. an
+          // AS Colour item left selected from Black/Grey) can't survive into Hi-Vis.
+          garmentSelect.value = keys.includes(previous) ? previous : keys[0];
+          refreshSizes();
+        }
+
+        if (colourSelect && design.colourGarments) {
+          colourSelect.addEventListener('change', refreshGarments);
+        }
         garmentSelect.addEventListener('change', refreshSizes);
-        refreshSizes();
+        refreshGarments();
 
         const orderBtn = card.querySelector('.order-btn');
         orderBtn.addEventListener('click', () => {
