@@ -328,7 +328,10 @@
         ? `<div class="product-media">
              <img src="${design.image}" alt="${design.name} design — front" class="active" data-view="front">
              ${design.imageBack ? `<img src="${design.imageBack}" alt="${design.name} design — back" data-view="back">` : ''}
-             ${extraViews.map((v) => `<div class="coming-soon" data-view="${v.key}">${v.label} — photo coming soon</div>`).join('')}
+             ${extraViews.map((v) => v.image
+               ? `<img src="${v.image}" alt="${design.name} design — ${v.label}" data-view="${v.key}">`
+               : `<div class="coming-soon" data-view="${v.key}">${v.label} — photo coming soon</div>`
+             ).join('')}
            </div>
            ${design.imageBack || extraViews.length ? `<div class="view-toggle">
              <button type="button" class="active" data-view="front">Front</button>

@@ -23,6 +23,6 @@ const GARMENTS = {
 export const CATALOG = [
   { id: 'member', name: 'Member', gated: true, garments: GARMENTS, image: 'shop/member-front.jpg', imageBack: 'shop/member-back.jpg', tallyDesign: 'Member', colours: ['Black'] },
   { id: 'family', name: 'Family', gated: true, garments: GARMENTS, image: 'shop/family-front.jpg', imageBack: 'shop/family-back.jpg', tallyDesign: 'Family', colours: ['Black'] },
-  { id: 'supporter', name: 'Supporter', gated: false, garments: GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg', tallyDesign: 'Better with you in it!', extraViews: [{ key: 'hivis', label: 'Hi-Vis' }], colours: ['Black', 'Grey', 'Hi-Vis'] },
+  { id: 'supporter', name: 'Supporter', gated: false, garments: GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg', tallyDesign: 'Better with you in it!', extraViews: [{ key: 'hivis-front', label: 'Hi-Vis Front', image: 'shop/supporter-hivis-front.jpg' }, { key: 'hivis-back', label: 'Hi-Vis Back', image: 'shop/supporter-hivis-back.jpg' }], colours: ['Black', 'Grey', 'Hi-Vis'] },
   { id: 'fourth-design', name: 'RU OK', gated: false, garments: GARMENTS, image: 'shop/fourth-design-front.jpg', tallyDesign: 'R U OK Rustnuts', colours: ['Black', 'Grey'] },
 ];
