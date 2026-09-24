@@ -70,6 +70,33 @@
   .nav-links{display:none}
   @media(min-width:780px){.nav-links{display:block}}
 
+  .nav-toggle{
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    gap:5px;width:38px;height:38px;background:transparent;
+    border:1px solid rgba(255,255,255,0.25);border-radius:4px;cursor:pointer;flex:none;
+  }
+  .nav-toggle span{display:block;width:20px;height:2px;background:var(--bone);border-radius:2px;transition:transform .2s,opacity .2s}
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  @media(min-width:780px){.nav-toggle{display:none}}
+
+  .nav-mobile{
+    display:none;position:fixed;top:70px;left:0;right:0;z-index:49;
+    background:rgba(17,16,16,0.97);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    flex-direction:column;padding:10px 28px 20px;
+  }
+  .nav-mobile.open{display:flex}
+  .nav-mobile a{
+    color:var(--bone-dim);text-decoration:none;padding:14px 0;
+    font-size:0.95rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .nav-mobile a:last-child{border-bottom:none}
+  .nav-mobile a:hover,.nav-mobile a:focus{color:var(--red-bright)}
+  @media(min-width:780px){.nav-mobile{display:none!important}}
+
   /* HERO */
   .res-hero{
     padding:140px 28px 60px;
@@ -150,7 +177,14 @@
     <a href="index.html">Home</a>
     <a href="index.html#join">Join</a>
   </nav>
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-label="Menu" aria-controls="nav-mobile">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+<nav class="nav-mobile" id="nav-mobile" aria-label="Mobile navigation">
+  <a href="index.html">Home</a>
+  <a href="index.html#join">Join</a>
+</nav>
 
 <!-- HERO -->
 <section class="res-hero">
@@ -315,6 +349,24 @@
   <p style="margin-top:10px">&copy; <span id="yr"></span> Rustnuts SMC. All rights reserved.</p>
 </footer>
 
-<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  // mobile nav toggle
+  (function(){
+    const toggle = document.getElementById('nav-toggle');
+    const panel = document.getElementById('nav-mobile');
+    if(!toggle || !panel) return;
+    function closeMenu(){ toggle.setAttribute('aria-expanded','false'); panel.classList.remove('open'); }
+    function openMenu(){ toggle.setAttribute('aria-expanded','true'); panel.classList.add('open'); }
+    toggle.addEventListener('click', ()=>{
+      if(toggle.getAttribute('aria-expanded')==='true'){ closeMenu(); } else { openMenu(); }
+    });
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape' && toggle.getAttribute('aria-expanded')==='true'){ closeMenu(); toggle.focus(); }
+    });
+    panel.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+  })();
+</script>
 </body>
 </html>
