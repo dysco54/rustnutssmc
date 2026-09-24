@@ -38,6 +38,10 @@
     --stencil:"Saira Stencil One","Arial Black","Helvetica Neue",sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+    clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
   html{scroll-behavior:smooth}
   body{
     font-family:"Helvetica Neue",Arial,sans-serif;
@@ -157,6 +161,7 @@
     padding:9px 10px;border-radius:4px;font-size:0.88rem;
   }
   .gate input.error{border-color:var(--red-bright)}
+  .gate-error{color:var(--red-bright);font-size:0.8rem;margin-top:6px}
   .gate button{
     padding:9px 16px;background:var(--red);border:1px solid var(--red);color:#fff;
     font-weight:700;letter-spacing:0.06em;text-transform:uppercase;font-size:0.76rem;
@@ -304,20 +309,36 @@
 
       const gateHtml = locked
         ? `<div class="gate">
-             <input type="text" placeholder="Enter club code word" class="gate-input">
+             <label for="gate-input-${design.id}" class="sr-only">Club code word</label>
+             <input type="text" id="gate-input-${design.id}" placeholder="Enter club code word" class="gate-input">
              <button type="button" class="gate-submit">Unlock</button>
-           </div>`
+           </div>
+           <p class="gate-error" aria-live="polite" hidden>Incorrect code word, please try again</p>`
         : '';
+
+      // Only render a visible colour dropdown when there's an actual choice to make.
+      // A single-colour design (e.g. Member/Family with colours: ['Black']) still needs
+      // that colour value to flow through to the Tally order form, so it's carried as a
+      // hidden input instead of a pointless one-option <select>.
+      const hasColourChoice = (design.colours || []).length > 1;
+      const colourControlHtml = hasColourChoice
+        ? `<label for="colour-select-${design.id}" class="sr-only">Colour</label>
+           <select class="colour-select" id="colour-select-${design.id}">
+             ${design.colours.map((c) => `<option value="${c}">${c}</option>`).join('')}
+           </select>`
+        : (design.colours && design.colours.length === 1
+          ? `<input type="hidden" class="colour-select" value="${design.colours[0]}">`
+          : '');
 
       const orderHtml = !locked
         ? `<div class="order-controls">
-             <select class="colour-select">
-               ${(design.colours || []).map((c) => `<option value="${c}">${c}</option>`).join('')}
-             </select>
-             <select class="garment-select">
+             ${colourControlHtml}
+             <label for="garment-select-${design.id}" class="sr-only">Garment</label>
+             <select class="garment-select" id="garment-select-${design.id}">
                ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label}</option>`).join('')}
              </select>
-             <select class="size-select"></select>
+             <label for="size-select-${design.id}" class="sr-only">Size</label>
+             <select class="size-select" id="size-select-${design.id}"></select>
              <button type="button" class="order-btn">Order this design</button>
            </div>`
         : '';
@@ -341,8 +362,8 @@
              ${colourViewImages.map((v) => `<img src="${v.image}" alt="${design.name} design — ${v.colourName} ${v.side}" data-view="${v.viewKey}">`).join('')}
            </div>
            ${design.imageBack ? `<div class="view-toggle">
-             <button type="button" class="active" data-view="front">Front</button>
-             <button type="button" data-view="back">Back</button>
+             <button type="button" class="active" data-view="front" aria-pressed="true">Front</button>
+             <button type="button" data-view="back" aria-pressed="false">Back</button>
            </div>` : ''}`
         : '';
 
@@ -376,7 +397,11 @@
         const toggleButtons = card.querySelectorAll('.view-toggle button');
         toggleButtons.forEach((btn) => {
           btn.addEventListener('click', () => {
-            toggleButtons.forEach((b) => b.classList.toggle('active', b === btn));
+            toggleButtons.forEach((b) => {
+              const isActive = b === btn;
+              b.classList.toggle('active', isActive);
+              b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
             currentSide = btn.dataset.view;
             updateMediaView();
           });
@@ -390,12 +415,14 @@
       if (locked) {
         const input = card.querySelector('.gate-input');
         const submit = card.querySelector('.gate-submit');
+        const errorMsg = card.querySelector('.gate-error');
         submit.addEventListener('click', () => {
           if (checkCodeWord(input.value)) {
             unlockedGated.add(design.id);
             renderDesigns();
           } else {
             input.classList.add('error');
+            if (errorMsg) errorMsg.hidden = false;
           }
         });
       } else {
