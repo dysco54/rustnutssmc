@@ -107,13 +107,20 @@
     opacity:0;transition:opacity .25s ease;
   }
   .product-media img.active{opacity:1}
+  .product-media .coming-soon{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    text-align:center;padding:18px;color:#9a958c;font-weight:700;letter-spacing:0.06em;
+    text-transform:uppercase;font-size:0.85rem;opacity:0;pointer-events:none;transition:opacity .25s ease;
+  }
+  .product-media .coming-soon.active{opacity:1}
 
-  .view-toggle{display:flex;gap:8px;padding:14px 18px 0}
+  .view-toggle{display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px 0}
   .view-toggle button{
     flex:1;padding:9px 0;background:transparent;border:1px solid rgba(255,255,255,0.15);
     color:var(--bone-dim);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
     font-size:0.74rem;border-radius:4px;cursor:pointer;transition:all .18s;
   }
+  .view-toggle button.extra-view{flex-basis:100%}
   .view-toggle button.active{background:var(--red);border-color:var(--red);color:#fff}
   .view-toggle button:hover:not(.active){border-color:var(--red-bright);color:var(--bone)}
 
@@ -312,14 +319,18 @@
            </div>`
         : '';
 
+      const extraViews = design.extraViews || [];
+
       const mediaHtml = design.image
         ? `<div class="product-media">
              <img src="${design.image}" alt="${design.name} design — front" class="active" data-view="front">
              ${design.imageBack ? `<img src="${design.imageBack}" alt="${design.name} design — back" data-view="back">` : ''}
+             ${extraViews.map((v) => `<div class="coming-soon" data-view="${v.key}">${v.label} — photo coming soon</div>`).join('')}
            </div>
-           ${design.imageBack ? `<div class="view-toggle">
+           ${design.imageBack || extraViews.length ? `<div class="view-toggle">
              <button type="button" class="active" data-view="front">Front</button>
-             <button type="button" data-view="back">Back</button>
+             ${design.imageBack ? `<button type="button" data-view="back">Back</button>` : ''}
+             ${extraViews.map((v) => `<button type="button" class="extra-view" data-view="${v.key}">${v.label}</button>`).join('')}
            </div>` : ''}`
         : '';
 
@@ -327,20 +338,19 @@
         ${mediaHtml}
         <div class="product-info">
           <div class="name">${design.name}</div>
-          <div class="price">Price TBA</div>
-          <span class="avail">Sizes &amp; pricing to be confirmed</span>
+          <span class="avail">Sizes &amp; pricing below</span>
           ${gateHtml}
           ${orderHtml}
         </div>
       `;
 
-      if (design.imageBack) {
+      if (design.imageBack || extraViews.length) {
         const toggleButtons = card.querySelectorAll('.view-toggle button');
-        const mediaImgs = card.querySelectorAll('.product-media img');
+        const mediaViews = card.querySelectorAll('.product-media img, .product-media .coming-soon');
         toggleButtons.forEach((btn) => {
           btn.addEventListener('click', () => {
             toggleButtons.forEach((b) => b.classList.toggle('active', b === btn));
-            mediaImgs.forEach((img) => img.classList.toggle('active', img.dataset.view === btn.dataset.view));
+            mediaViews.forEach((view) => view.classList.toggle('active', view.dataset.view === btn.dataset.view));
           });
         });
       }
