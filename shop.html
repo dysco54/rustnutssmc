@@ -27,6 +27,70 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap" rel="stylesheet" />
 
+<!-- ============ STRUCTURED DATA ============ -->
+<!-- ItemList of the current designs, not Product/Offer schema — pricing on this
+     page is still TBA (see shop pricing TODO), so we don't fabricate price or
+     availability claims Google would expect from a full Product/Offer block. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Rustnuts SMC Shop",
+  "url": "https://www.rustnutssmc.com.au/shop.html",
+  "description": "Official Rustnuts SMC merch — Member, Family, Supporter and RU OK designs, ordered through the club's online order form.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Rustnuts SMC",
+    "url": "https://www.rustnutssmc.com.au/"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "Product",
+          "name": "Rustnuts SMC Member Design",
+          "image": "https://www.rustnutssmc.com.au/shop/member-front.jpg",
+          "description": "Members-only Rustnuts SMC merch design, unlocked with the club code word."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "Product",
+          "name": "Rustnuts SMC Family Design",
+          "image": "https://www.rustnutssmc.com.au/shop/family-front.jpg",
+          "description": "Members-only Rustnuts SMC Family merch design, unlocked with the club code word."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@type": "Product",
+          "name": "Rustnuts SMC Supporter Design",
+          "image": "https://www.rustnutssmc.com.au/shop/supporter-front.jpg",
+          "description": "Supporter design available to anyone, with a Hi-Vis colour option."
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "item": {
+          "@type": "Product",
+          "name": "Rustnuts SMC RU OK Design",
+          "image": "https://www.rustnutssmc.com.au/shop/fourth-design-front.jpg",
+          "description": "RU OK-themed design supporting the club's men's mental health cause."
+        }
+      }
+    ]
+  }
+}
+</script>
+
 <style>
   :root{
     --red:#8C1C24;
