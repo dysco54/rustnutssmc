@@ -322,21 +322,27 @@
            </div>`
         : '';
 
-      const extraViews = design.extraViews || [];
+      // colourViews (if present) supplies alternate front/back art for specific colour
+      // options (e.g. Supporter's Hi-Vis). Each combination gets its own image tagged
+      // with a "<side>::<colour>" view key so it can be shown/hidden alongside the
+      // standard front/back images.
+      const colourViews = design.colourViews || {};
+      const colourViewImages = [];
+      for (const [colourName, sides] of Object.entries(colourViews)) {
+        for (const [side, image] of Object.entries(sides)) {
+          colourViewImages.push({ viewKey: `${side}::${colourName}`, image, side, colourName });
+        }
+      }
 
       const mediaHtml = design.image
         ? `<div class="product-media">
              <img src="${design.image}" alt="${design.name} design — front" class="active" data-view="front">
              ${design.imageBack ? `<img src="${design.imageBack}" alt="${design.name} design — back" data-view="back">` : ''}
-             ${extraViews.map((v) => v.image
-               ? `<img src="${v.image}" alt="${design.name} design — ${v.label}" data-view="${v.key}">`
-               : `<div class="coming-soon" data-view="${v.key}">${v.label} — photo coming soon</div>`
-             ).join('')}
+             ${colourViewImages.map((v) => `<img src="${v.image}" alt="${design.name} design — ${v.colourName} ${v.side}" data-view="${v.viewKey}">`).join('')}
            </div>
-           ${design.imageBack || extraViews.length ? `<div class="view-toggle">
+           ${design.imageBack ? `<div class="view-toggle">
              <button type="button" class="active" data-view="front">Front</button>
-             ${design.imageBack ? `<button type="button" data-view="back">Back</button>` : ''}
-             ${extraViews.map((v) => `<button type="button" class="extra-view" data-view="${v.key}">${v.label}</button>`).join('')}
+             <button type="button" data-view="back">Back</button>
            </div>` : ''}`
         : '';
 
@@ -350,15 +356,35 @@
         </div>
       `;
 
-      if (design.imageBack || extraViews.length) {
+      // Colour and Front/Back are tracked independently, then combined to pick the
+      // image: if the active colour has a colourViews entry for the active side, show
+      // that art; otherwise fall back to the standard front/back image. This keeps the
+      // colour-select and the view-toggle in sync (e.g. Supporter's Hi-Vis colour swaps
+      // to the Hi-Vis art, and Front/Back keeps working within whichever colour is set).
+      let currentSide = 'front';
+      const colourSelectEl = card.querySelector('.colour-select');
+      const mediaViews = card.querySelectorAll('.product-media img, .product-media .coming-soon');
+
+      function updateMediaView() {
+        const colour = colourSelectEl ? colourSelectEl.value : null;
+        const sides = colour ? colourViews[colour] : null;
+        const key = sides && sides[currentSide] ? `${currentSide}::${colour}` : currentSide;
+        mediaViews.forEach((view) => view.classList.toggle('active', view.dataset.view === key));
+      }
+
+      if (design.imageBack) {
         const toggleButtons = card.querySelectorAll('.view-toggle button');
-        const mediaViews = card.querySelectorAll('.product-media img, .product-media .coming-soon');
         toggleButtons.forEach((btn) => {
           btn.addEventListener('click', () => {
             toggleButtons.forEach((b) => b.classList.toggle('active', b === btn));
-            mediaViews.forEach((view) => view.classList.toggle('active', view.dataset.view === btn.dataset.view));
+            currentSide = btn.dataset.view;
+            updateMediaView();
           });
         });
+      }
+
+      if (colourSelectEl && Object.keys(colourViews).length) {
+        colourSelectEl.addEventListener('change', updateMediaView);
       }
 
       if (locked) {
