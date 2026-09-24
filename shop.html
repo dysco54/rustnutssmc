@@ -472,7 +472,10 @@
         function refreshGarments() {
           const previous = garmentSelect.value;
           const keys = garmentKeysForColour();
-          garmentSelect.innerHTML = keys.map((key) => `<option value="${key}">${design.garments[key].label}</option>`).join('');
+          garmentSelect.innerHTML = keys.map((key) => {
+            const g = design.garments[key];
+            return `<option value="${key}">${g.tallyLabel || g.label}</option>`;
+          }).join('');
           // Keep the previous selection if it's still valid for the newly selected
           // colour; otherwise fall back to the first option so a stale garment (e.g. an
           // AS Colour item left selected from Black/Grey) can't survive into Hi-Vis.
