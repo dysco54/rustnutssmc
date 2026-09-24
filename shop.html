@@ -265,11 +265,12 @@
 
   const TALLY_BASE_SRC = 'https://tally.so/embed/PdoLpe?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
 
-  function openTallyFor(design, garment, size) {
+  function openTallyFor(design, garment, size, colour) {
     const url = new URL(TALLY_BASE_SRC);
     if (design.tallyDesign) url.searchParams.set('design', design.tallyDesign);
     if (garment && garment.tallyLabel) url.searchParams.set('garment', garment.tallyLabel);
     if (size) url.searchParams.set('size', size);
+    if (colour) url.searchParams.set('colour', colour);
 
     // Tally's embed.js keeps managing any iframe with the id "tally-order-iframe"
     // (periodically rewriting its src and dropping custom query params like ours),
@@ -311,6 +312,9 @@
 
       const orderHtml = !locked
         ? `<div class="order-controls">
+             <select class="colour-select">
+               ${(design.colours || []).map((c) => `<option value="${c}">${c}</option>`).join('')}
+             </select>
              <select class="garment-select">
                ${Object.entries(design.garments).map(([key, g]) => `<option value="${key}">${g.label}</option>`).join('')}
              </select>
@@ -367,6 +371,7 @@
           }
         });
       } else {
+        const colourSelect = card.querySelector('.colour-select');
         const garmentSelect = card.querySelector('.garment-select');
         const sizeSelect = card.querySelector('.size-select');
         function refreshSizes() {
@@ -379,7 +384,7 @@
         const orderBtn = card.querySelector('.order-btn');
         orderBtn.addEventListener('click', () => {
           const garment = design.garments[garmentSelect.value];
-          openTallyFor(design, garment, sizeSelect.value);
+          openTallyFor(design, garment, sizeSelect.value, colourSelect.value);
         });
       }
 
