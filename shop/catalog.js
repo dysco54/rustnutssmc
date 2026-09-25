@@ -2,6 +2,8 @@ const RANGE_XS_3XL = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
 const RANGE_S_3XL = ['S', 'M', 'L', 'XL', '2XL', '3XL'];
 const RANGE_XS_5XL = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 const RANGE_2XS_5XL = ['2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
+const RANGE_YOUTH = ['8', '10', '12', '14', '16'];
+const RANGE_INFANT = ['0-3m', '3-6m', '6-12m', '12-18m', '18-24m'];
 
 // `tallyLabel` must match the corresponding "Garment (Item 1)" option text in the
 // Tally form exactly — it's what gets passed through the `garment` hidden field to
@@ -32,9 +34,20 @@ const HIVIS_GARMENTS = {
 
 const SUPPORTER_GARMENTS = { ...GARMENTS, ...HIVIS_GARMENTS };
 
+// Youth/infant sizing is a separate AS Colour range from the adult lineup above —
+// merged into Family's own garments below. Family-only, per Chris's request.
+const YOUTH_INFANT_GARMENTS = {
+  youthLongSleeve: { label: 'Youth Long Sleeve', tallyLabel: 'AS Youth Long Sleeve — $26.50 (8–16)', price: 2650, sizes: RANGE_YOUTH },
+  youthSupplyCrew: { label: 'Youth Supply Crew', tallyLabel: 'AS Youth Supply Crew — $29.50 (8–16)', price: 2950, sizes: RANGE_YOUTH },
+  infantOnePiece: { label: 'Infant One Piece', tallyLabel: 'AS Infant One Piece — $24.40 (0-3m–18-24m)', price: 2440, sizes: RANGE_INFANT },
+  infantTee: { label: 'Infant Tee', tallyLabel: 'AS Infant Tee — $22.50 (0-3m–18-24m)', price: 2250, sizes: RANGE_INFANT },
+};
+
+const FAMILY_GARMENTS = { ...GARMENTS, ...YOUTH_INFANT_GARMENTS };
+
 export const CATALOG = [
   { id: 'member', name: 'Member', gated: true, garments: GARMENTS, image: 'shop/member-front.jpg', imageBack: 'shop/member-back.jpg', tallyDesign: 'Member', colours: ['Black'] },
-  { id: 'family', name: 'Family', gated: true, garments: GARMENTS, image: 'shop/family-front.jpg', imageBack: 'shop/family-back.jpg', tallyDesign: 'Family', colours: ['Black'] },
+  { id: 'family', name: 'Family', gated: true, garments: FAMILY_GARMENTS, image: 'shop/family-front.jpg', imageBack: 'shop/family-back.jpg', tallyDesign: 'Family', colours: ['Black'] },
   // `colourViews` links a colour-select option to the Front/Back images that should be
   // shown while that colour is selected. Any colour not listed here (e.g. Black/Grey)
   // falls back to the design's standard `image`/`imageBack`. This keeps the colour
