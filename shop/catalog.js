@@ -24,13 +24,11 @@ const GARMENTS = {
   womensClassicLSTee: { label: "Women's Classic L/S Tee", tallyLabel: "AS Colour Women's Classic L/S Tee — $40 (XS–3XL)", price: 4000, sizes: RANGE_XS_3XL },
 };
 
-// Hi-Vis is a JB's workwear range, not standard AS Colour stock — separate garments,
-// no price yet (TBA, so no `price` field; nothing currently renders garment.price
-// buyer-facing, see shop.html). Merged into Supporter's own garments below and scoped
-// to the Hi-Vis colour via `colourGarments`.
+// Hi-Vis is a JB's workwear range, not standard AS Colour stock — separate garment,
+// merged into Supporter's own garments below and scoped to the Hi-Vis colour via
+// `colourGarments`.
 const HIVIS_GARMENTS = {
-  jbsHiVisTee: { label: "JB's Hi Vis Trad T-Shirt", tallyLabel: "JB's Hi Vis Trad T-Shirt (XS–5XL)", sizes: RANGE_XS_5XL },
-  jbsHiVisHoodie: { label: "JB's 350g Hi Vis Trade Hoodie", tallyLabel: "JB's 350g Hi Vis Trade Hoodie (2XS–5XL)", sizes: RANGE_2XS_5XL },
+  jbsHiVisTee: { label: "JB's Wear 6HVT Hi-Vis Tee", tallyLabel: "JB's Wear 6HVT Hi-Vis Tee — $27.00 (XS–3XL)", price: 2700, sizes: RANGE_XS_3XL },
 };
 
 const SUPPORTER_GARMENTS = { ...GARMENTS, ...HIVIS_GARMENTS };
@@ -61,6 +59,6 @@ export const CATALOG = [
   // here because Hi-Vis is a separate JB's workwear range, not the standard AS Colour
   // lineup. A colour with no entry (or a design with no `colourGarments` at all) falls
   // back to the full `garments` list. See shop.html `renderDesigns()`/`refreshGarments()`.
-  { id: 'supporter', name: 'Better with you in it!', gated: false, garments: SUPPORTER_GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg', tallyDesign: 'Better with you in it!', colourViews: { 'Hi-Vis': { front: 'shop/supporter-hivis-front.jpg', back: 'shop/supporter-hivis-back.jpg' } }, colourGarments: { Black: Object.keys(GARMENTS), Grey: Object.keys(GARMENTS), 'Hi-Vis': ['jbsHiVisTee', 'jbsHiVisHoodie'] }, colours: ['Black', 'Grey', 'Hi-Vis'] },
+  { id: 'supporter', name: 'Better with you in it!', gated: false, garments: SUPPORTER_GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg', tallyDesign: 'Better with you in it!', colourViews: { 'Hi-Vis': { front: 'shop/supporter-hivis-front.jpg', back: 'shop/supporter-hivis-back.jpg' } }, colourGarments: { Black: Object.keys(GARMENTS), Grey: Object.keys(GARMENTS), 'Hi-Vis': ['jbsHiVisTee'] }, colours: ['Black', 'Grey', 'Hi-Vis'] },
   { id: 'fourth-design', name: 'RU OK', gated: false, garments: GARMENTS, image: 'shop/fourth-design-front.jpg', tallyDesign: 'R U OK Rustnuts', colours: ['Black', 'Grey'] },
 ];
