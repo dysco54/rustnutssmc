@@ -43,6 +43,6 @@ export const CATALOG = [
   // here because Hi-Vis is a separate JB's workwear range, not the standard AS Colour
   // lineup. A colour with no entry (or a design with no `colourGarments` at all) falls
   // back to the full `garments` list. See shop.html `renderDesigns()`/`refreshGarments()`.
-  { id: 'supporter', name: 'Supporter', gated: false, garments: SUPPORTER_GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg', tallyDesign: 'Better with you in it!', colourViews: { 'Hi-Vis': { front: 'shop/supporter-hivis-front.jpg', back: 'shop/supporter-hivis-back.jpg' } }, colourGarments: { Black: Object.keys(GARMENTS), Grey: Object.keys(GARMENTS), 'Hi-Vis': ['jbsHiVisTee', 'jbsHiVisHoodie'] }, colours: ['Black', 'Grey', 'Hi-Vis'] },
+  { id: 'supporter', name: 'Better with you in it!', gated: false, garments: SUPPORTER_GARMENTS, image: 'shop/supporter-front.jpg', imageBack: 'shop/supporter-back.jpg', tallyDesign: 'Better with you in it!', colourViews: { 'Hi-Vis': { front: 'shop/supporter-hivis-front.jpg', back: 'shop/supporter-hivis-back.jpg' } }, colourGarments: { Black: Object.keys(GARMENTS), Grey: Object.keys(GARMENTS), 'Hi-Vis': ['jbsHiVisTee', 'jbsHiVisHoodie'] }, colours: ['Black', 'Grey', 'Hi-Vis'] },
   { id: 'fourth-design', name: 'RU OK', gated: false, garments: GARMENTS, image: 'shop/fourth-design-front.jpg', tallyDesign: 'R U OK Rustnuts', colours: ['Black', 'Grey'] },
 ];
