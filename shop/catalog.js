@@ -41,6 +41,7 @@ const YOUTH_INFANT_GARMENTS = {
   youthSupplyCrew: { label: 'Youth Supply Crew', tallyLabel: 'AS Youth Supply Crew — $29.50 (8–16)', price: 2950, sizes: RANGE_YOUTH },
   youthSupplyHood: { label: 'Youth Supply Hood', tallyLabel: 'AS Youth Supply Hood — $36.50 (8–16)', price: 3650, sizes: RANGE_YOUTH },
   kidsSupplyHood: { label: 'Kids Supply Hood', tallyLabel: 'AS Kids Supply Hood — $36.50 (8–16)', price: 3650, sizes: RANGE_YOUTH },
+  kidsSupplyCrew: { label: 'Kids Supply Crew', tallyLabel: 'AS Kids Supply Crew — $29.50 (8–16)', price: 2950, sizes: RANGE_YOUTH },
   infantOnePiece: { label: 'Infant One Piece', tallyLabel: 'AS Infant One Piece — $24.40 (0-3m–18-24m)', price: 2440, sizes: RANGE_INFANT },
   infantTee: { label: 'Infant Tee', tallyLabel: 'AS Infant Tee — $22.50 (0-3m–18-24m)', price: 2250, sizes: RANGE_INFANT },
 };
