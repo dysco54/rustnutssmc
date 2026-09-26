@@ -207,13 +207,6 @@
   }
   .shipping-estimator .result{color:var(--red-bright);font-weight:800;font-size:1.05rem}
 
-  #tally-embed{max-width:700px;margin:0 auto}
-  #tally-embed iframe{width:100%;border:none}
-  #tally-embed:empty::before{
-    content:"Order form coming soon — check back shortly.";
-    display:block;text-align:center;color:var(--bone-dim);padding:20px;
-  }
-
   .shop-note{
     max-width:700px;margin:44px auto 0;padding:22px 26px;text-align:center;
     color:var(--bone-dim);font-size:0.92rem;border-top:1px solid rgba(255,255,255,0.08);
@@ -268,12 +261,7 @@
 
     <p class="shop-note">Orders are processed weekly, every Monday. Please allow a 2.5-week lead time counted from your order's processing date — not the date you placed your order.</p>
 
-    <div id="tally-embed">
-      <iframe id="tally-order-iframe" data-tally-src="https://tally.so/embed/PdoLpe?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="3164" frameborder="0" marginheight="0" marginwidth="0" title="Rustnuts SMC Merch Order"></iframe>
-      <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s)}</script>
-    </div>
-
-    <p class="shop-note">Ready to order? Fill in the form above — pay by bank transfer using the order reference it gives you, or <a href="index.html#join">reach out to the club</a> if you have questions.</p>
+    <p class="shop-note">Ready to order? Click "Order this design" above — it opens our order form in a new tab. Pay by bank transfer using the order reference it gives you, or <a href="index.html#join">reach out to the club</a> if you have questions.</p>
   </div>
 </section>
 
@@ -294,34 +282,19 @@
 
   const unlockedGated = new Set();
 
-  const TALLY_BASE_SRC = 'https://tally.so/embed/PdoLpe?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
+  // Merch ordering now happens on the Jotform App's Product List cart pages, not an
+  // embedded Tally form. There's no per-garment field to prefill any more (a Product
+  // List cart has no single "garment" field) -- the website's only job is routing the
+  // buyer to the correct page for their design: Club (gated designs) or Public
+  // (everything else). See docs/superpowers/specs/2026-09-26-jotform-order-form.md
+  // ("Architecture v2") and scripts/jotform/app-manifest.json for the live ids.
+  const JOTFORM_APP_URL = 'https://www.jotform.com/app/262681900691865';
+  const JOTFORM_CLUB_PAGE_URL = JOTFORM_APP_URL + '/page/0';
+  const JOTFORM_PUBLIC_PAGE_URL = JOTFORM_APP_URL + '/page/1';
 
-  function openTallyFor(design, garment, size, colour) {
-    const url = new URL(TALLY_BASE_SRC);
-    if (design.tallyDesign) url.searchParams.set('design', design.tallyDesign);
-    if (garment && garment.tallyLabel) url.searchParams.set('garment', garment.tallyLabel);
-    if (size) url.searchParams.set('size', size);
-    if (colour) url.searchParams.set('colour', colour);
-
-    // Tally's embed.js keeps managing any iframe with the id "tally-order-iframe"
-    // (periodically rewriting its src and dropping custom query params like ours),
-    // even after the element is replaced. Giving the fresh iframe a unique id each
-    // time keeps it out of that tracking.
-    const container = document.getElementById('tally-embed');
-    const oldIframe = container.querySelector('iframe');
-    const newIframe = document.createElement('iframe');
-    newIframe.id = 'tally-order-iframe-' + Date.now();
-    newIframe.src = url.toString();
-    newIframe.loading = 'lazy';
-    newIframe.width = '100%';
-    newIframe.height = oldIframe.height || '3164';
-    newIframe.frameBorder = '0';
-    newIframe.marginHeight = '0';
-    newIframe.marginWidth = '0';
-    newIframe.title = 'Rustnuts SMC Merch Order';
-    oldIframe.replaceWith(newIframe);
-
-    document.getElementById('tally-embed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  function openOrderPageFor(design) {
+    const url = design.gated ? JOTFORM_CLUB_PAGE_URL : JOTFORM_PUBLIC_PAGE_URL;
+    window.open(url, '_blank', 'noopener');
   }
 
   function renderDesigns() {
@@ -345,8 +318,8 @@
 
       // Only render a visible colour dropdown when there's an actual choice to make.
       // A single-colour design (e.g. Member/Family with colours: ['Black']) still needs
-      // that colour value to flow through to the Tally order form, so it's carried as a
-      // hidden input instead of a pointless one-option <select>.
+      // a colour value present for the colourViews image-swap logic below, so it's
+      // carried as a hidden input instead of a pointless one-option <select>.
       const hasColourChoice = (design.colours || []).length > 1;
       const colourControlHtml = hasColourChoice
         ? `<label for="colour-select-${design.id}" class="sr-only">Colour</label>
@@ -493,8 +466,7 @@
 
         const orderBtn = card.querySelector('.order-btn');
         orderBtn.addEventListener('click', () => {
-          const garment = design.garments[garmentSelect.value];
-          openTallyFor(design, garment, sizeSelect.value, colourSelect.value);
+          openOrderPageFor(design);
         });
       }
 
