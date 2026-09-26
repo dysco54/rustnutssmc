@@ -1,0 +1,44 @@
+{
+  "appId": "262681900691865",
+  "appTitle": "Rustnuts SMC Merch Order",
+  "appUrl": "https://www.jotform.com/app/262681900691865",
+  "pages": {
+    "family": {
+      "pageId": "0",
+      "pageName": "Family",
+      "productListTitle": "Garments",
+      "productListFormId": "262682106860054",
+      "note": "Renamed from 'Club' in Task 14 (2026-09-26). Same 20-product Product List, unchanged."
+    },
+    "supporter": {
+      "pageId": "1",
+      "pageName": "Supporter",
+      "productListTitle": "Garments",
+      "productListFormId": "262681878015061",
+      "note": "Renamed from 'Public' in Task 14 (2026-09-26). Same 13-product Product List, unchanged."
+    },
+    "member": {
+      "pageId": "12",
+      "pageName": "Member",
+      "productListTitle": "Garments",
+      "productListFormId": "262683647204057",
+      "note": "New page created in Task 14 (2026-09-26). 12 standard garments only, Colour = Black only."
+    },
+    "ruok": {
+      "pageId": "13",
+      "pageName": "R U OK",
+      "productListTitle": "Garments",
+      "productListFormId": "262683674511058",
+      "note": "New page created in Task 14 (2026-09-26). 12 standard garments only, Colour = Black/Grey."
+    }
+  },
+  "checkoutFormId": "262682306434053",
+  "notes": [
+    "Checkout form is auto-provisioned by Jotform the moment the FIRST Product List element is added to any page, before any products exist and before a second page/Product List is added. It is a single form shared across all 4 pages, not one per page.",
+    "App-backed forms (both Product List forms and the Checkout form) do NOT appear in GET /user/forms or in GET /user/usage's form_count -- both stayed at 0/5-DELETED throughout this project despite real ENABLED forms existing. Verified via direct GET /form/{id} for each id in this manifest (all status ENABLED, type PAYMENT). Future form-count checks in this project must include a direct GET /form/{id} check of every id in this manifest, not just /user/forms.",
+    "Total real form count after Task 14 (2026-09-26): 5 (4 Product List forms + 1 shared Checkout form) -- exactly at the 5-form free-tier cap, no headroom left. Confirmed via direct GET /form/{id} for all 5 ids before and after Task 14's writes.",
+    "Jotform page ids are NOT sequential display order -- Family/Supporter kept their original ids 0/1 from Task 1, but the two new pages added in Task 14 got ids 12 and 13 (Jotform's own internal counter, unrelated to the 4 other page-like ids -- e.g. 2,3 -- already consumed internally by Product List/other items). Confirmed live via the app's own top navigation (each page link's href) before wiring shop.html's routing map -- do not assume new pages get the next sequential integer.",
+    "A pre-existing, unrelated 'Clothing Store App' (portal id 262681670954871, status ENABLED, from a prior session's exploratory test) still exists in this account's My Apps list with its own backing Product List/checkout forms not tracked here -- left untouched as out of scope, but worth a cap check before any future form/app is created (there is zero cap headroom left after Task 14).",
+    "Jotform Apps API research: GET https://api.jotform.com/portal/{id} and GET https://api.jotform.com/user/portals work with the account API key and return full app/page/item JSON (read-only). No working POST/PUT/PATCH was found reachable with the api.jotform.com api-key-authenticated surface -- app/page/product-list creation (Tasks 1 and 14) was done via the Jotform Apps builder UI (Playwright, already-authenticated session). Product/property writes (name/price/options/images per product) ARE reachable via the api-key-authenticated POST /form/{id}/properties endpoint once the backing form exists (Tasks 2, 3, 14)."
+  ]
+}
