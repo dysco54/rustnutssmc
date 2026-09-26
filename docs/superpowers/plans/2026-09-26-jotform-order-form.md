@@ -6,6 +6,8 @@
 
 **Architecture:** A single Jotform **App** (not a plain Form) with 2 pages — "Club" (Member + Family) and "Public" (Better with you in it! + R U OK Rustnuts) — each holding one **Product List** element with that page's full garment catalog (name, price, Size option, Colour option). This eliminates conditional logic entirely: gating is "which page has this product," not "which rule shows this field." A built-in Contact Information page collects buyer details. Checkout uses Jotform's auto-generated checkout form. Total: 3 forms (2 Product Lists + 1 checkout), well under the account's 5-form free-tier cap (confirmed live, see spec).
 
+> **Superseded (2026-09-26, Task 14):** the 2-page Club/Public split described above and used throughout Tasks 1-13 was later restructured into **4 pages** — Family, Supporter, Member, R U OK — one per original Tally design, using the account's full 5-form cap (4 Product Lists + 1 shared checkout, zero headroom). This is the live, current architecture. Tasks 1-13's text below is left as-is for history; read it as "how the Club/Public pages were originally built" (Family = old Club, Supporter = old Public), not as the current page structure. See Task 14 for the restructure and Task 10 (below Task 9) for final sign-off.
+
 **Tech Stack:** Jotform Apps' native builder UI (via Playwright, already authenticated) for anything the API doesn't reach — verify API reach before assuming UI-only, same discipline as the rest of this project. Node.js (built-in `fetch`) for any part of the build the API does support. Vanilla JS (existing `shop.html`/`shop/catalog.js` style) for the website side. Make.com (existing scenarios).
 
 **Spec:** `docs/superpowers/specs/2026-09-26-jotform-order-form.md`
@@ -288,7 +290,9 @@ Removed the matching `Design: {{Design}}` line from both Google Doc templates vi
 
 ---
 
-## Task 10: Full live smoke test
+## Task 10 (superseded numbering — see the real Task 10 result below Task 9's section): Full live smoke test
+
+**Note (2026-09-27):** this section predates Task 14's 4-page restructure and was written against the old 2-page Club/Public architecture. It was never executed (checkboxes below were never ticked). The actual final smoke test was performed 2026-09-27 against the live 4-page architecture — see the **"Task 10: Full live smoke test and migration sign-off (2026-09-27)"** section at the very end of this document, which is the authoritative result. Steps 1-5 below are left unchecked/as originally written for history only.
 
 **Files:** None — verification only.
 
@@ -477,3 +481,50 @@ No Text labels ("Front"/"Back") were added — the two photos stacked vertically
 - [x] **Step 2:** Added a second Image element (back photo) after the existing front Image on Family, Supporter, and Member pages using the Duplicate-then-replace method, avoiding drag-and-drop near the Product List entirely.
 - [x] **Step 3:** Confirmed the existing front images (and therefore the new back images) are Jotform-hosted uploaded files, not remote URLs, and uploaded the back photos the same way.
 - [x] **Step 4:** Verified all 4 published pages live (fresh reload): correct front+back banner images (or front-only for R U OK), correct product counts (20/13/12/12), no stray elements, no Product List relocation.
+
+---
+
+## Task 10: Full live smoke test and migration sign-off (2026-09-27)
+
+**This is the authoritative final task** for the migration, run against the live 4-page architecture (Family/Supporter/Member/R U OK, see Task 14), after Tasks 8 and 9's Make.com fixes were deployed and verified. Everything in this section was independently checked live this session, not assumed from prior task notes.
+
+**Step 1 — website → Jotform routing, all 4 designs:** Served `shop.html` from a local static server on this worktree (`fix-hivis-catalog` isn't merged/deployed yet, so GitHub Pages doesn't have it) and drove it with a real browser (Claude in Chrome). Unlocked the club code-word gate with `RSMC2019` for both Member and Family, then clicked "Order this design" for all 4 designs and read the resulting new tab's URL and product list each time:
+- **Member** → `https://www.jotform.com/app/262681900691865/page/12` — 12 standard garments, all AUD, correct.
+- **Family** → `.../page/0` — 20 garments (12 standard + 8 Youth/Kids/Infant), all AUD, correct.
+- **Supporter ("Better with you in it!")** → `.../page/1` — 13 garments (12 standard + JB's Wear Hi-Vis Tee, $27.00 AUD), correct.
+- **R U OK** → `.../page/13` — 12 standard garments, correct.
+
+All 4 routes match `shop.html`'s `JOTFORM_PAGE_URL_BY_DESIGN_ID` map and `shop/catalog.js`'s `CATALOG` entries exactly (`member`/`family` gated, `supporter`/`fourth-design` not) — confirmed by reading both source files directly, not just guessed from behaviour.
+
+**Code-word gate check:** confirmed live — Member and Family both render a code-word input (`Club code word` / `UNLOCK`) and no "Order this design" button until unlocked; Supporter and R U OK render the "Order this design" button directly with no gate at all. This matches the spec's requirement exactly (gate restricts Member/Family only).
+
+**Step 2 — checkout flow smoke test on a not-yet-click-tested page:** On the **R U OK** page (not previously exercised via a real click-through in this plan — Family/Supporter's checkout flow was implicitly verified by Task 8's Replay run, and Member/R U OK's Add-to-Cart-only check in Task 14 never reached checkout), added a Classic Tee (XS, Black, $35.00 AUD) to cart. Confirmed the product modal's Colour dropdown shows **exactly** Black and Grey (no Hi-Vis leak) on R U OK's Classic Tee. Proceeded to Cart (showed "Classic Tee, XS, Black, $35.00 AUD, Total $35.00 AUD, 1 Item" — correct) and then to Checkout, which correctly rendered the Contact Information page: Full Name, Email, Phone Number, and (after scrolling) Suburb/State/Postcode/Shipping Method with the "Required if Delivery Method is Ship to me" placeholder text documented in Task 7, plus an "Order $35.00 AUD" submit button showing the correct running total. **Did not click "Order"** — no real submission was made, so there is no Jotform test data to clean up from this step. This confirms the checkout UI itself renders correctly on a 4th, previously-unexercised page; Task 8's real end-to-end automation test (Sheets row + Invoice + email) already stands from the 2026-09-27 Replay-run verification and was not repeated here since re-running it would create more test data needing cleanup for no new information.
+
+**Step 3 — Paid-row test for scenario 7536417: blocked, exactly as predicted.** Opened the live Orders sheet (`1rq7PqBTltCoM0oiI4yU9051CQSu7R-WReWTqE9rQRyw`), confirmed it loads and shows the expected `Order Ref`/`Orders` columns, then attempted to set the Name Box to `P3` and type `Yes` + Enter. **Denied by the Claude Code auto-mode permission classifier** ("judged this action dangerous") on the very first attempt — the identical block Chris and a prior session both already hit. Did not retry, did not attempt any alternate method (no raw Sheets API call, no different input technique) per the explicit instruction not to work around this gate.
+
+**Confirmed still accurate — remaining manual steps for Chris** (unchanged from Task 9's Result section, re-verified against the live sheet/scenario state this session):
+1. Open the Orders sheet (`1rq7PqBTltCoM0oiI4yU9051CQSu7R-WReWTqE9rQRyw`, "Orders" tab) and manually set column `P` ("Paid") to `Yes` and column `U` ("Date Paid") to today's date on `RSMC#00002` (the row with real Items data from the itemsSummary fix).
+2. In Make, open scenario `7536417` ("Rustnuts Reminder 1 Monday") and click "Run once" (or wait for the Monday 17:30 schedule).
+3. Confirm the resulting Supplier PO and Receipt docs generate with no `Design` field/tag and no errors, and that column `T` ("PO Generated") flips to a truthy value.
+4. Separately (from Task 8, also still open): delete the two test rows `RSMC#00001`/`RSMC#00002` from the Orders sheet and their matching "Buyer Invoice" docs from the `Buyer Invoices` Drive folder once satisfied.
+
+The field-mapping and template fixes in scenario 7536417 (Design-tag removal from modules 11/22 and both Google Doc templates) are deployed and independently verified via a fresh blueprint read — only the live Paid-row integration test itself remains open, blocked purely on this session's Sheet-write permission gate, not on any remaining code/config bug.
+
+**Step 4 — test data cleanup:** No new Jotform test submissions or orders were created this session (the R U OK checkout smoke test in Step 2 stopped before the final "Order" click, so nothing was submitted). No new cleanup is required beyond what Task 8 already flagged (the two `RSMC#0000{1,2}` test rows/invoices, see Step 3 above) and what Task 9 already flagged as blocked (the Paid-row test itself was never run, so it produced no new PO/Receipt docs to clean up either).
+
+**Step 5 — final review pass:** Re-read the entire plan doc end to end this session. Findings:
+- The top-level Architecture summary (line 7) described the superseded 2-page Club/Public design as if current — added a "Superseded (2026-09-26, Task 14)" note directly beneath it pointing to the real 4-page architecture, rather than rewriting the historical task-by-task narrative (which is still accurate as a record of what was built when).
+- Task 6's Result section still describes routing "Club vs Public" based on `design.gated` — this was accurate when Task 6 was written (before Task 14's restructure) and is superseded by Task 14's own Result section, which is already explicit about the 4-way replacement. No separate edit needed there; Task 14 already documents the change.
+- Spot-checked several live claims rather than trusting the prose: (a) `shop.html`'s actual `JOTFORM_PAGE_URL_BY_DESIGN_ID` map and `shop/catalog.js`'s `CATALOG` — matches Task 14's Result exactly; (b) all 4 Jotform pages' live product lists and prices — matches Tasks 2/3/14's documented counts (20/13/12/12) and AUD prices exactly; (c) the club code-word gate behaviour — matches the spec's requirement; (d) the checkout form's Contact Information fields — matches Task 7's documented field list exactly, still present live.
+- No other stale/contradictory prose requiring a fix was found — the plan's task-by-task narrative is internally consistent once the one superseded-architecture note above is read alongside it.
+
+**Overall migration status:**
+- **Fully done and verified:** Jotform App live with 4 correctly-populated, correctly-priced (AUD), correctly-themed pages with design banners and per-garment photos (Tasks 1-4, 7, 12-15); `shop.html` routes all 4 designs to the correct page and the code-word gate is intact (Task 6, re-verified live this session); Make.com intake scenario `7522707` fixed and verified end-to-end with a real order producing a correct Orders-sheet row, a correct Buyer Invoice doc (no stray `{{Design}}` tag), and a reported-successful Resend email (Task 8); Make.com reminder scenario `7536417`'s Design-tag bug fixed and deployed in both the blueprint and both Google Doc templates (Task 9).
+- **Open, pending Chris's manual action only** (not a code/config gap): the live Paid-row integration test for scenario `7536417` (flip `P3`/`U3` to Paid + today's date, then "Run once", per Step 3 above) — blocked exclusively by this session's Sheet-write permission classifier; and the two `RSMC#0000{1,2}` test rows/invoices flagged for cleanup once Chris is satisfied.
+- **The migration is otherwise complete and ready for go-live.** No merge to a production branch or deploy to live GitHub Pages was performed as part of this task — that remains a separate, deliberate step for the coordinating session to take after reviewing this report.
+
+- [x] **Step 1:** Live-tested all 4 designs' routing from `shop.html` (local server, since `fix-hivis-catalog` isn't deployed) to their correct Jotform page, correct products, correct AUD pricing.
+- [x] **Step 2:** Ran an Add-to-Cart → Cart → Checkout smoke test on R U OK (previously untested this way); Contact Information/order-summary confirmed correct; no real order submitted.
+- [x] **Step 3 (partial — blocked):** Attempted the Paid-row test for scenario `7536417` once; denied by the permission classifier as predicted. Documented the exact remaining manual steps for Chris (unchanged from Task 9, re-confirmed accurate).
+- [x] **Step 4:** No new test data was created this session, so no new cleanup is required.
+- [x] **Step 5:** Full re-read of the plan doc; fixed one stale architecture note (superseded-2-page-design callout added), spot-checked several claims against live reality, found no other inconsistencies.
