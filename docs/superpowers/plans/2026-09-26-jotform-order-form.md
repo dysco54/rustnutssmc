@@ -271,3 +271,41 @@ git commit -m "feat: replace Tally embed with a link to the Jotform Club/Public 
 - [ ] **Step 4:** Clean up all test submissions/orders (delete test Jotform data; note any test Drive files/emails to Chris for manual cleanup since those can't be un-sent).
 
 - [ ] **Step 5:** Update `rustnutssmc-jotform-pivot.md` (memory) marking the migration complete, with the final app URL and a one-line pointer to `scripts/jotform/`.
+
+## Task 12: Branding — theme colours + product photos (2026-09-26, direct request)
+
+**Files:** None — Jotform App Builder UI only (Playwright, already-authenticated session). No repo files needed changing for the theme; no image files existed to upload (see below).
+
+**Interfaces:**
+- Consumes: the live app (`262681900691865`), both pages' Product Lists (Task 1-3), the site's real colour palette (`styles.css` `:root`).
+
+Chris asked directly (not from the plan queue) to make the Jotform App visually match the Rustnuts website, and to add product photos to every garment in both Product Lists.
+
+**Part A — theme colours.** Read `styles.css`'s `:root` block for the actual hex values (do not guess from variable names):
+- `--red: #8C1C24` (base button/accent colour)
+- `--red-bright: #B92632` (hover-state accent — not separately settable in Jotform's App Designer, which takes one accent colour)
+- `--ink: #111010` (page/header background)
+- `--bone: #F4F1EA` / `--bone-dim: #d8d3c7` (text)
+- `--steel: #2a2a2c` (card panels)
+
+Confirmed from `shop.html`'s actual CSS rules (not just variable names) that the site's real header/page background is `--ink` (`rgba(17,16,16,0.82)` on the fixed header), and buttons use `--red` with `--red-bright` as the hover state — i.e. the site is dark-themed with a red accent, not primarily red.
+
+In the App Builder (`https://www.jotform.com/app/build/262681900691865` → **App Designer** panel, top-right pencil icon):
+- **GENERAL tab → Themes:** selected **Custom**, set the custom accent colour hex to `8C1C24` (this drives Add to Cart button colour, active-state accents, etc. across both pages automatically — confirmed live, no per-Product-List override was needed).
+- **GENERAL tab → App Theme Mode:** switched **Light → Dark** (this is what makes card/page backgrounds dark instead of white).
+- **GENERAL tab → App Background:** hex field, set explicitly to `111010` (Dark mode auto-picked a reddish-black derived from the accent; overrode it to the site's exact `--ink` value instead).
+- Clicked into the **App Header** element (top hero block) → its own **Style** tab has a separate **Background Color** field (`b6202bff`, auto-derived bright red) — overrode this to `111010` too, since the real site header is dark/translucent ink, not red. This was the one setting the global theme didn't cover; everything else (Add to Cart button colour, card tinting) already inherited the custom accent + dark mode correctly.
+- Checked **APP LAYOUTS** tab — structural templates only (card size/icon visibility), no colour settings there; left on Default.
+- Did not find a separate header/body text-colour field — dark mode's default white/off-white text already reads correctly against the new dark background, matching `--bone`/`--bone-dim` closely enough that no override was needed.
+
+This is app-wide: both the Club and Public pages' Product Lists, and the shared header, use the same App Designer theme — there is no per-page or per-product theme setting, confirming the instruction to theme "the whole app" was satisfied by the one App Designer + one App Header edit above.
+
+**Verified live:** reloaded `https://www.jotform.com/app/262681900691865` (Club) and `.../page/1` (Public) fresh (not just the builder preview) — both show the dark ink background, red Add to Cart buttons, and red active-state search/layout icons; no default Jotform blue remains anywhere. The shared checkout form (`262682306434053`) also rendered dark/red-accented when reached via the app's own "Continue Shopping"/checkout flow (its own classic-form theme is separate from the App Designer, but it visually matches well enough not to jar).
+
+**Part B — product photos: none uploaded, photos don't exist.** Checked `shop/catalog.js` and the `shop/` directory: every image asset in the repo is a **design-level** photo (a person wearing a full print — `member-front.jpg`/`member-back.jpg`, `family-front.jpg`/`family-back.jpg`, `fourth-design-front.jpg`, `supporter-front.jpg`/`supporter-back.jpg`, `supporter-hivis-front.jpg`/`supporter-hivis-back.jpg`). There is **no per-garment product photo** anywhere in the repo (checked `shop/`, `photos/`, and the repo root) for any of the 21 garments actually listed in both Product Lists (Classic Tee, Low Down Singlet, Made Hood, Made Crew, Stencil Hood, Zip Hood, Stencil Crew, Heavy Tee, Classic L/S Tee, Barnard Tank, Women's Classic Tee, Women's Classic L/S Tee, Youth Long Sleeve, Youth Supply Crew, Youth Supply Hood, Kids Supply Hood, Kids Supply Crew, Kids Long Sleeve, Infant One Piece, Infant Tee, JB's Wear 6HVT Hi-Vis Tee — same list on both pages except the Club page swaps in JB's Hi-Vis Tee only on Public).
+
+Per the task's explicit instruction not to fabricate or fetch stock photos, and not to reuse the design-level photos as a blanket per-product fallback (a `member-front.jpg` showing a person wearing a hoodie print would be actively misleading pinned to, say, the "Infant Tee" or "Barnard Tank" product), **no images were uploaded to any product in either Product List.** Both Product Lists still show Jotform's generic grey/placeholder image icon for all 21 products, on both pages. This needs one of: (a) Chris supplies or the club photographs real per-garment product shots, or (b) a deliberate decision to reuse specific design-level photos on the products that actually correspond 1:1 to Member/Family/Supporter/RUOK designs (not attempted here since that mapping is ambiguous — garments are shared across designs, not exclusive to one).
+
+- [x] **Step 1:** Read the site's real colour palette from `styles.css`, set the Jotform App Designer's custom accent (`#8C1C24`), Dark theme mode, App Background (`#111010`), and the App Header's own background (`#111010`) to match.
+- [x] **Step 2:** Verified live on both published pages (Club + Public) and the checkout flow — dark/red Rustnuts branding confirmed, no default Jotform colours remain.
+- [x] **Step 3:** Searched the repo for per-garment product photos — confirmed none exist (only whole-design front/back photos). Reported back instead of fabricating or reusing mismatched images; no photos uploaded to either Product List.
