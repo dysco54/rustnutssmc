@@ -155,15 +155,7 @@
 
   .product-info{padding:16px 18px 22px}
   .product-info .name{font-family:var(--stencil);font-size:1.4rem;text-transform:uppercase;letter-spacing:0.02em;margin-bottom:6px}
-  .product-info .price{color:var(--red-bright);font-weight:800;font-size:1.1rem;margin-bottom:10px}
   .product-info .desc{color:var(--bone-dim);font-size:0.92rem;margin-bottom:14px}
-  .product-info .sizes{
-    display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;
-  }
-  .product-info .sizes span{
-    border:1px solid rgba(255,255,255,0.15);color:var(--bone-dim);
-    font-size:0.76rem;font-weight:700;letter-spacing:0.06em;padding:5px 10px;border-radius:3px;
-  }
   .product-info .avail{
     display:inline-block;font-size:0.76rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;
     color:#9a958c;
@@ -196,7 +188,7 @@
   .gate button:hover{background:var(--red-bright);border-color:var(--red-bright)}
 
   .shipping-estimator{
-    max-width:520px;margin:0 auto 44px;padding:22px 26px;background:var(--steel);
+    max-width:520px;margin:0 auto;padding:22px 26px;background:var(--steel);
     border:1px solid rgba(255,255,255,0.07);border-radius:8px;text-align:center;
   }
   .shipping-estimator h2{font-family:var(--stencil);font-size:1.2rem;text-transform:uppercase;margin-bottom:14px}
@@ -207,12 +199,21 @@
   }
   .shipping-estimator .result{color:var(--red-bright);font-weight:800;font-size:1.05rem}
 
-  .shop-note{
-    max-width:700px;margin:44px auto 0;padding:22px 26px;text-align:center;
-    color:var(--bone-dim);font-size:0.92rem;border-top:1px solid rgba(255,255,255,0.08);
+  /* ORDER INFO -- moved to the top of the page and styled to stand out, since
+     lead time / payment instructions are the thing buyers most need to see before
+     they click through to the order form. */
+  .order-info{padding:0 28px 50px}
+  .order-info-banner{
+    max-width:820px;margin:0 auto 28px;padding:24px 28px;text-align:center;
+    background:rgba(185,38,50,0.1);border:2px solid var(--red-bright);border-radius:10px;
   }
-  .shop-note a{color:var(--red-bright);text-decoration:none;font-weight:700}
-  .shop-note a:hover{text-decoration:underline}
+  .order-info-banner p{
+    color:var(--bone);font-size:1rem;line-height:1.5;margin:0;
+  }
+  .order-info-banner p + p{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.12)}
+  .order-info-banner strong{color:var(--red-bright)}
+  .order-info-banner a{color:var(--red-bright);text-decoration:none;font-weight:700}
+  .order-info-banner a:hover{text-decoration:underline}
 
 </style>
 </head>
@@ -242,10 +243,14 @@
   <p>Official Rustnuts SMC merch — built for the road, worn by the family.</p>
 </section>
 
-<!-- PRODUCTS -->
-<section class="block">
+<!-- ORDER INFO -- deliberately first, above the products, so lead time and
+     payment instructions aren't missed. -->
+<section class="order-info">
   <div class="wrap">
-    <div class="product-grid" id="design-grid"></div>
+    <div class="order-info-banner">
+      <p><strong>Orders are processed weekly, every Monday.</strong> Please allow a 2.5-week lead time counted from your order's processing date — not the date you placed your order.</p>
+      <p>Ready to order? Click "Order this design" below — it opens our order form in a new tab. Pay by bank transfer using the order reference it gives you, or <a href="index.html#join">reach out to the club</a> if you have questions.</p>
+    </div>
 
     <div class="shipping-estimator">
       <h2 class="display">Estimate shipping</h2>
@@ -258,10 +263,13 @@
       </div>
       <div class="result" id="ship-result"></div>
     </div>
+  </div>
+</section>
 
-    <p class="shop-note">Orders are processed weekly, every Monday. Please allow a 2.5-week lead time counted from your order's processing date — not the date you placed your order.</p>
-
-    <p class="shop-note">Ready to order? Click "Order this design" above — it opens our order form in a new tab. Pay by bank transfer using the order reference it gives you, or <a href="index.html#join">reach out to the club</a> if you have questions.</p>
+<!-- PRODUCTS -->
+<section class="block">
+  <div class="wrap">
+    <div class="product-grid" id="design-grid"></div>
   </div>
 </section>
 
@@ -282,9 +290,9 @@
 
   const unlockedGated = new Set();
 
-  // Merch ordering now happens on the Jotform App's Product List cart pages, not an
-  // embedded Tally form. There's no per-garment field to prefill any more (a Product
-  // List cart has no single "garment" field) -- the website's only job is routing the
+  // Merch ordering happens on the Jotform App's Product List cart pages. There's no
+  // per-garment field to prefill (a Product List cart has no single "garment" field)
+  // -- the website's only job is routing the
   // buyer to the correct page for their design. As of the 4-page restructure (2026-09-26,
   // Task 14), each CATALOG entry's own id maps 1:1 to one of the app's 4 pages -- see
   // docs/superpowers/plans/2026-09-26-jotform-order-form.md ("Task 14") and
@@ -345,10 +353,6 @@
       const orderHtml = !locked
         ? `<div class="order-controls">
              ${colourControlHtml}
-             <label for="garment-select-${design.id}" class="sr-only">Garment</label>
-             <select class="garment-select" id="garment-select-${design.id}"></select>
-             <label for="size-select-${design.id}" class="sr-only">Size</label>
-             <select class="size-select" id="size-select-${design.id}"></select>
              <button type="button" class="order-btn">Order this design</button>
            </div>`
         : '';
@@ -381,7 +385,7 @@
         ${mediaHtml}
         <div class="product-info">
           <div class="name">${design.name}</div>
-          <span class="avail">Sizes &amp; pricing below</span>
+          <span class="avail">Full sizing &amp; pricing on the order form</span>
           ${gateHtml}
           ${orderHtml}
         </div>
@@ -436,46 +440,6 @@
           }
         });
       } else {
-        const colourSelect = card.querySelector('.colour-select');
-        const garmentSelect = card.querySelector('.garment-select');
-        const sizeSelect = card.querySelector('.size-select');
-
-        // `colourGarments` (if present on the design) restricts which garment keys are
-        // valid for the currently selected colour — e.g. Supporter's Hi-Vis colour only
-        // offers the two JB's garments, not the standard AS Colour range. A colour
-        // missing from that map, or a design with no `colourGarments` at all, gets the
-        // full `garments` list, unchanged from before this was introduced.
-        function garmentKeysForColour() {
-          const colour = colourSelect ? colourSelect.value : null;
-          const scoped = design.colourGarments && colour ? design.colourGarments[colour] : null;
-          return scoped || Object.keys(design.garments);
-        }
-
-        function refreshSizes() {
-          const garment = design.garments[garmentSelect.value];
-          sizeSelect.innerHTML = garment.sizes.map((s) => `<option value="${s}">${s}</option>`).join('');
-        }
-
-        function refreshGarments() {
-          const previous = garmentSelect.value;
-          const keys = garmentKeysForColour();
-          garmentSelect.innerHTML = keys.map((key) => {
-            const g = design.garments[key];
-            return `<option value="${key}">${g.tallyLabel || g.label}</option>`;
-          }).join('');
-          // Keep the previous selection if it's still valid for the newly selected
-          // colour; otherwise fall back to the first option so a stale garment (e.g. an
-          // AS Colour item left selected from Black/Grey) can't survive into Hi-Vis.
-          garmentSelect.value = keys.includes(previous) ? previous : keys[0];
-          refreshSizes();
-        }
-
-        if (colourSelect && design.colourGarments) {
-          colourSelect.addEventListener('change', refreshGarments);
-        }
-        garmentSelect.addEventListener('change', refreshSizes);
-        refreshGarments();
-
         const orderBtn = card.querySelector('.order-btn');
         orderBtn.addEventListener('click', () => {
           openOrderPageFor(design);
