@@ -285,15 +285,27 @@
   // Merch ordering now happens on the Jotform App's Product List cart pages, not an
   // embedded Tally form. There's no per-garment field to prefill any more (a Product
   // List cart has no single "garment" field) -- the website's only job is routing the
-  // buyer to the correct page for their design: Club (gated designs) or Public
-  // (everything else). See docs/superpowers/specs/2026-09-26-jotform-order-form.md
-  // ("Architecture v2") and scripts/jotform/app-manifest.json for the live ids.
+  // buyer to the correct page for their design. As of the 4-page restructure (2026-09-26,
+  // Task 14), each CATALOG entry's own id maps 1:1 to one of the app's 4 pages -- see
+  // docs/superpowers/plans/2026-09-26-jotform-order-form.md ("Task 14") and
+  // scripts/jotform/app-manifest.json for the live page ids. Jotform assigns page ids
+  // from its own internal counter, not sequential display order, so Member/R U OK (added
+  // later) got ids 12/13 while Family/Supporter kept their original 0/1 -- confirmed live
+  // via the app's own top navigation before wiring this map, don't assume sequential ids.
   const JOTFORM_APP_URL = 'https://www.jotform.com/app/262681900691865';
-  const JOTFORM_CLUB_PAGE_URL = JOTFORM_APP_URL + '/page/0';
-  const JOTFORM_PUBLIC_PAGE_URL = JOTFORM_APP_URL + '/page/1';
+  const JOTFORM_PAGE_URL_BY_DESIGN_ID = {
+    member: JOTFORM_APP_URL + '/page/12',
+    family: JOTFORM_APP_URL + '/page/0',
+    supporter: JOTFORM_APP_URL + '/page/1',
+    'fourth-design': JOTFORM_APP_URL + '/page/13',
+  };
 
   function openOrderPageFor(design) {
-    const url = design.gated ? JOTFORM_CLUB_PAGE_URL : JOTFORM_PUBLIC_PAGE_URL;
+    const url = JOTFORM_PAGE_URL_BY_DESIGN_ID[design.id];
+    if (!url) {
+      console.error('No Jotform page mapped for design id:', design.id);
+      return;
+    }
     window.open(url, '_blank', 'noopener');
   }
 

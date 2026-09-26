@@ -1,0 +1,7 @@
+node_modules/
+.playwright-mcp/
+*.log
+screenshot*.png
+snap-*.yml
+snap*.yml
+scripts/jotform/_tmp-*
