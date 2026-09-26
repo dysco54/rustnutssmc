@@ -31,6 +31,14 @@
         "addAnother": {
           "qid": "7",
           "name": "addAnother1"
+        },
+        "colour": {
+          "qid": "63",
+          "name": "colour1"
+        },
+        "colourExtended": {
+          "qid": "64",
+          "name": "colourExtended1"
         }
       }
     },
@@ -64,6 +72,14 @@
         "addAnother": {
           "qid": "14",
           "name": "addAnother2"
+        },
+        "colour": {
+          "qid": "65",
+          "name": "colour2"
+        },
+        "colourExtended": {
+          "qid": "66",
+          "name": "colourExtended2"
         }
       }
     },
@@ -97,6 +113,14 @@
         "addAnother": {
           "qid": "21",
           "name": "addAnother3"
+        },
+        "colour": {
+          "qid": "67",
+          "name": "colour3"
+        },
+        "colourExtended": {
+          "qid": "68",
+          "name": "colourExtended3"
         }
       }
     },
@@ -130,6 +154,14 @@
         "addAnother": {
           "qid": "28",
           "name": "addAnother4"
+        },
+        "colour": {
+          "qid": "69",
+          "name": "colour4"
+        },
+        "colourExtended": {
+          "qid": "70",
+          "name": "colourExtended4"
         }
       }
     },
@@ -163,6 +195,14 @@
         "addAnother": {
           "qid": "35",
           "name": "addAnother5"
+        },
+        "colour": {
+          "qid": "71",
+          "name": "colour5"
+        },
+        "colourExtended": {
+          "qid": "72",
+          "name": "colourExtended5"
         }
       }
     },
@@ -196,6 +236,14 @@
         "addAnother": {
           "qid": "42",
           "name": "addAnother6"
+        },
+        "colour": {
+          "qid": "73",
+          "name": "colour6"
+        },
+        "colourExtended": {
+          "qid": "74",
+          "name": "colourExtended6"
         }
       }
     },
@@ -229,6 +277,14 @@
         "addAnother": {
           "qid": "49",
           "name": "addAnother7"
+        },
+        "colour": {
+          "qid": "75",
+          "name": "colour7"
+        },
+        "colourExtended": {
+          "qid": "76",
+          "name": "colourExtended7"
         }
       }
     },
@@ -262,6 +318,14 @@
         "addAnother": {
           "qid": "56",
           "name": "addAnother8"
+        },
+        "colour": {
+          "qid": "77",
+          "name": "colour8"
+        },
+        "colourExtended": {
+          "qid": "78",
+          "name": "colourExtended8"
         }
       }
     },
@@ -292,7 +356,15 @@
           "qid": "62",
           "name": "quantity9"
         },
-        "addAnother": null
+        "addAnother": null,
+        "colour": {
+          "qid": "79",
+          "name": "colour9"
+        },
+        "colourExtended": {
+          "qid": "80",
+          "name": "colourExtended9"
+        }
       }
     }
   ]
