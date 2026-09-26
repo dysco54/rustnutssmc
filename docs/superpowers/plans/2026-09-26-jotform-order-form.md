@@ -180,6 +180,28 @@ git commit -m "feat: replace Tally embed with a link to the Jotform Club/Public 
 
 ---
 
+## Task 6b: Investigate embedding the Jotform App in-page instead of new-tab (2026-09-26, post-Task 6)
+
+**Prompted by:** Chris asked whether the order app could be embedded directly into `shop.html` instead of opening in a new tab, so buyers stay on-site.
+
+**Investigation:** Jotform Apps do have an official iframe embed (App Builder → Publish → Embed → Copy Code), confirmed live via the already-authenticated Playwright tab on `https://www.jotform.com/app/build/262681900691865/publish/embed`. The generated snippet is a single bare `<iframe>`, no companion resize script:
+
+```html
+<iframe id="JotFormIFrame-262681900691865" title="Rustnuts SMC Merch Order" allow="geolocation; microphone; camera" src="https://app.jotform.com/262681900691865?appEmbedded=1" style="height:600px; width:375px; border: 0;"></iframe>
+```
+
+- **Page-specific deep-linking works**: appending `/page/0` or `/page/1` before the query string (`https://app.jotform.com/262681900691865/page/0?appEmbedded=1`) loads the Club/Public page directly, same routing the current new-tab links already use.
+- **No `X-Frame-Options`/`frame-ancestors` block**: confirmed via `curl -sD-` against the app URL — no framing-denial headers present, and a real iframe embed test (served from a local `http://127.0.0.1` origin, not `file://`, via Playwright) loaded the full app, added items to cart, and advanced to the Checkout step (Contact Information fields, delivery/address fields) entirely inside the iframe with no forced top-level redirect. Given Task 4/7's prior finding that this app's checkout confirms the order directly ("We've received your order!") with no separate card-entry step, the classic "payment gateway needs top-level frame" failure mode doesn't appear to apply here.
+- **Serious visual-parity problems, not a hard block but a bad trade:**
+  1. **Fixed, non-responsive size.** The official embed is a static `375px × 600px` box (phone-app shaped) with no dynamic-height mechanism — unlike classic Jotform/Tally Form embeds (`embed.js` + postMessage resize), Jotform Apps' embed doesn't resize to content. A variable-height cart+checkout flow would either scroll awkwardly inside a fixed box or need a hardcoded height that's wrong for most states. Console warnings (`No FrameWindow found for action updatePortalEmbedRadiusMode/AppThemeTokens/FormThemeClass`) confirm the portal JS expects a parent-side companion script Jotform doesn't publish in the plain embed snippet.
+  2. **Duplicate, unremovable app chrome.** The iframe renders its own full header (Jotform app logo, cart icon, notification bell, account avatar) and its own bottom Club/Public tab switcher — this duplicates `shop.html`'s own design cards/navigation and can't be restyled or hidden from the parent page since it's a cross-origin iframe.
+  3. **Jotform-branded footer band** ("Jotform Apps — Create your own App" / "Remove Branding") is baked into every page of the app and only removable on a paid Jotform plan — a direct violation of the visual-parity requirement this whole migration was built around.
+  4. Cart/session state depends on `SameSite=None` third-party cookies set on `app.jotform.com` while embedded — worked in this test, but is a known fragility point in browsers with strict third-party-cookie blocking (Safari ITP, Brave, Firefox ETP), which the current new-tab approach (first-party context) doesn't have to worry about at all.
+
+**Decision:** Did not implement the embed. It technically loads and technically completes a checkout inside an iframe, but the fixed 375×600 non-resizing box, the duplicated/unremovable Jotform app chrome, and the paid-plan-only branding removal all conflict directly with Chris's original visual-parity requirement, and would look and behave worse than the current new-tab link for no functional gain. `shop.html`'s `openOrderPageFor` / `window.open(url, '_blank', 'noopener')` approach from Task 6 is left exactly as-is. Test file (`scripts/jotform/test-embed.html`, served briefly via a local Python HTTP server for the trial) was deleted after the test; no `shop.html` changes were made.
+
+---
+
 ## Task 7: Contact Information page + checkout field parity check
 
 **Files:** None local — Jotform App configuration.
