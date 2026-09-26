@@ -1,0 +1,28 @@
+{
+  "appId": "262681900691865",
+  "appTitle": "Rustnuts SMC Merch Order",
+  "appUrl": "https://www.jotform.com/app/262681900691865",
+  "pages": {
+    "club": {
+      "pageId": "0",
+      "pageName": "Club",
+      "productListTitle": "Garments",
+      "productListFormId": "262682106860054"
+    },
+    "public": {
+      "pageId": "1",
+      "pageName": "Public",
+      "productListTitle": "Garments",
+      "productListFormId": "262681878015061"
+    }
+  },
+  "checkoutFormId": "262682306434053",
+  "notes": [
+    "Checkout form is auto-provisioned by Jotform the moment the FIRST Product List element is added to any page, before any products exist and before a second page/Product List is added. It is a single form shared across both pages, not one per page.",
+    "App-backed forms (both Product List forms and the Checkout form) do NOT appear in GET /user/forms or in GET /user/usage's form_count -- both stayed at 0/5-DELETED throughout this task despite 3 real ENABLED forms existing. Verified via direct GET /form/{id} for each of the 3 ids above (all status ENABLED, type PAYMENT). Future form-count checks in this project must include a direct GET /form/{id} check of every id in this manifest, not just /user/forms.",
+    "Total real form count after this task: 3 (2 Product List forms + 1 shared Checkout form) -- matches the spec's Architecture v2 budget exactly, 2 forms of headroom under the 5-form cap.",
+    "A pre-existing, unrelated 'Clothing Store App' (portal id 262681670954871, status ENABLED, from a prior session's exploratory test) still exists in this account's My Apps list with its own backing Product List/checkout forms not tracked here -- left untouched as out of scope for this task, but worth a cap check before the next form/app is created.",
+    "Jotform Apps API research: GET https://api.jotform.com/portal/{id} and GET https://api.jotform.com/user/portals work with the account API key and return full app/page/item JSON (read-only). No working POST/PUT/PATCH was found reachable with the api.jotform.com api-key-authenticated surface within the session's environment -- app/page/product-list creation and the default-product deletion in this task were done via the Jotform Apps builder UI (Playwright, already-authenticated session), which internally calls session-cookie-authenticated endpoints under https://www.jotform.com/API/portal/... (POST .../pages, POST .../page/{id}, POST .../items) that are not usable with the api-key flow.",
+    "Both Product Lists are confirmed empty (products: []) via a live GET /portal/262681900691865 read -- population is Task 2 (Club) and Task 3 (Public)."
+  ]
+}
