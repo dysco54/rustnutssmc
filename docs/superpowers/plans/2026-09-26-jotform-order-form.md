@@ -322,3 +322,32 @@ Four of the 21 downloaded local image files (`classic-tee.jpg`, `infant-one-piec
 
 - [x] **Step 4:** Sourced real per-garment photos from AS Colour (20) and JB's Wear (1), documented in `scripts/jotform/garment-photos-manifest.json`.
 - [x] **Step 5:** Fixed a live data-loss incident from the first upload attempt (partial-object POST wiped product data) using a verified full-object restore script; fresh-read confirmed all 33 products correct (name/price/options/photo) and currency still AUD.
+
+## Task 13: Design artwork banner above each Product List (2026-09-26, direct request)
+
+**Files:** None — Jotform App Builder UI only (Playwright, already-authenticated session). No repo files changed; `shop/*.jpg` design photos were read and uploaded as-is, nothing added/edited in the repo itself.
+
+**Interfaces:**
+- Consumes: the live app (`262681900691865`), both pages' Product Lists (Tasks 1-3, 12), and the existing design-level photos in `shop/` (`member-front.jpg`, `family-front.jpg`, `supporter-front.jpg`, `fourth-design-front.jpg` — the same whole-design photos identified as unsuitable for per-garment use in Task 12 Part B, but exactly right for this purpose).
+
+Chris flagged that because each page's Product List combines two designs (Club = Member + Family, Public = Supporter/"Better with you in it!" + "R U OK Rustnuts"), a buyer landing on either page had no visual indication of which printed design(s) they were ordering before picking a garment. Asked for the actual design artwork to be added as a static banner at the top of each page, above the Product List.
+
+**Confirmed image files exist** in `shop/` before using any of them: `member-front.jpg`, `family-front.jpg`, `supporter-front.jpg`, `fourth-design-front.jpg` all present. `fourth-design-back.jpg` does **not** exist (only a front photo was ever produced for the "R U OK Rustnuts" design) — used front-only for that design, as instructed. Hi-Vis colour-variant images (`supporter-hivis-*.jpg`) were skipped per instruction, since this banner is a general design preview, not colour-specific.
+
+**Element type used:** no dedicated "banner" component fit without overengineering it, so this is a plain stack of existing Basic Elements — one **Heading**, then a repeating **Text** (design name label) + **Image** pair per design — added directly above each page's existing Product List, in the same page-builder tree as the Product List itself (not a separate section/container).
+
+- **Club page:** Heading "Club Designs" → Text "Member" → Image (`member-front.jpg`) → Text "Family" → Image (`family-front.jpg`) → *(existing Product List, untouched)*.
+- **Public page:** Heading "Public Designs" → Text "Better with you in it! (Supporter)" → Image (`supporter-front.jpg`) → Text "R U OK Rustnuts" → Image (`fourth-design-front.jpg`) → *(existing Product List, untouched)*.
+
+Front views only (no back-view toggle) — kept intentionally simple per the task's own guidance not to overengineer a static preview banner.
+
+**Incident: Jotform's App Builder drag-and-drop reordering is unreliable around large Product List elements.** New elements always insert at the very bottom of a page (after the Product List) or at the end of the whole element panel selection context, never in the middle, so getting a Heading/Text/Image above an existing Product List requires a manual reorder drag. Dragging a small element (e.g. a Heading) so it drops *onto* a large Product List component intermittently caused Jotform's own drag-and-drop to misfire and relocate that page's **entire Product List** into the other page's element tree instead of just reordering the dropped item — happened twice on the Public page during this task, each time silently (no error shown), only caught because every structural change in this task was verified with a **fresh full-page reload** (not the cached builder view) before proceeding. Both times the misplaced Product List was dragged back to the correct page and a fresh reload confirmed exactly one Product List per page again, with no changes to the products' names/prices/Size/Colour options themselves (only the element's position was ever affected).
+
+**Workaround that reliably worked:** never drop anything *onto* a Product List element directly. To move an element (including a Product List) to a specific position, always drop it onto a small, plain element instead (a Heading or Text), which reliably drops the dragged item immediately *before* that target. Where no suitable small target existed yet, a temporary empty Text element was added as a throwaway drop target, then deleted once the real content was in the right place.
+
+**Verified live:** reloaded `https://www.jotform.com/app/262681900691865/page/0` (Club) and `.../page/1` (Public) fresh — both show the correct design photos and labels at the top of the page, above the Product List, matching the design combination on that page. Confirmed via a live product click (Classic Tee on Public) that the Add to Cart flow — the product modal, Size/Colour selectors, and both "Order Now"/"Add to Cart" buttons — still works normally below the new banner; closed the modal without submitting an order. Both Product Lists still show all their original 21 products each with correct names/prices, confirmed by a structural re-read of the builder tree after the last reload.
+
+- [x] **Step 1:** Confirmed which `shop/*.jpg` design photos exist before using them; found no `fourth-design-back.jpg`, used front-only for that design as instructed.
+- [x] **Step 2:** Added Heading + Text/Image pairs above the Product List on both Club and Public pages, using existing Basic Elements (no new component type needed).
+- [x] **Step 3:** Diagnosed and fixed a repeatable Jotform drag-and-drop bug that could relocate an entire page's Product List into the wrong page; established and used a safe reordering pattern (drop onto small elements only) for the rest of the task.
+- [x] **Step 4:** Verified live on both published pages (fresh reload) — design photos and labels appear correctly above each Product List; Add to Cart flow confirmed still functional; both Product Lists still have their full original 21 products.
