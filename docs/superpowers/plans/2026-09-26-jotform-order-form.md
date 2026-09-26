@@ -22,6 +22,7 @@
 - All local file work happens in this worktree (`C:\Users\dyson\repos\rustnutssmc\.claude\worktrees\youth-infant-garments`) — not the stale plain checkout.
 - Delete any throwaway/test forms or apps immediately after use (`DELETE /form/{id}`) — this account's 5-form cap makes clutter expensive.
 - **Currency fix (2026-09-26, post-Task 7):** Chris caught the first real test invoice showing prices in USD, not AUD — all 3 forms' `control_payment` questions defaulted to `"currency":"USD"` (Club qid 3, Public qid 3, Checkout qid 11). Patched all three to `AUD` via `POST /form/{id}/question/{qid}` with `question[currency]=AUD`, fresh-read verified. Any test order run before this fix has stale USD pricing in its invoice/email — not a mapping bug, just a form default that needed setting explicitly.
+- **Currency fix reapplied to Task 14's new pages (2026-09-26):** a full post-Task-14 audit found Member (`262683647204057`) and R U OK (`262683674511058`) both defaulted their `control_payment` question (qid 3 on each) to `USD` — the same bug as above, reintroduced because these 2 forms were created fresh in Task 14, after the original 3-form fix, and Task 14's own verification never checked currency. Patched both to `AUD` the same way, fresh-read verified (`currency: AUD` confirmed on both). All 5 forms are now correctly AUD.
 
 ## Review Focus
 
