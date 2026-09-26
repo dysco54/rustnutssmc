@@ -90,17 +90,19 @@ git commit -m "feat: scaffold Jotform App with Club/Public pages and empty Produ
 - Consumes: `app-manifest.json` (`pages.club.productListFormId`).
 - Produces: the Club Product List fully populated. No file interface for later tasks — Task 6 only needs to know the app's public URL and page name, not individual product ids.
 
-- [ ] **Step 1: Read `shop/catalog.js` in full** in this worktree to get the exact current Member/Family garment data (`GARMENTS` + `YOUTH_INFANT_GARMENTS`, both merged into `FAMILY_GARMENTS`).
+- [x] **Step 1: Read `shop/catalog.js` in full** in this worktree to get the exact current Member/Family garment data (`GARMENTS` + `YOUTH_INFANT_GARMENTS`, both merged into `FAMILY_GARMENTS`).
 
-- [ ] **Step 2: Add all 20 garments** (12 standard + 8 Youth/Kids/Infant) to the Club Product List:
+- [x] **Step 2: Add all 20 garments** (12 standard + 8 Youth/Kids/Infant) to the Club Product List:
   - Name: use `catalog.js`'s `label` (not `tallyLabel` — that was a Tally-specific matching key, not needed in this architecture; e.g. "Classic Tee", "Youth Long Sleeve").
   - Price: `catalog.js` stores price in **integer cents** (e.g. `3500` = $35.00) — convert to decimal dollars for Jotform's price field (`3500 / 100 = 35.00`). Get this right per the Review Focus item — spot check at least 3 conversions against the spec's dollar amounts before doing all 20.
   - Add a **Size** option per product with values from that garment's `sizes` array in `catalog.js` (e.g. `RANGE_XS_3XL` → `XS, S, M, L, XL, 2XL, 3XL`; `RANGE_YOUTH` → `8, 10, 12, 14, 16`, etc. — use the exact array for that specific garment, they differ).
   - Add a **Colour** option with a single value `Black` on every product (Club page is Black-only per spec).
 
-- [ ] **Step 3: Verify count and a few spot-checks** — re-fetch the app's product data (via whatever method Task 1 found — API read or a fresh page-load JSON inspection) and confirm exactly 20 products exist with correct names/prices/size lists.
+- [x] **Step 3: Verify count and a few spot-checks** — re-fetch the app's product data (via whatever method Task 1 found — API read or a fresh page-load JSON inspection) and confirm exactly 20 products exist with correct names/prices/size lists.
 
-- [ ] **Step 4: Commit** (if a script was used) or note in your report the manual steps taken (if UI-only).
+- [x] **Step 4: Commit** (if a script was used) or note in your report the manual steps taken (if UI-only).
+
+**Result (2026-09-26):** Done via script-based API write (`scripts/jotform/build-club-products.mjs` + `push-club-products.mjs` + `verify-club-products.mjs`), same indexed-field POST pattern as Task 3, after hitting the same shared-editor UI collision documented in Task 3. Fresh GET confirmed 20/20 correct. Committed `6c7a73f`.
 
 ---
 
