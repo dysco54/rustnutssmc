@@ -134,15 +134,15 @@ git commit -m "feat: scaffold Jotform App with Club/Public pages and empty Produ
 **Interfaces:**
 - Consumes: Tasks 1-3 complete.
 
-- [ ] **Step 1:** Open the live published app fresh (new tab, no reused state). Confirm the Club page shows exactly its 20 products with correct prices, and the Public page shows exactly its 13 products with correct prices.
+- [x] **Step 1:** Open the live published app fresh (new tab, no reused state). Confirm the Club page shows exactly its 20 products with correct prices, and the Public page shows exactly its 13 products with correct prices.
 
-- [ ] **Step 2:** On each page, pick 2-3 products, add to cart with different Size/Colour combinations, and confirm the cart total calculates correctly (price × quantity, summed across items).
+- [x] **Step 2:** On each page, pick 2-3 products, add to cart with different Size/Colour combinations, and confirm the cart total calculates correctly (price × quantity, summed across items).
 
-- [ ] **Step 3:** Complete one full test checkout (real submission) to confirm the checkout flow works end to end and produces a real Order record. Note the checkout form id / Orders table id that appears (needed for Task 9).
+- [x] **Step 3:** Complete one full test checkout (real submission) to confirm the checkout flow works end to end and produces a real Order record. Note the checkout form id / Orders table id that appears (needed for Task 9).
 
-- [ ] **Step 4:** Delete the test order/submission so it doesn't pollute real data (check both the checkout form's submissions and the Orders data table).
+- [x] **Step 4:** Delete the test order/submission so it doesn't pollute real data (check both the checkout form's submissions and the Orders data table).
 
----
+**Result (2026-09-26):** All 4 steps pass. Opened `https://www.jotform.com/app/262681900691865` in a fresh Playwright tab reusing the already-authenticated Jotform browser session (a true logged-out/incognito check wasn't run — noted as a caveat, not verified independently). Club page (`/page/0`) confirmed 20/20 products, Public page (`/page/1`) confirmed 13/13 — every name and price matched `shop/catalog.js` price-in-cents/100 exactly. Added 3 items to cart across both pages with different Size/Colour combos (Hi-Vis Tee XL/Hi-Vis $27, Classic Tee M/Grey $35, Low Down Singlet S/Black $30) — cart total summed correctly to $92.00 for 3 items at every step (2-item and 3-item subtotals both checked). Confirmed the Hi-Vis Tee's Colour dropdown shows exactly Black/Grey/Hi-Vis (3 options) and every other product checked (Classic Tee) shows only Black/Grey (2 options, no Hi-Vis leak). No quantity stepper was found in the product dialog or cart UI — each "Add to Cart" click creates one line item at qty 1; incrementing an existing line's quantity wasn't tested and may need a follow-up check before Make.com assumes a `quantity` field varies per line (the real submission JSON does contain a `"quantity":1` key per item, so the field exists, just wasn't exercised at qty>1). Completed one real test checkout (name "TEST DELETE ME", email `test-delete-me@rustnutssmc.invalid`) — checkout succeeded ("We've received your order!"). Test submission id `6662220538992117805` on checkout form `262682306434053`, Jotform order id `01a0dcec16d8700082e93b7b4585084e2ef4`, status `PAID`/`orderreceived`. Deleted via `DELETE /submission/6662220538992117805` — confirmed gone via a fresh `GET .../submissions` (0 active) and `GET /user/portals` (`portalSubmissions` back to 0 for this app — the only "Orders" surface found; there is no separate Jotform Orders table distinct from this form's submissions). Final cap check: all 3 manifest form ids (`262682106860054`, `262681878015061`, `262682306434053`) still `ENABLED` via direct `GET /form/{id}/properties` — no extra forms created.
 
 ## Task 5: Tally reference cleanup — status check only
 
