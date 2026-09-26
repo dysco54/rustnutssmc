@@ -421,3 +421,39 @@ Front views only (no back-view toggle) — kept intentionally simple per the tas
 - [x] **Step 7:** Cleaned up stray debug artifacts from the previous killed run and added a `.gitignore`.
 
 **Final state:** 4 pages (Family=`/page/0`, Supporter=`/page/1`, Member=`/page/12`, R U OK=`/page/13`) + 1 shared checkout form = 5 real forms, exactly at the free-tier cap with zero headroom. `scripts/jotform/app-manifest.json` updated with all 4 page/form ids and the cap-accounting notes above.
+
+## Task 15: Add back-of-garment design photo to each page's banner (2026-09-26, direct request)
+
+**Files:** None — Jotform App Builder UI only (Playwright, already-authenticated session). No repo files changed; `shop/*-back.jpg` photos were read and uploaded as-is, nothing added/edited in the repo itself.
+
+**Interfaces:**
+- Consumes: the live app (`262681900691865`), all 4 pages' existing front-only design banners (Tasks 13/14), and `shop/{family,supporter,member}-back.jpg` (fourth-design/R U OK has no back photo — see below).
+
+Chris asked: "In the placeholder cards can we have both the front and rear of the designs" — buyers should see both views of the printed design before ordering, not just the front.
+
+**Confirmed image files exist** in `shop/` before using any: `family-back.jpg`, `supporter-back.jpg`, `member-back.jpg` all present. `fourth-design-back.jpg` does **not** exist (checked `ls shop/` directly — only `fourth-design-front.jpg` was ever produced for "R U OK Rustnuts") — R U OK's banner stays front-only, unchanged, matching the front-only precedent already established in Task 13.
+
+**Method — avoided drag-and-drop near the Product List entirely.** Rather than reusing Task 13/14's drag-and-drop approach (which had a known bug relocating an entire page's Product List when elements were dropped near it), this task used the Image element's own **Duplicate** button (found in its Properties panel: "Duplicate Element — Clone selected elements with all saved properties"). Duplicating the existing front Image element clones it immediately after itself in the page tree (before the Product List) with zero drag interaction, eliminating the Product-List-relocation risk entirely rather than working around it. Confirmed via the builder tree that the clone always landed in the correct position (Heading → Text → Image(front) → Image(new clone) → Product List) on all 3 pages this was done on, no repositioning needed.
+
+For each page: selected the existing front Image → Properties → Duplicate → selected the new clone → Properties → Remove Image → Choose a file → Upload File → uploaded the matching `*-back.jpg` from the repo's `shop/` folder via the native file chooser. Confirmed the front image is a **Jotform-hosted uploaded file** (not a remote URL) by reading its Properties panel before touching anything — e.g. `https://www.jotform.com/uploads/rustnutsmerch/form_files/family-front-6ab7a22e2c37c1.02497870.jpg` — so the back images were uploaded the same way, not linked as remote GitHub Pages URLs, matching Task 13's precedent exactly.
+
+- **Family page:** Image(`family-front.jpg`, existing) → Image(`family-back.jpg`, new, uploaded as `family-back-6ab7c66073ade1.98643290.jpg`).
+- **Supporter page:** Image(`supporter-front.jpg`, existing) → Image(`supporter-back.jpg`, new, uploaded as `supporter-back-6ab7c6fa8561e7.37909046.jpg`).
+- **Member page:** Image(`member-front.jpg`, existing) → Image(`member-back.jpg`, new, uploaded as `member-back-6ab7c75d850b77.17887267.jpg`).
+- **R U OK page:** unchanged — still a single front-only Image, no back photo exists to add.
+
+No Text labels ("Front"/"Back") were added — the two photos stacked vertically (front image directly above back image, both above the Product List) read clearly on their own without extra labelling, and adding a Text element between them would have meant 2 more drag/insert operations per page for marginal clarity gain. Kept it to the simplest change that satisfies the actual ask (see both views).
+
+**Concurrent-session hazard:** partway through this task the Playwright browser's "current tab" started jumping to Chris's own concurrent activity (tabs navigating themselves to Make.com scenario/webhook pages he was actively working in in the same browser profile), invalidating in-flight element refs mid-action. Opened a dedicated new tab for the Jotform App Builder (`tabs: new` to `/app/build/262681900691865`) and explicitly re-selected it before every action for the rest of the task to avoid colliding with his tab usage; no edits were made to the wrong page/tab as a result — every click was verified against a snapshot of the correct tab immediately beforehand.
+
+**Verified live:** reloaded all 4 published page URLs fresh (not the cached builder view):
+- `/page/0` (Family): banner Heading "Family Design" → Text "Family" → Image → Image → Product List; screenshot-confirmed both the front print and the "RUSTNUTS FAMILY" back print render correctly stacked; 20/20 products (confirmed via option count).
+- `/page/1` (Supporter): same banner structure with front+back Supporter photos; 13/13 products.
+- `/page/12` (Member): same banner structure with front+back Member photos; 12/12 products.
+- `/page/13` (R U OK): unchanged single-Image banner; 12/12 products.
+- No stray/duplicate elements on any page; no Product List relocated to the wrong page (each page's tree read directly from a fresh builder-page snapshot immediately after the corresponding upload, confirming exactly one Product List remained on its own page throughout).
+
+- [x] **Step 1:** Confirmed `family-back.jpg`, `supporter-back.jpg`, `member-back.jpg` exist and `fourth-design-back.jpg` does not, before using any of them.
+- [x] **Step 2:** Added a second Image element (back photo) after the existing front Image on Family, Supporter, and Member pages using the Duplicate-then-replace method, avoiding drag-and-drop near the Product List entirely.
+- [x] **Step 3:** Confirmed the existing front images (and therefore the new back images) are Jotform-hosted uploaded files, not remote URLs, and uploaded the back photos the same way.
+- [x] **Step 4:** Verified all 4 published pages live (fresh reload): correct front+back banner images (or front-only for R U OK), correct product counts (20/13/12/12), no stray elements, no Product List relocation.
