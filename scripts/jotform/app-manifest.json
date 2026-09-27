@@ -6,30 +6,30 @@
     "family": {
       "pageId": "0",
       "pageName": "Family",
-      "productListTitle": "Garments",
-      "productListFormId": "262682106860054",
-      "note": "Renamed from 'Club' in Task 14 (2026-09-26). Same 20-product Product List, unchanged."
+      "productListTitle": "Products",
+      "productListFormId": "262688129609066",
+      "note": "Rebuilt in Task 16 (2026-09-27) after an accidental App Builder page-wipe deleted the whole page's element list (banner + Product List). Original form 262682106860054 was orphaned and deleted; this is a NEW form, same 20 products restored from club-products.json."
     },
     "supporter": {
       "pageId": "1",
       "pageName": "Supporter",
-      "productListTitle": "Garments",
-      "productListFormId": "262681878015061",
-      "note": "Renamed from 'Public' in Task 14 (2026-09-26). Same 13-product Product List, unchanged."
+      "productListTitle": "Products",
+      "productListFormId": "262688121544056",
+      "note": "Rebuilt in Task 16 (2026-09-27), same incident as Family. Original form 262681878015061 orphaned and deleted; this is a NEW form, same 13 products restored from public-products.json."
     },
     "member": {
       "pageId": "12",
       "pageName": "Member",
-      "productListTitle": "Garments",
-      "productListFormId": "262683647204057",
-      "note": "New page created in Task 14 (2026-09-26). 12 standard garments only, Colour = Black only."
+      "productListTitle": "Products",
+      "productListFormId": "262687652697073",
+      "note": "Rebuilt in Task 16 (2026-09-27), same incident as Family. Original form 262683647204057 orphaned and deleted; this is a NEW form, same 12 products (Colour = Black only) restored from club-products.json indices 0-11."
     },
     "ruok": {
       "pageId": "13",
       "pageName": "R U OK",
-      "productListTitle": "Garments",
-      "productListFormId": "262683674511058",
-      "note": "New page created in Task 14 (2026-09-26). 12 standard garments only, Colour = Black/Grey."
+      "productListTitle": "Products",
+      "productListFormId": "262687623650060",
+      "note": "Rebuilt in Task 16 (2026-09-27), same incident as Family. Original form 262683674511058 orphaned and deleted; this is a NEW form, same 12 products (Colour = Black/Grey) restored from public-products.json indices 0-11."
     }
   },
   "checkoutFormId": "262682306434053",
