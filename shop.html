@@ -144,6 +144,17 @@
   }
   .product-media .coming-soon.active{opacity:1}
 
+  .product-media-coming-soon{
+    background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  }
+  .product-media-coming-soon .coming-soon-logo{
+    position:static;width:35%;height:auto;padding:0;opacity:1;border-radius:6px;
+  }
+  .coming-soon-label{
+    font-family:var(--stencil);font-weight:400;text-transform:uppercase;letter-spacing:0.04em;
+    font-size:1.3rem;color:var(--red-bright);
+  }
+
   .view-toggle{display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px 0}
   .view-toggle button{
     flex:1;padding:9px 0;background:transparent;border:1px solid rgba(255,255,255,0.15);
@@ -406,7 +417,7 @@
 
       const orderHtml = !locked
         ? `<div class="order-controls">
-             ${colourControlHtml}
+             ${comingSoon ? '' : colourControlHtml}
              <button type="button" class="order-btn"${comingSoon ? ' disabled' : ''}>${comingSoon ? 'Coming Soon' : 'Order this design'}</button>
            </div>`
         : '';
@@ -423,7 +434,12 @@
         }
       }
 
-      const mediaHtml = design.image
+      const mediaHtml = comingSoon
+        ? `<div class="product-media product-media-coming-soon">
+             <img src="rustnuts-smc-logo.jpg" alt="Rustnuts SMC logo" class="coming-soon-logo active">
+             <span class="coming-soon-label">Coming Soon</span>
+           </div>`
+        : design.image
         ? `<div class="product-media">
              <img src="${design.image}" alt="${design.name} design — front" class="active" data-view="front">
              ${design.imageBack ? `<img src="${design.imageBack}" alt="${design.name} design — back" data-view="back">` : ''}
@@ -438,8 +454,8 @@
       card.innerHTML = `
         ${mediaHtml}
         <div class="product-info">
-          <div class="name">${design.name}</div>
-          <span class="avail">Full sizing &amp; pricing on the order form</span>
+          <div class="name">${comingSoon ? 'Design Coming Soon' : design.name}</div>
+          ${comingSoon ? '' : '<span class="avail">Full sizing &amp; pricing on the order form</span>'}
           ${gateHtml}
           ${orderHtml}
         </div>
