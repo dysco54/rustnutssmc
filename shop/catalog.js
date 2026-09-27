@@ -46,8 +46,8 @@ const YOUTH_INFANT_GARMENTS = {
 const FAMILY_GARMENTS = { ...GARMENTS, ...YOUTH_INFANT_GARMENTS };
 
 export const CATALOG = [
-  { id: 'member', name: 'Member', gated: true, garments: GARMENTS, image: 'shop/member-front.jpg', imageBack: 'shop/member-back.jpg', colours: ['Black'] },
-  { id: 'family', name: 'Family', gated: true, garments: FAMILY_GARMENTS, image: 'shop/family-front.jpg', imageBack: 'shop/family-back.jpg', colours: ['Black'] },
+  { id: 'member', name: 'Member', gated: false, garments: GARMENTS, image: 'shop/member-front.jpg', imageBack: 'shop/member-back.jpg', colours: ['Black'] },
+  { id: 'family', name: 'Family', gated: false, garments: FAMILY_GARMENTS, image: 'shop/family-front.jpg', imageBack: 'shop/family-back.jpg', colours: ['Black'] },
   // `colourViews` links a colour-select option to the Front/Back images that should be
   // shown while that colour is selected. Any colour not listed here (e.g. Black/Grey)
   // falls back to the design's standard `image`/`imageBack`. This keeps the colour
