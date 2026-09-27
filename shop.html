@@ -172,6 +172,11 @@
     border-radius:4px;cursor:pointer;
   }
   .order-btn:hover{background:var(--red-bright);border-color:var(--red-bright)}
+  .order-btn:disabled{
+    background:transparent;border-color:rgba(255,255,255,0.25);color:#9a958c;
+    cursor:default;
+  }
+  .order-btn:disabled:hover{background:transparent;border-color:rgba(255,255,255,0.25)}
 
   .gate{display:flex;gap:8px;margin-top:6px}
   .gate input{
@@ -308,6 +313,12 @@
     'fourth-design': JOTFORM_APP_URL + '/page/13',
   };
 
+  // Member and Family's real cards (Discord ordering is now their primary route --
+  // see the placeholder cards above) show "Coming Soon" and don't link out. The
+  // underlying Jotform mapping above is untouched, so removing this set re-enables
+  // ordering exactly as before.
+  const COMING_SOON_DESIGN_IDS = new Set(['member', 'family']);
+
   function openOrderPageFor(design) {
     const url = JOTFORM_PAGE_URL_BY_DESIGN_ID[design.id];
     if (!url) {
@@ -317,11 +328,52 @@
     window.open(url, '_blank', 'noopener');
   }
 
+  // Discord-ordering placeholder cards: a non-functional visual copy of the Member and
+  // Family cards, shown above everything else. No gate, no colour control, no click
+  // handler on the button -- purely decorative, not wired to anything.
+  function buildDiscordPlaceholderCard(design) {
+    const card = document.createElement('div');
+    card.className = 'product-card product-card-discord-placeholder';
+
+    const mediaHtml = design.image
+      ? `<div class="product-media">
+           <img src="${design.image}" alt="${design.name} design — front" class="active" data-view="front">
+         </div>`
+      : '';
+
+    card.innerHTML = `
+      ${mediaHtml}
+      <div class="product-info">
+        <div class="name">${design.name}</div>
+        <div class="order-controls">
+          <button type="button" class="order-btn">Order in Discord</button>
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  // Display order on this page only -- catalog.js's own CATALOG array order is
+  // untouched. Top to bottom: both Discord-ordering placeholders, then Supporter and
+  // R U OK, then the real Member and Family cards.
+  const DISCORD_PLACEHOLDER_ORDER_IDS = ['member', 'family'];
+  const DISPLAY_ORDER_IDS = ['supporter', 'fourth-design', 'member', 'family'];
+
   function renderDesigns() {
     const grid = document.getElementById('design-grid');
     grid.innerHTML = '';
 
-    for (const design of CATALOG) {
+    for (const id of DISCORD_PLACEHOLDER_ORDER_IDS) {
+      const design = CATALOG.find((d) => d.id === id);
+      if (design) grid.appendChild(buildDiscordPlaceholderCard(design));
+    }
+
+    const orderedDesigns = DISPLAY_ORDER_IDS
+      .map((id) => CATALOG.find((d) => d.id === id))
+      .filter(Boolean);
+
+    for (const design of orderedDesigns) {
       const card = document.createElement('div');
       card.className = 'product-card';
 
@@ -350,10 +402,12 @@
           ? `<input type="hidden" class="colour-select" value="${design.colours[0]}">`
           : '');
 
+      const comingSoon = COMING_SOON_DESIGN_IDS.has(design.id);
+
       const orderHtml = !locked
         ? `<div class="order-controls">
              ${colourControlHtml}
-             <button type="button" class="order-btn">Order this design</button>
+             <button type="button" class="order-btn"${comingSoon ? ' disabled' : ''}>${comingSoon ? 'Coming Soon' : 'Order this design'}</button>
            </div>`
         : '';
 
@@ -439,7 +493,7 @@
             if (errorMsg) errorMsg.hidden = false;
           }
         });
-      } else {
+      } else if (!comingSoon) {
         const orderBtn = card.querySelector('.order-btn');
         orderBtn.addEventListener('click', () => {
           openOrderPageFor(design);
