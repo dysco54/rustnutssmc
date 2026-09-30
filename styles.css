@@ -10,6 +10,8 @@
 :root{
   --red:#8C1C24;
   --red-bright:#B92632;
+  --red-text:#F2666F; /* AA on ink, steel and footer surfaces; --red-bright stays for fills and borders */
+  --bone-mute:#96928a;
   --ink:#111010;
   --bone:#F4F1EA;
   --bone-dim:#d8d3c7;
@@ -17,7 +19,7 @@
   --stencil:"Saira Stencil One","Arial Black","Helvetica Neue",sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
 body{
   font-family:"Helvetica Neue",Arial,sans-serif;
   color:var(--bone);
@@ -57,13 +59,13 @@ nav a{
   font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;
   transition:color .2s;
 }
-nav a:hover{color:var(--red-bright)}
+nav a:hover{color:var(--red-text)}
 .nav-links{display:none}
 @media(min-width:780px){.nav-links{display:block}}
 
 .nav-toggle{
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  gap:5px;width:38px;height:38px;background:transparent;
+  gap:5px;width:44px;height:44px;background:transparent;
   border:1px solid rgba(255,255,255,0.25);border-radius:4px;cursor:pointer;flex:none;
 }
 .nav-toggle span{display:block;width:20px;height:2px;background:var(--bone);border-radius:2px;transition:transform .2s,opacity .2s}
@@ -85,7 +87,7 @@ nav a:hover{color:var(--red-bright)}
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
 .nav-mobile a:last-child{border-bottom:none}
-.nav-mobile a:hover,.nav-mobile a:focus{color:var(--red-bright)}
+.nav-mobile a:hover,.nav-mobile a:focus{color:var(--red-text)}
 @media(min-width:780px){.nav-mobile{display:none!important}}
 
 .btn{
@@ -96,12 +98,23 @@ nav a:hover{color:var(--red-bright)}
 
 footer{
   background:#0c0b0b;padding:40px 28px;text-align:center;
-  color:#7a766e;font-size:0.82rem;position:relative;z-index:2;
+  color:var(--bone-mute);font-size:0.82rem;position:relative;z-index:2;
 }
 footer .motto{
   font-family:var(--stencil);text-transform:uppercase;letter-spacing:0.12em;
-  color:var(--red-bright);font-size:1.1rem;margin-bottom:14px;
+  color:var(--red-text);font-size:1.1rem;margin-bottom:14px;
 }
 footer strong{color:var(--bone-dim)}
 footer a{color:var(--bone-dim);text-decoration:none;border-bottom:1px solid transparent}
-footer a:hover{color:var(--red-bright)}
+footer a:hover{color:var(--red-text)}
+
+/* keyboard focus: one visible ring across every interactive element */
+:focus-visible{outline:3px solid var(--bone);outline-offset:3px;border-radius:2px}
+::selection{background:var(--red);color:#fff}
+
+/* reduced motion: keep state changes, drop the movement */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .reveal{transform:none!important}
+}
