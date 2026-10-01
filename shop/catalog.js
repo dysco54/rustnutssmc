@@ -1,5 +1,6 @@
 const RANGE_XS_3XL = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
-const RANGE_S_3XL = ['S', 'M', 'L', 'XL', '2XL', '3XL'];
+const RANGE_XS_2XL = ['XS', 'S', 'M', 'L', 'XL', '2XL'];
+const RANGE_S_3XL =['S', 'M', 'L', 'XL', '2XL', '3XL'];
 const RANGE_XS_5XL = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 const RANGE_2XS_5XL = ['2XS', 'XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 const RANGE_YOUTH = ['8', '10', '12', '14', '16'];
@@ -16,7 +17,7 @@ const GARMENTS = {
   stencilCrew: { label: 'Stencil Crew', price: 5500, sizes: RANGE_XS_3XL, family: 'standard' },
   heavyTee: { label: 'Heavy Tee', price: 4000, sizes: RANGE_XS_3XL, family: 'standard' },
   classicLSTee: { label: 'Classic L/S Tee', price: 4000, sizes: RANGE_XS_3XL, family: 'standard' },
-  barnardTank: { label: 'Barnard Tank', price: 3000, sizes: RANGE_XS_3XL, family: 'standard' },
+  barnardTank: { label: 'Barnard Tank', price: 3000, sizes: RANGE_XS_2XL, family: 'standard' },
   womensClassicTee: { label: "Women's Classic Tee", price: 3500, sizes: RANGE_XS_3XL, family: 'standard' },
   womensClassicLSTee: { label: "Women's Classic L/S Tee", price: 4000, sizes: RANGE_XS_3XL, family: 'standard' },
 };
